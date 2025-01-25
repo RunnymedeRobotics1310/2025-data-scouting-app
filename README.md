@@ -1,3 +1,26 @@
+# Runnymede Robotics Team 1310 Data Scouting App
+
+This is a data scouting app for Runnymede Robotics Team 1310. It is built using React, TypeScript, and Vite.
+
+## Usage
+
+Access the app at url **\*\***\*\***\*\***\_\_**\*\***\*\***\*\*** and follow the instructions to use the app.
+
+Be sure to sync the data periodically to ensure that the app and spreadsheet are both up to date with the latest data.
+
+## Development
+
+This app is built as a single-page application using React, TypeScript, and Vite. To run the app locally, follow these steps:
+
+1. Clone the repository
+2. Run `npm install` to install the dependencies
+3. Run `npm run dev` to start the development server
+4. Open your browser and navigate to `http://localhost:3000`
+5. Make changes to the code and see them reflected in the browser
+6. Run `npm run build` to build the app for production
+
+---
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -22,7 +45,7 @@ export default tseslint.config({
       tsconfigRootDir: import.meta.dirname,
     },
   },
-})
+});
 ```
 
 - Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
@@ -31,7 +54,7 @@ export default tseslint.config({
 
 ```js
 // eslint.config.js
-import react from 'eslint-plugin-react'
+import react from 'eslint-plugin-react';
 
 export default tseslint.config({
   // Set the react version
@@ -46,5 +69,5 @@ export default tseslint.config({
     ...react.configs.recommended.rules,
     ...react.configs['jsx-runtime'].rules,
   },
-})
+});
 ```
