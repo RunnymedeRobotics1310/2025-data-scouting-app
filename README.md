@@ -18,7 +18,13 @@ This app is built as a single-page application using React, TypeScript, and Vite
 4. Open your browser and navigate to `http://localhost:3000`
 5. Make changes to the code and see them reflected in the browser
 6. Run `npm run build` to build the app for production
+## TODO
 
+- Add human player functions on robot screens
+- Add human player role and all required screens
+- Add sync button
+- Add schedule ingestion
+- Add penalties
 ---
 
 # React + TypeScript + Vite

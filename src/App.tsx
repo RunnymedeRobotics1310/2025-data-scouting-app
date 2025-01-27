@@ -1,3 +1,18 @@
+import ModeComponent from './Modes.tsx';
+import Functions from './Functions.tsx';
+import MatchSelect from './views/MatchSelect.tsx';
+import MatchConfig from './views/MatchConfig.tsx';
+import StartLine from './views/StartLine.tsx';
+import HoldingNothing from './views/HoldingNothing.tsx';
+import HoldingCoral from './views/HoldingCoral.tsx';
+import HoldingAlgae from './views/HoldingAlgae.tsx';
+import HoldingBoth from './views/HoldingBoth.tsx';
+import Park from './views/Park.tsx';
+import StartClimb from './views/StartClimb.tsx';
+import FinishClimb from './views/FinishClimb.tsx';
+import Checklist from './views/Checklist.tsx';
+import HumanFeedback from './views/HumanFeedback.tsx';
+
 type DesignImage = {
   src: string;
   alt: string;
@@ -83,8 +98,10 @@ function App() {
   ];
   return (
     <>
-      <img src="images/logo.png" alt="Runnymede Robotics" width="100%" />
+      <img src="images/logo.png" alt="Runnymede Robotics" width="50%" />
       <h1>Team 1310 Runnymede Robotics Data Scouting App</h1>
+      <ModeComponent />
+      <Functions />
       <p>Here are some designs of what the app might look like someday.</p>
       <ul>
         {images.map((image, index) => (
@@ -94,6 +111,18 @@ function App() {
           </li>
         ))}
       </ul>
+      <MatchSelect />
+      <MatchConfig />
+      <StartLine />
+      <HoldingNothing />
+      <HoldingCoral />
+      <HoldingAlgae />
+      <HoldingBoth />
+      <Park />
+      <StartClimb />
+      <FinishClimb />
+      <Checklist />
+      <HumanFeedback />
     </>
   );
 }
