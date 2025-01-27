@@ -20,8 +20,6 @@ function App() {
       <h1>Team 1310 Runnymede Robotics Data Scouting App</h1>
       <DevResources />
 
-      <p>Here are some designs of what the app might look like someday.</p>
-
       <MatchSelect />
       <MatchConfig />
       <StartLine />
