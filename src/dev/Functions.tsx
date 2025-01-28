@@ -1,6 +1,16 @@
 import { Phase } from './Modes.tsx';
-import { Modes } from './Modes.tsx';
 import { match_select } from '../modes/match_select.ts';
+import { match_config } from '../modes/match_config.ts';
+import { start_line } from '../modes/start_line.ts';
+import { holding_nothing } from '../modes/holding_nothing.ts';
+import { holding_coral } from '../modes/holding_coral.ts';
+import { holding_algae } from '../modes/holding_algae.ts';
+import { holding_both } from '../modes/holding_both.ts';
+import { human_feedback } from '../modes/human_feedback.ts';
+import { park } from '../modes/park.ts';
+import { start_climb } from '../modes/start_climb.ts';
+import { finish_climb } from '../modes/finish_climb.ts';
+import { checklist } from '../modes/checklist.ts';
 
 function Functions() {
   return (
@@ -31,25 +41,25 @@ function Functions() {
             <td>selectMatch</td>
             <td>scoutName, match #, team #, rematch?</td>
             <td>save data</td>
-            <td>{Modes.config}</td>
+            <td>{match_config.label}</td>
           </tr>
           <tr>
-            <td>{Modes.config}</td>
+            <td>{match_config.label}</td>
             <td>autoConfig</td>
             <td>preloaded?, position</td>
             <td>save data, setPhase({Phase.auto})</td>
-            <td>{Modes.start_line}</td>
+            <td>{start_line.label}</td>
           </tr>
           <tr>
             <td colSpan={5}>{Phase.auto}</td>
           </tr>
           <tr>
-            <td>{Modes.start_line}</td>
+            <td>{start_line.label}</td>
             <td>leaveStartingLine</td>
             <td>preloaded?</td>
             <td>save data</td>
             <td>
-              {Modes.holding_nothing}, {Modes.holding_coral}
+              {holding_nothing.label}, {holding_coral.label}
             </td>
           </tr>
           <tr>
@@ -62,92 +72,92 @@ function Functions() {
             <td>removeAlgae</td>
             <td>remove/pluck</td>
             <td>save data</td>
-            <td>{Modes.holding_algae} (if pluck)</td>
+            <td>{holding_algae.label} (if pluck)</td>
           </tr>
           <tr>
             <td>
-              {Modes.holding_nothing}, {Modes.holding_algae}
+              {holding_nothing.label}, {holding_algae.label}
             </td>
             <td>pickupCoral</td>
             <td>pickup location, preset?</td>
             <td>save if ground</td>
             <td>
-              {Modes.holding_coral}, {Modes.holding_both}
+              {holding_coral.label}, {holding_both.label}
             </td>
           </tr>
           <tr>
             <td>
-              {Modes.holding_nothing}, {Modes.holding_coral}
+              {holding_nothing.label}, {holding_coral.label}
             </td>
             <td>pickupAlgae</td>
             <td>preset?</td>
             <td>save if preset</td>
             <td>
-              {Modes.holding_algae}, {Modes.holding_both}
+              {holding_algae.label}, {holding_both.label}
             </td>
           </tr>
           <tr>
             <td>
-              {Modes.holding_coral}, {Modes.holding_both}
+              {holding_coral.label}, {holding_both.label}
             </td>
             <td>scoreCoral</td>
             <td>L1,2,3,4, drop, miss</td>
             <td>Save location</td>
             <td>
-              {Modes.holding_nothing}, {Modes.holding_algae}
+              {holding_nothing.label}, {holding_algae.label}
             </td>
           </tr>
           <tr>
             <td>
-              {Modes.holding_algae}, {Modes.holding_both}
+              {holding_algae.label}, {holding_both.label}
             </td>
             <td>scoreAlgae</td>
             <td>processor/net/drop</td>
             <td>save location</td>
             <td>
-              {Modes.holding_nothing}, {Modes.holding_coral}
+              {holding_nothing.label}, {holding_coral.label}
             </td>
           </tr>
           <tr>
             <td colSpan={5}>{Phase.endgame}</td>
           </tr>
           <tr>
-            <td>{Modes.park}</td>
+            <td>{park.label}</td>
             <td>isPark</td>
             <td>parked?</td>
             <td>save data</td>
-            <td>{Modes.start_climb}</td>
+            <td>{start_climb.label}</td>
           </tr>
           <tr>
-            <td>{Modes.start_climb}</td>
+            <td>{start_climb.label}</td>
             <td>isClimbing</td>
             <td>shallow/deep</td>
             <td>save data</td>
-            <td>{Modes.finish_climb}</td>
+            <td>{finish_climb.label}</td>
           </tr>
           <tr>
-            <td>{Modes.start_climb}</td>
+            <td>{start_climb.label}</td>
             <td>isClimbed</td>
             <td>isClimbed?</td>
             <td>save data</td>
-            <td>{Modes.checklist}</td>
+            <td>{checklist.label}</td>
           </tr>
           <tr>
             <td colSpan={5}>{Phase.comments}</td>
           </tr>
           <tr>
-            <td>{Modes.checklist}</td>
+            <td>{checklist.label}</td>
             <td>saveChecklist</td>
             <td>checklistItems[]</td>
             <td>save data</td>
-            <td>{Modes.human_feedback}</td>
+            <td>{human_feedback.label}</td>
           </tr>
           <tr>
-            <td>{Modes.human_feedback}</td>
+            <td>{human_feedback.label}</td>
             <td>saveFeedback</td>
             <td>writtenComment, RPs, *stars*</td>
             <td>save data</td>
-            <td>{Modes.match_select}</td>
+            <td>{match_select.label}</td>
           </tr>
         </tbody>
       </table>
