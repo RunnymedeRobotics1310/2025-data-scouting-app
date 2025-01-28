@@ -1,5 +1,6 @@
 import { Phase } from './Modes.tsx';
 import { Modes } from './Modes.tsx';
+import { match_select } from '../modes/match_select.ts';
 
 function Functions() {
   return (
@@ -26,7 +27,7 @@ function Functions() {
             <td colSpan={5}>{Phase.pre_match}</td>
           </tr>
           <tr>
-            <td>{Modes.match_select}</td>
+            <td>{match_select.label}</td>
             <td>selectMatch</td>
             <td>scoutName, match #, team #, rematch?</td>
             <td>save data</td>

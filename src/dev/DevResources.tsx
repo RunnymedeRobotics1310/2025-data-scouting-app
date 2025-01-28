@@ -17,7 +17,8 @@ import HumanFeedback from '../views/HumanFeedback.tsx';
 
 function DevResources() {
   const [leiaScreens, setLeiaScreens] = useState(false);
-  const [planningScreens, setPlanningScreens] = useState(false);
+  const [planning, setPlanning] = useState(false);
+  const [functions, setFunctions] = useState(false);
   const [modeExamples, setModeExamples] = useState(false);
   return (
     <>
@@ -26,15 +27,15 @@ function DevResources() {
       </button>
       {leiaScreens ? <ViewsFromLeia /> : null}
       <br />
-      <button onClick={() => setPlanningScreens(!planningScreens)}>
-        Toggle planning
-      </button>
-      {planningScreens ? (
+      <button onClick={() => setPlanning(!planning)}>Toggle planning</button>
+      {planning ? (
         <>
           <ModeComponent />
-          <Functions />
         </>
       ) : null}
+      <br />
+      <button onClick={() => setFunctions(!functions)}>Toggle Functions</button>
+      {functions ? <Functions /> : null}
       <br />
       <button onClick={() => setModeExamples(!modeExamples)}>
         Toggle mode examples
