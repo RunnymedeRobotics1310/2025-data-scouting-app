@@ -2,17 +2,59 @@ import ModeComponent from './Modes.tsx';
 import Functions from './Functions.tsx';
 import { useState } from 'react';
 import ViewsFromLeia from './ViewsFromLeia.tsx';
+import MatchSelect from '../views/MatchSelect.tsx';
+import MatchConfig from '../views/MatchConfig.tsx';
+import StartLine from '../views/StartLine.tsx';
+import HoldingNothing from '../views/HoldingNothing.tsx';
+import HoldingCoral from '../views/HoldingCoral.tsx';
+import HoldingAlgae from '../views/HoldingAlgae.tsx';
+import HoldingBoth from '../views/HoldingBoth.tsx';
+import Park from '../views/Park.tsx';
+import StartClimb from '../views/StartClimb.tsx';
+import FinishClimb from '../views/FinishClimb.tsx';
+import Checklist from '../views/Checklist.tsx';
+import HumanFeedback from '../views/HumanFeedback.tsx';
 
 function DevResources() {
   const [leiaScreens, setLeiaScreens] = useState(false);
+  const [planningScreens, setPlanningScreens] = useState(false);
+  const [modeExamples, setModeExamples] = useState(false);
   return (
     <>
       <button onClick={() => setLeiaScreens(!leiaScreens)}>
         Toggle views from Leia
       </button>
       {leiaScreens ? <ViewsFromLeia /> : null}
-      <ModeComponent />
-      <Functions />
+      <br />
+      <button onClick={() => setPlanningScreens(!planningScreens)}>
+        Toggle planning
+      </button>
+      {planningScreens ? (
+        <>
+          <ModeComponent />
+          <Functions />
+        </>
+      ) : null}
+      <br />
+      <button onClick={() => setModeExamples(!modeExamples)}>
+        Toggle mode examples
+      </button>
+      {modeExamples ? (
+        <>
+          <MatchSelect />
+          <MatchConfig />
+          <StartLine />
+          <HoldingNothing />
+          <HoldingCoral />
+          <HoldingAlgae />
+          <HoldingBoth />
+          <Park />
+          <StartClimb />
+          <FinishClimb />
+          <Checklist />
+          <HumanFeedback />
+        </>
+      ) : null}
     </>
   );
 }
