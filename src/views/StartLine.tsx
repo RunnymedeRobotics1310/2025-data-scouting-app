@@ -13,7 +13,7 @@ function StartLine() {
       </button>
       <br />
       <img
-        src={'requirements/screens/start-line.jpeg'}
+        src={'/requirements/screens/start-line.jpeg'}
         width={'25%'}
         alt={'Start Line'}
       />

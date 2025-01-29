@@ -1,9 +1,9 @@
 import { Link, Outlet } from 'react-router-dom';
 
-function Layout() {
+function AppLayout() {
   return (
     <>
-      <img src="images/logo.png" alt="Runnymede Robotics" width="25%" />
+      <img src="/images/logo.png" alt="Runnymede Robotics" width="25%" />
       <h1>Team 1310 Runnymede Robotics Data Scouting App</h1>
 
       <menu>
@@ -31,4 +31,4 @@ function Layout() {
   );
 }
 
-export default Layout;
+export default AppLayout;

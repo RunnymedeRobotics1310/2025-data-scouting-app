@@ -3,6 +3,6 @@ import { lazy } from 'react';
 
 export const park: Mode = {
   label: 'Park',
-  url: '/park',
+  url: '/game/park',
   view: lazy(() => import('../views/Park.tsx')),
 };

@@ -1,4 +1,4 @@
-import Layout from './common/Layout.tsx';
+import AppLayout from './common/AppLayout.tsx';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './views/Home.tsx';
 import NotFound from './views/NotFound.tsx';
@@ -16,25 +16,31 @@ import { park } from './modes/park.ts';
 import { start_climb } from './modes/start_climb.ts';
 import { finish_climb } from './modes/finish_climb.ts';
 import { human_feedback } from './modes/human_feedback.ts';
+import FieldLayout from './common/FieldLayout.tsx';
 
 function App() {
   return (
     <Suspense fallback={<p>Loading...</p>}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Layout />}>
+          <Route path="/" element={<AppLayout />}>
             <Route index element={<Home />} />
             <Route path="dev" element={<DevResources />} />
+            <Route path="game/" element={<FieldLayout />}>
+              <Route path="start-line" element={<start_line.view />} />
+              <Route
+                path="holding-nothing"
+                element={<holding_nothing.view />}
+              />
+              <Route path="holding-coral" element={<holding_coral.view />} />
+              <Route path="holding-algae" element={<holding_algae.view />} />
+              <Route path="holding-both" element={<holding_both.view />} />
+              <Route path="park" element={<park.view />} />
+              <Route path="start-climb" element={<start_climb.view />} />
+              <Route path="finish-climb" element={<finish_climb.view />} />
+            </Route>
             <Route path="match-select" element={<match_select.view />} />{' '}
             <Route path="match-config" element={<match_config.view />} />
-            <Route path="start-line" element={<start_line.view />} />
-            <Route path="holding-nothing" element={<holding_nothing.view />} />
-            <Route path="holding-coral" element={<holding_coral.view />} />
-            <Route path="holding-algae" element={<holding_algae.view />} />
-            <Route path="holding-both" element={<holding_both.view />} />
-            <Route path="park" element={<park.view />} />
-            <Route path="start-climb" element={<start_climb.view />} />
-            <Route path="finish-climb" element={<finish_climb.view />} />
             <Route path="checklist" element={<checklist.view />} />
             <Route path="human-feedback" element={<human_feedback.view />} />
             <Route path="*" element={<NotFound />} />
