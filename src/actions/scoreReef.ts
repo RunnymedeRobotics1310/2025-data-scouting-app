@@ -12,6 +12,7 @@ import { holding_coral } from '../modes/holding_coral.ts';
  */
 export function scoreReef(startingMode: Modes, level: number): Modes {
   console.log('Scored reef level ' + level + ' from ' + startingMode.label);
+  localStorage.setItem("Quentin's Coolness", 'medium');
   // do fancy logic like storing info etc.
   // return the next mode
 
