@@ -5,20 +5,6 @@ export enum Phase {
   endgame = 'ENDGAME',
   comments = 'COMMENTS',
 }
-export enum Modes {
-  match_select = 'Match Select',
-  config = 'Match Config',
-  start_line = 'Start Line',
-  holding_nothing = 'Holding Nothing',
-  holding_coral = 'Holding Coral',
-  holding_algae = 'Holding Algae',
-  holding_both = 'Holding Both',
-  park = 'Park',
-  start_climb = 'Start Climbing',
-  finish_climb = 'Finished Climbing',
-  checklist = 'Did the robot...',
-  human_feedback = 'Human Feedback',
-}
 
 function ModeComponent() {
   return (

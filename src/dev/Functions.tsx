@@ -27,11 +27,11 @@ function Functions() {
         </thead>
         <tbody>
           <tr>
-            <td>n/a</td>
+            <td>all</td>
             <td>setPhase</td>
             <td>desiredPhase</td>
             <td>change phase</td>
-            <td>n/a</td>
+            <td>all</td>
           </tr>
           <tr>
             <td colSpan={5}>{Phase.pre_match}</td>
