@@ -1,7 +1,7 @@
 import { holding_nothing } from '../../modes/holding_nothing.ts';
 import { useNavigate } from 'react-router-dom';
 import Modes from '../../common/modes.ts';
-import { scoreReef } from '../../actions/scoreReef.ts';
+import { scoreReef } from '../../functions/scoreReef.ts';
 
 type PropTypes = {
   mode: Modes;

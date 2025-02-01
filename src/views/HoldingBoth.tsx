@@ -1,30 +1,47 @@
-import { holding_algae } from '../modes/holding_algae.ts';
-import { holding_coral } from '../modes/holding_coral.ts';
-import { park } from '../modes/park.ts';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { dropCoral } from '../functions/dropCoral.ts';
+import { holding_both } from '../modes/holding_both.ts';
+import { dropAlgae } from '../functions/dropAlgae.ts';
+import ReefScoreOptions from './sub/ReefScoreOptions.tsx';
+import AlgaeScoreOptions from './sub/AlgaeScoreOptions.tsx';
+import { toggleDefence } from '../functions/toggleDefence.ts';
+import { Phase, setPhase } from '../functions/setPhase.ts';
+import { removeAlgae } from '../functions/removeAlgae.ts';
 
 function HoldingBoth() {
+  const navigate = useNavigate();
+  const [showReefOptions, setShowReefOptions] = useState(false);
+  const [showAlgaeScoreOptions, setShowAlgaeScoreOptions] = useState(false);
+
   return (
     <>
       <h1>Holding Both</h1>
-      <button onClick={() => window.location.assign(holding_algae.url)}>
-        Score Reef
-      </button>
-      <button onClick={() => window.location.assign(holding_coral.url)}>
+      <button onClick={() => setShowReefOptions(true)}>Score Reef</button>
+      <button onClick={() => setShowAlgaeScoreOptions(true)}>
         Score Algae
       </button>
-      <button onClick={() => window.location.assign(holding_algae.url)}>
+      <button onClick={() => navigate(dropCoral(holding_both).url)}>
         Drop Coral
       </button>
-      <button onClick={() => window.location.assign(holding_coral.url)}>
+      <button onClick={() => navigate(dropAlgae(holding_both).url)}>
         Drop Algae
       </button>
+      <button onClick={() => removeAlgae(holding_both, false)}>
+        Remove Algae
+      </button>
+      <button onClick={() => toggleDefence()}>Defence</button>
       <br />
-      <button onClick={() => window.location.assign(park.url)}>
+      <button
+        onClick={() => navigate(setPhase(holding_both, Phase.endgame).url)}
+      >
         Endgame ---&gt;
       </button>
       <br />
+      {showReefOptions && <ReefScoreOptions mode={holding_both} />}
+      {showAlgaeScoreOptions && <AlgaeScoreOptions mode={holding_both} />}
       <img
-        src={'requirements/screens/holding-both.jpeg'}
+        src={'/requirements/screens/holding-both.jpeg'}
         width={'25%'}
         alt={'Holding Both'}
       />

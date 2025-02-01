@@ -1,4 +1,3 @@
-import { Phase } from './Modes.tsx';
 import { match_select } from '../modes/match_select.ts';
 import { match_config } from '../modes/match_config.ts';
 import { start_line } from '../modes/start_line.ts';
@@ -11,6 +10,7 @@ import { park } from '../modes/park.ts';
 import { start_climb } from '../modes/start_climb.ts';
 import { finish_climb } from '../modes/finish_climb.ts';
 import { checklist } from '../modes/checklist.ts';
+import { Phase } from '../functions/setPhase.ts';
 
 function Functions() {
   return (
