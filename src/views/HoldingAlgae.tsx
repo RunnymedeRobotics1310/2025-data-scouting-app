@@ -4,14 +4,13 @@ import CoralPickupOptions from './sub/CoralPickupOptions.tsx';
 import { holding_algae } from '../modes/holding_algae.ts';
 import { dropAlgae } from '../functions/dropAlgae.ts';
 import AlgaeScoreOptions from './sub/AlgaeScoreOptions.tsx';
-import RemoveAlgaeOptions from './sub/RemoveAlgaeOptions.tsx';
 import { CoralLocation, pickupCoral } from '../functions/pickupCoral.ts';
 import { toggleDefence } from '../functions/toggleDefence.ts';
 import { Phase, setPhase } from '../functions/setPhase.ts';
+import { removeAlgae } from '../functions/removeAlgae.ts';
 
 function HoldingAlgae() {
   const [showPickupOptions, setShowPickupOptions] = useState(false);
-  const [showAlgaeOptions, setShowAlgaeOptions] = useState(false);
   const [showScoreOptions, setShowScoreOptions] = useState(false);
   const navigate = useNavigate();
   //TODO: this should be global
@@ -25,7 +24,9 @@ function HoldingAlgae() {
         Drop Algae
       </button>
       <button onClick={() => setShowPickupOptions(true)}>Pickup Coral</button>
-      <button onClick={() => setShowAlgaeOptions(true)}>Remove Algae</button>
+      <button onClick={() => removeAlgae(holding_algae, false)}>
+        Remove Algae
+      </button>
       <button onClick={() => toggleDefence()}>Defence</button>
       {auto && (
         <>
@@ -62,7 +63,6 @@ function HoldingAlgae() {
       <br />
       {showPickupOptions && <CoralPickupOptions mode={holding_algae} />}
       {showScoreOptions && <AlgaeScoreOptions mode={holding_algae} />}
-      {showAlgaeOptions && <RemoveAlgaeOptions mode={holding_algae} />}
       <img
         src={'/requirements/screens/holding-algae.jpeg'}
         width={'25%'}

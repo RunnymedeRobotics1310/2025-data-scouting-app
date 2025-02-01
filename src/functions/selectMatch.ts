@@ -10,9 +10,9 @@ export function selectMatch(
   console.log(
     'Scout ' +
       scout +
-      'is scouting team ' +
+      ' is scouting team ' +
       team +
-      'in match ' +
+      ' in match ' +
       match +
       '. Rematch: ' +
       rematch,

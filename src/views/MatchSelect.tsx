@@ -1,7 +1,7 @@
-import { match_config } from '../modes/match_config.ts';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { getTeamsForMatch } from '../functions/getTeamsForMatch.ts';
+import { selectMatch } from '../functions/selectMatch.ts';
 
 function MatchSelect() {
   const navigate = useNavigate();
@@ -44,13 +44,61 @@ function MatchSelect() {
 
       {lineup && (
         <>
-          <button>{lineup[0]}</button>
-          <button>{lineup[1]}</button>
-          <button>{lineup[2]}</button>
+          <button
+            id={'red1'}
+            onClick={() => {
+              setTeamNumber(lineup[0]);
+            }}
+            disabled={teamNumber == lineup[0]}
+          >
+            {lineup[0]}
+          </button>
+          <button
+            id={'red2'}
+            onClick={() => {
+              setTeamNumber(lineup[1]);
+            }}
+            disabled={teamNumber == lineup[1]}
+          >
+            {lineup[1]}
+          </button>
+          <button
+            id={'red3'}
+            onClick={() => {
+              setTeamNumber(lineup[2]);
+            }}
+            disabled={teamNumber == lineup[2]}
+          >
+            {lineup[2]}
+          </button>
           <br />
-          <button>{lineup[3]}</button>
-          <button>{lineup[4]}</button>
-          <button>{lineup[5]}</button>
+          <button
+            id={'blue1'}
+            onClick={() => {
+              setTeamNumber(lineup[3]);
+            }}
+            disabled={teamNumber == lineup[3]}
+          >
+            {lineup[3]}
+          </button>
+          <button
+            id={'blue2'}
+            onClick={() => {
+              setTeamNumber(lineup[4]);
+            }}
+            disabled={teamNumber == lineup[4]}
+          >
+            {lineup[4]}
+          </button>
+          <button
+            id={'blue3'}
+            onClick={() => {
+              setTeamNumber(lineup[5]);
+            }}
+            disabled={teamNumber == lineup[5]}
+          >
+            {lineup[5]}
+          </button>
         </>
       )}
 
@@ -63,7 +111,13 @@ function MatchSelect() {
         />
         Rematch
       </label>
-      <button onClick={() => navigate(match_config.url)}>Next ---&gt;</button>
+      <button
+        onClick={() =>
+          navigate(selectMatch(name, matchNumber, teamNumber, checked).url)
+        }
+      >
+        Next ---&gt;
+      </button>
       <br />
       <img
         src={'/requirements/screens/match-select.jpeg'}

@@ -15,6 +15,28 @@ function HoldingCoral() {
   //TODO: this should be global
   let auto = true;
 
+  function clearSubOptions() {
+    setShowAlgaeOptions(false);
+    setShowReefOptions(false);
+  }
+
+  function showRemoveAlgaeControls() {
+    return (
+      <>
+        {showAlgaeOptions ? (
+          <RemoveAlgaeOptions
+            mode={holding_coral}
+            clearCallback={clearSubOptions}
+          />
+        ) : (
+          <button onClick={() => setShowAlgaeOptions(true)}>
+            Remove Algae
+          </button>
+        )}
+      </>
+    );
+  }
+
   return (
     <>
       <h1>Holding Coral</h1>
@@ -29,7 +51,7 @@ function HoldingCoral() {
       >
         Pickup Algae
       </button>
-      <button onClick={() => setShowAlgaeOptions(true)}>Remove Algae</button>
+      {showRemoveAlgaeControls()}
       <button onClick={() => toggleDefence()}>Defence</button>
       {auto && (
         <>
@@ -65,7 +87,6 @@ function HoldingCoral() {
       </button>
       <br />
       {showReefOptions && <ReefScoreOptions mode={holding_coral} />}
-      {showAlgaeOptions && <RemoveAlgaeOptions mode={holding_coral} />}
       <img
         src={'/requirements/screens/holding-coral.jpeg'}
         width={'25%'}
