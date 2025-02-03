@@ -12,11 +12,9 @@ import { holding_nothing } from './modes/holding_nothing.ts';
 import { holding_both } from './modes/holding_both.ts';
 import { holding_algae } from './modes/holding_algae.ts';
 import { holding_coral } from './modes/holding_coral.ts';
-import { park } from './modes/park.ts';
-import { start_climb } from './modes/start_climb.ts';
-import { finish_climb } from './modes/finish_climb.ts';
 import { human_feedback } from './modes/human_feedback.ts';
 import FieldLayout from './common/FieldLayout.tsx';
+import { endgame } from './modes/endgame.ts';
 
 function App() {
   return (
@@ -35,9 +33,7 @@ function App() {
               <Route path="holding-coral" element={<holding_coral.view />} />
               <Route path="holding-algae" element={<holding_algae.view />} />
               <Route path="holding-both" element={<holding_both.view />} />
-              <Route path="park" element={<park.view />} />
-              <Route path="start-climb" element={<start_climb.view />} />
-              <Route path="finish-climb" element={<finish_climb.view />} />
+              <Route path="endgame" element={<endgame.view />} />
             </Route>
             <Route path="match-select" element={<match_select.view />} />{' '}
             <Route path="match-config" element={<match_config.view />} />

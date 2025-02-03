@@ -6,11 +6,9 @@ import { holding_coral } from '../modes/holding_coral.ts';
 import { holding_algae } from '../modes/holding_algae.ts';
 import { holding_both } from '../modes/holding_both.ts';
 import { human_feedback } from '../modes/human_feedback.ts';
-import { park } from '../modes/park.ts';
-import { start_climb } from '../modes/start_climb.ts';
-import { finish_climb } from '../modes/finish_climb.ts';
 import { checklist } from '../modes/checklist.ts';
 import { Phase } from '../functions/setPhase.ts';
+import { endgame } from '../modes/endgame.ts';
 
 function Functions() {
   return (
@@ -122,23 +120,23 @@ function Functions() {
             <td colSpan={5}>{Phase.endgame}</td>
           </tr>
           <tr>
-            <td>{park.label}</td>
-            <td>isPark</td>
-            <td>parked?</td>
+            <td>{endgame.label}</td>
+            <td>park</td>
+            <td></td>
             <td>save data</td>
-            <td>{start_climb.label}</td>
+            <td>{endgame.label}</td>
           </tr>
           <tr>
-            <td>{start_climb.label}</td>
-            <td>isClimbing</td>
+            <td>{endgame.label}</td>
+            <td>startClimbing</td>
             <td>shallow/deep</td>
             <td>save data</td>
-            <td>{finish_climb.label}</td>
+            <td>{endgame.label}</td>
           </tr>
           <tr>
-            <td>{start_climb.label}</td>
-            <td>isClimbed</td>
-            <td>isClimbed?</td>
+            <td>{endgame.label}</td>
+            <td>climbed</td>
+            <td></td>
             <td>save data</td>
             <td>{checklist.label}</td>
           </tr>

@@ -1,8 +1,8 @@
 import Modes from '../common/modes.ts';
-import { park } from '../modes/park.ts';
 import { start_line } from '../modes/start_line.ts';
 import { match_select } from '../modes/match_select.ts';
 import { checklist } from '../modes/checklist.ts';
+import { endgame } from '../modes/endgame.ts';
 
 export enum Phase {
   pre_match = 'PRE-MATCH',
@@ -26,7 +26,7 @@ export function setPhase(currentMode: Modes, desiredPhase: Phase): Modes {
     return currentMode;
   }
   if (desiredPhase === Phase.endgame) {
-    return park;
+    return endgame;
   }
   if (desiredPhase === Phase.comments) {
     return checklist;

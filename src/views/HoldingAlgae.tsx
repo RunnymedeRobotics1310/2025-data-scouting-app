@@ -10,20 +10,48 @@ import { Phase, setPhase } from '../functions/setPhase.ts';
 import { removeAlgae } from '../functions/removeAlgae.ts';
 
 function HoldingAlgae() {
-  const [showPickupOptions, setShowPickupOptions] = useState(false);
-  const [showScoreOptions, setShowScoreOptions] = useState(false);
+  const [showPickupCoralOptions, setShowPickupCoralOptions] = useState(false);
+  const [showScoreAlgaeOptions, setShowScoreAlgaeOptions] = useState(false);
   const navigate = useNavigate();
   //TODO: this should be global
   let auto = true;
 
+  function showPickupCoralControls() {
+    return (
+      <>
+        {showPickupCoralOptions ? (
+          <CoralPickupOptions mode={holding_algae} />
+        ) : (
+          <button onClick={() => setShowPickupCoralOptions(true)}>
+            Pickup Coral
+          </button>
+        )}
+      </>
+    );
+  }
+
+  function scoreAlgaeOptions() {
+    return (
+      <>
+        {showScoreAlgaeOptions ? (
+          <AlgaeScoreOptions mode={holding_algae} />
+        ) : (
+          <button onClick={() => setShowScoreAlgaeOptions(true)}>
+            Score Algae
+          </button>
+        )}
+      </>
+    );
+  }
+
   return (
     <>
       <h1>Holding Algae</h1>
-      <button onClick={() => setShowScoreOptions(true)}>Score Algae</button>
+      {scoreAlgaeOptions()}
       <button onClick={() => navigate(dropAlgae(holding_algae).url)}>
         Drop Algae
       </button>
-      <button onClick={() => setShowPickupOptions(true)}>Pickup Coral</button>
+      {showPickupCoralControls()}
       <button onClick={() => removeAlgae(holding_algae, false)}>
         Remove Algae
       </button>
@@ -61,8 +89,6 @@ function HoldingAlgae() {
         Endgame ---&gt;
       </button>
       <br />
-      {showPickupOptions && <CoralPickupOptions mode={holding_algae} />}
-      {showScoreOptions && <AlgaeScoreOptions mode={holding_algae} />}
       <img
         src={'/requirements/screens/holding-algae.jpeg'}
         width={'25%'}

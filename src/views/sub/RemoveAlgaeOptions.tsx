@@ -8,6 +8,7 @@ type PropTypes = {
   mode: Modes;
   clearCallback: any;
 };
+
 function removeAlgaeOptions(props: PropTypes) {
   const navigate = useNavigate();
   const mode = props.mode;

@@ -12,15 +12,38 @@ import { removeAlgae } from '../functions/removeAlgae.ts';
 function HoldingBoth() {
   const navigate = useNavigate();
   const [showReefOptions, setShowReefOptions] = useState(false);
-  const [showAlgaeScoreOptions, setShowAlgaeScoreOptions] = useState(false);
+  const [showScoreAlgaeOptions, setShowScoreAlgaeOptions] = useState(false);
+
+  function showScoreReefControls() {
+    return (
+      <>
+        {showReefOptions ? (
+          <ReefScoreOptions mode={holding_both} />
+        ) : (
+          <button onClick={() => setShowReefOptions(true)}>Score Reef</button>
+        )}
+      </>
+    );
+  }
+
+  function scoreAlgaeOptions() {
+    return (
+      <>
+        {showScoreAlgaeOptions ? (
+          <AlgaeScoreOptions mode={holding_both} />
+        ) : (
+          <button onClick={() => setShowScoreAlgaeOptions(true)}>
+            Score Algae
+          </button>
+        )}
+      </>
+    );
+  }
 
   return (
     <>
       <h1>Holding Both</h1>
-      <button onClick={() => setShowReefOptions(true)}>Score Reef</button>
-      <button onClick={() => setShowAlgaeScoreOptions(true)}>
-        Score Algae
-      </button>
+      {showScoreReefControls()} {scoreAlgaeOptions()}
       <button onClick={() => navigate(dropCoral(holding_both).url)}>
         Drop Coral
       </button>
@@ -38,8 +61,6 @@ function HoldingBoth() {
         Endgame ---&gt;
       </button>
       <br />
-      {showReefOptions && <ReefScoreOptions mode={holding_both} />}
-      {showAlgaeScoreOptions && <AlgaeScoreOptions mode={holding_both} />}
       <img
         src={'/requirements/screens/holding-both.jpeg'}
         width={'25%'}

@@ -9,7 +9,7 @@ import { toggleDefence } from '../functions/toggleDefence.ts';
 import { Phase, setPhase } from '../functions/setPhase.ts';
 
 function HoldingNothing() {
-  const [showPickupOptions, setShowPickupOptions] = useState(false);
+  const [showPickupCoralOptions, setShowPickupCoralOptions] = useState(false);
   const [showAlgaeOptions, setShowAlgaeOptions] = useState(false);
   const navigate = useNavigate();
   //TODO: this should be global
@@ -17,7 +17,7 @@ function HoldingNothing() {
 
   function clearSubOptions() {
     setShowAlgaeOptions(false);
-    setShowPickupOptions(false);
+    setShowPickupCoralOptions(false);
   }
 
   function showRemoveAlgaeControls() {
@@ -37,10 +37,24 @@ function HoldingNothing() {
     );
   }
 
+  function showPickupCoralControls() {
+    return (
+      <>
+        {showPickupCoralOptions ? (
+          <CoralPickupOptions mode={holding_nothing} />
+        ) : (
+          <button onClick={() => setShowPickupCoralOptions(true)}>
+            Pickup Coral
+          </button>
+        )}
+      </>
+    );
+  }
+
   return (
     <>
       <h1>Holding Nothing</h1>
-      <button onClick={() => setShowPickupOptions(true)}>Pickup Coral</button>
+      {showPickupCoralControls()}
       <button
         onClick={() =>
           navigate(pickupAlgae(holding_nothing, AlgaeLocation.ground).url)
@@ -50,7 +64,6 @@ function HoldingNothing() {
       </button>
       {showRemoveAlgaeControls()}
       <button onClick={() => toggleDefence()}>Defence</button>
-
       {auto && (
         <>
           <br />
@@ -106,8 +119,6 @@ function HoldingNothing() {
         Endgame ---&gt;
       </button>
       <br />
-      {showPickupOptions && <CoralPickupOptions mode={holding_nothing} />}
-
       <img
         src={'/requirements/screens/holding-nothing.jpeg'}
         width={'25%'}

@@ -9,11 +9,9 @@ import HoldingNothing from '../views/HoldingNothing.tsx';
 import HoldingCoral from '../views/HoldingCoral.tsx';
 import HoldingAlgae from '../views/HoldingAlgae.tsx';
 import HoldingBoth from '../views/HoldingBoth.tsx';
-import Park from '../views/Park.tsx';
-import StartClimb from '../views/StartClimb.tsx';
-import FinishClimb from '../views/FinishClimb.tsx';
 import Checklist from '../views/Checklist.tsx';
 import HumanFeedback from '../views/HumanFeedback.tsx';
+import Endgame from '../views/Endgame.tsx';
 
 function DevResources() {
   const [leiaScreens, setLeiaScreens] = useState(false);
@@ -49,9 +47,7 @@ function DevResources() {
           <HoldingCoral />
           <HoldingAlgae />
           <HoldingBoth />
-          <Park />
-          <StartClimb />
-          <FinishClimb />
+          <Endgame />
           <Checklist />
           <HumanFeedback />
         </>

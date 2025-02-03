@@ -20,6 +20,18 @@ function HoldingCoral() {
     setShowReefOptions(false);
   }
 
+  function showScoreReefControls() {
+    return (
+      <>
+        {showReefOptions ? (
+          <ReefScoreOptions mode={holding_coral} />
+        ) : (
+          <button onClick={() => setShowReefOptions(true)}>Score Reef</button>
+        )}
+      </>
+    );
+  }
+
   function showRemoveAlgaeControls() {
     return (
       <>
@@ -40,7 +52,7 @@ function HoldingCoral() {
   return (
     <>
       <h1>Holding Coral</h1>
-      <button onClick={() => setShowReefOptions(true)}>Score Reef</button>
+      {showScoreReefControls()}
       <button onClick={() => navigate(dropCoral(holding_coral).url)}>
         Drop Coral
       </button>
@@ -86,7 +98,6 @@ function HoldingCoral() {
         Endgame ---&gt;
       </button>
       <br />
-      {showReefOptions && <ReefScoreOptions mode={holding_coral} />}
       <img
         src={'/requirements/screens/holding-coral.jpeg'}
         width={'25%'}

@@ -11,7 +11,7 @@ function AppLayout() {
           <Link to={'/'}>Home</Link>
         </li>
         <li>
-          <Link to={'/checklist'}>Checklist</Link>
+          <Link to={'/game/endgame'}>Endgame</Link>
         </li>
         <li>
           <Link to={'/match-select'}>Match Select</Link>
