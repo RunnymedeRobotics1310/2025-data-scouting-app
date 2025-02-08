@@ -1,12 +1,14 @@
-import { useNavigate } from 'react-router-dom';
 import { autoConfig, RobotPosition } from '../functions/autoConfig.ts';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import CoralContext from '../context/CoralContext.tsx';
+import { SetPhaseButton } from '../functions/setPhase.tsx';
+import { match_config } from '../modes/match_config.ts';
+import { Phase } from '../common/phase.ts';
 
 function MatchConfig() {
-  const navigate = useNavigate();
-  const [checked, setChecked] = useState(false);
+  // const [preloaded, setPreloaded] = useState(false);
   const [position, setPosition] = useState(RobotPosition.left);
-
+  const { preloaded, setPreloaded } = useContext(CoralContext);
   return (
     <>
       <h1>Match Config</h1>
@@ -14,9 +16,9 @@ function MatchConfig() {
       <label htmlFor={'preloaded'}>
         <input
           type={'checkbox'}
-          checked={checked}
+          checked={preloaded}
           id={'preloaded'}
-          onChange={() => setChecked(!checked)}
+          onChange={() => setPreloaded(!preloaded)}
         />
         Preloaded
       </label>
@@ -51,9 +53,12 @@ function MatchConfig() {
 
       <br />
 
-      <button onClick={() => navigate(autoConfig(checked, position).url)}>
-        Start ---&gt;
-      </button>
+      <SetPhaseButton
+        currentMode={match_config}
+        desiredPhase={Phase.auto}
+        label={'Start --->'}
+        callback={() => autoConfig(preloaded, position)}
+      />
       <br />
       <img
         src={'/requirements/screens/match-config.jpeg'}

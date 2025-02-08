@@ -1,4 +1,4 @@
-import Mode from '../common/modes.ts';
+import { Mode } from '../common/mode.ts';
 import { lazy } from 'react';
 
 export const holding_algae: Mode = {

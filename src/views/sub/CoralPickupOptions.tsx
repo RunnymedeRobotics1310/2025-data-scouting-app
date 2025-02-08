@@ -1,33 +1,28 @@
-import Modes from '../../common/modes.ts';
-import { useNavigate } from 'react-router-dom';
-import { CoralLocation, pickupCoral } from '../../functions/pickupCoral.ts';
+import { Mode } from '../../common/mode.ts';
+import PickupCoralGround from '../../buttons/PickupCoralGround.tsx';
+import PickupCoralLeft from '../../buttons/PickupCoralLeft.tsx';
+import PickupCoralRight from '../../buttons/PickupCoralRight.tsx';
+import FieldButton from '../../common/FieldButton.tsx';
 
 type PropTypes = {
-  mode: Modes;
+  mode: Mode;
 };
-function coralPickupOptions(props: PropTypes) {
-  const navigate = useNavigate();
+function CoralPickupOptions(props: PropTypes) {
   const mode = props.mode;
 
   return (
     <div>
-      <button
-        onClick={() => navigate(pickupCoral(mode, CoralLocation.ground).url)}
-      >
-        Ground
-      </button>
-      <button
-        onClick={() => navigate(pickupCoral(mode, CoralLocation.left).url)}
-      >
-        Left
-      </button>
-      <button
-        onClick={() => navigate(pickupCoral(mode, CoralLocation.right).url)}
-      >
-        Right
-      </button>
+      <FieldButton x={175} y={350} w={64} h={32}>
+        <PickupCoralGround mode={mode} />
+      </FieldButton>
+      <FieldButton x={150} y={325} w={64} h={32}>
+        <PickupCoralLeft mode={mode} />
+      </FieldButton>
+      <FieldButton x={200} y={325} w={64} h={32}>
+        <PickupCoralRight mode={mode} />
+      </FieldButton>
     </div>
   );
 }
 
-export default coralPickupOptions;
+export default CoralPickupOptions;

@@ -1,10 +1,10 @@
-import Modes from '../common/modes.ts';
+import { Mode } from '../common/mode.ts';
 import { holding_nothing } from '../modes/holding_nothing.ts';
 import { holding_coral } from '../modes/holding_coral.ts';
 import { holding_both } from '../modes/holding_both.ts';
 import { holding_algae } from '../modes/holding_algae.ts';
 
-export function dropCoral(mode: Modes): Modes {
+export function dropCoral(mode: Mode): Mode {
   console.log('Dropped coral from ' + mode.label);
 
   if (mode === holding_coral) {

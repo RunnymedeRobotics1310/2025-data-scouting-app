@@ -1,4 +1,4 @@
-import Modes from '../common/modes.ts';
+import { Mode } from '../common/mode.ts';
 import { match_select } from '../modes/match_select.ts';
 
 export function saveFeedback(
@@ -7,7 +7,7 @@ export function saveFeedback(
   coralRP: boolean,
   bargeRP: boolean,
   stars: number,
-): Modes {
+): Mode {
   console.log(
     'Comment: ' +
       comment +

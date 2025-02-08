@@ -1,4 +1,4 @@
-import Modes from '../common/modes.ts';
+import { Mode } from '../common/mode.ts';
 import { match_config } from '../modes/match_config.ts';
 
 export function selectMatch(
@@ -6,7 +6,7 @@ export function selectMatch(
   match: number,
   team: number,
   rematch: boolean,
-): Modes {
+): Mode {
   console.log(
     'Scout ' +
       scout +

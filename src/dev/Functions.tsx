@@ -7,8 +7,8 @@ import { holding_algae } from '../modes/holding_algae.ts';
 import { holding_both } from '../modes/holding_both.ts';
 import { human_feedback } from '../modes/human_feedback.ts';
 import { checklist } from '../modes/checklist.ts';
-import { Phase } from '../functions/setPhase.ts';
 import { endgame } from '../modes/endgame.ts';
+import { Phase } from '../common/phase.ts';
 
 function Functions() {
   return (

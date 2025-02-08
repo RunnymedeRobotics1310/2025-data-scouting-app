@@ -1,9 +1,10 @@
-import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { saveFeedback } from '../functions/saveFeedback.ts';
+import { SetPhaseButton } from '../functions/setPhase.tsx';
+import { human_feedback } from '../modes/human_feedback.ts';
+import { Phase } from '../common/phase.ts';
 
 function HumanFeedback() {
-  const navigate = useNavigate();
   const [comment, setComment] = useState('');
   const [auto, setAuto] = useState(false);
   const [coral, setCoral] = useState(false);
@@ -81,13 +82,12 @@ function HumanFeedback() {
         onChange={() => setStars(5)}
       />
       <br />
-      <button
-        onClick={() =>
-          navigate(saveFeedback(comment, auto, coral, barge, stars).url)
-        }
-      >
-        Done ---&gt;
-      </button>
+      <SetPhaseButton
+        currentMode={human_feedback}
+        desiredPhase={Phase.pre_match}
+        label={'Done --->'}
+        callback={saveFeedback(comment, auto, coral, barge, stars)}
+      />
       <br />
       <img
         src={'/requirements/screens/human-feedback.jpeg'}

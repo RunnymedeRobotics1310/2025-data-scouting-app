@@ -1,4 +1,4 @@
-import Modes from '../common/modes.ts';
+import { Mode } from '../common/mode.ts';
 import { holding_nothing } from '../modes/holding_nothing.ts';
 import { holding_algae } from '../modes/holding_algae.ts';
 import { holding_coral } from '../modes/holding_coral.ts';
@@ -6,26 +6,21 @@ import { holding_both } from '../modes/holding_both.ts';
 
 export enum AlgaeLocation {
   ground = 'Ground',
-  auto1 = 'Auto 1',
-  auto2 = 'Auto 2',
-  auto3 = 'Auto 3',
+  auto = 'Auto',
 }
 
-export function pickupAlgae(
-  startingMode: Modes,
-  location: AlgaeLocation,
-): Modes {
+export function pickupAlgae(startingMode: Mode, location: AlgaeLocation): Mode {
   console.log(
-    'Picked up algae from ' + location + 'from ' + startingMode.label,
+    'Picked up algae from ' + location + ' from ' + startingMode.label,
   );
   // do fancy logic like storing info etc.
   // return the next mode
 
-  if (startingMode === holding_nothing) {
+  if (startingMode == holding_nothing) {
     return holding_algae;
   }
 
-  if (startingMode === holding_coral) {
+  if (startingMode == holding_coral) {
     return holding_both;
   }
 

@@ -1,5 +1,5 @@
 import { human_feedback } from '../modes/human_feedback.ts';
-import Modes from '../common/modes.ts';
+import { Mode } from '../common/mode.ts';
 
 export function saveChecklist(
   fall: boolean,
@@ -11,7 +11,7 @@ export function saveChecklist(
   foul: boolean,
   score: boolean,
   fast: boolean,
-): Modes {
+): Mode {
   console.log(
     'Checklist saved: ' +
       fall +

@@ -1,24 +1,23 @@
-import Modes from '../../common/modes.ts';
-import { useNavigate } from 'react-router-dom';
-import { scoreAlgaeNet } from '../../functions/scoreAlgaeNet.ts';
-import { scoreAlgaeProcessor } from '../../functions/scoreAlgaeProcessor.ts';
+import { Mode } from '../../common/mode.ts';
+import ScoreAlgaeNet from '../../buttons/ScoreAlgaeNet.tsx';
+import ScoreAlgaeProcessor from '../../buttons/ScoreAlgaeProcessor.tsx';
+import FieldButton from '../../common/FieldButton.tsx';
 
 type PropTypes = {
-  mode: Modes;
+  mode: Mode;
 };
-function algaeScoreOptions(props: PropTypes) {
-  const navigate = useNavigate();
+function AlgaeScoreOptions(props: PropTypes) {
   const mode = props.mode;
 
   return (
     <div>
-      <button onClick={() => navigate(scoreAlgaeNet(mode).url)}>
-        Score Net
-      </button>
-      <button onClick={() => navigate(scoreAlgaeProcessor(mode).url)}>
-        Score Processor
-      </button>
+      <FieldButton x={48} y={32} w={48} h={32}>
+        <ScoreAlgaeNet mode={mode} />
+      </FieldButton>
+      <FieldButton x={324} y={100} w={48} h={32}>
+        <ScoreAlgaeProcessor mode={mode} />
+      </FieldButton>
     </div>
   );
 }
-export default algaeScoreOptions;
+export default AlgaeScoreOptions;

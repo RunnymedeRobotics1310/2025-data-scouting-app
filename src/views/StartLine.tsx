@@ -1,22 +1,17 @@
-import { useNavigate } from 'react-router-dom';
-import { leaveStartingLine } from '../functions/leaveStartingLine.ts';
+import LeaveStartLine from '../buttons/LeaveStartLine.tsx';
+import FieldButton from '../common/FieldButton.tsx';
+import FieldImage from '../common/FieldImage.tsx';
 
 function StartLine() {
-  const navigate = useNavigate();
-
   return (
-    <>
+    <div>
       <h1>Start Line</h1>
-      <button onClick={() => navigate(leaveStartingLine().url)}>
-        Leave Starting Line
-      </button>
-      <br />
-      <img
-        src={'/requirements/screens/start-line.jpeg'}
-        width={'25%'}
-        alt={'Start Line'}
-      />
-    </>
+
+      <FieldImage />
+      <FieldButton x={175} y={40} w={300} h={32}>
+        <LeaveStartLine />
+      </FieldButton>
+    </div>
   );
 }
 export default StartLine;

@@ -1,12 +1,11 @@
-import Modes from '../common/modes.ts';
+import { Mode } from '../common/mode.ts';
 import { holding_coral } from '../modes/holding_coral.ts';
 import { holding_nothing } from '../modes/holding_nothing.ts';
 
-export function leaveStartingLine(): Modes {
+export function leaveStartingLine(preloaded: boolean): Mode {
   // TODO: this should be global
-  let preset = false;
-  console.log('Left starting zone. Preset: ' + preset);
-  if (preset) {
+  console.log('Left starting zone. Preset: ' + preloaded);
+  if (preloaded) {
     return holding_coral;
   }
   return holding_nothing;

@@ -1,15 +1,18 @@
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { getTeamsForMatch } from '../functions/getTeamsForMatch.ts';
 import { selectMatch } from '../functions/selectMatch.ts';
+import TeamContext from '../context/TeamContext.tsx';
+import AllianceContext from '../context/AllianceContext.tsx';
 
 function MatchSelect() {
   const navigate = useNavigate();
   const [name, setName] = useState('');
   const [matchNumber, setMatchNumber] = useState(0);
   const [lineup, setLineup] = useState<number[] | undefined>();
-  const [teamNumber, setTeamNumber] = useState(0);
+  const { teamNumber, setTeamNumber } = useContext(TeamContext);
   const [checked, setChecked] = useState(false);
+  const { setIsRed } = useContext(AllianceContext);
 
   return (
     <>
@@ -48,6 +51,7 @@ function MatchSelect() {
             id={'red1'}
             onClick={() => {
               setTeamNumber(lineup[0]);
+              setIsRed(true);
             }}
             disabled={teamNumber == lineup[0]}
           >
@@ -57,6 +61,7 @@ function MatchSelect() {
             id={'red2'}
             onClick={() => {
               setTeamNumber(lineup[1]);
+              setIsRed(true);
             }}
             disabled={teamNumber == lineup[1]}
           >
@@ -66,6 +71,7 @@ function MatchSelect() {
             id={'red3'}
             onClick={() => {
               setTeamNumber(lineup[2]);
+              setIsRed(true);
             }}
             disabled={teamNumber == lineup[2]}
           >
@@ -76,6 +82,7 @@ function MatchSelect() {
             id={'blue1'}
             onClick={() => {
               setTeamNumber(lineup[3]);
+              setIsRed(false);
             }}
             disabled={teamNumber == lineup[3]}
           >
@@ -85,6 +92,7 @@ function MatchSelect() {
             id={'blue2'}
             onClick={() => {
               setTeamNumber(lineup[4]);
+              setIsRed(false);
             }}
             disabled={teamNumber == lineup[4]}
           >
@@ -94,6 +102,7 @@ function MatchSelect() {
             id={'blue3'}
             onClick={() => {
               setTeamNumber(lineup[5]);
+              setIsRed(false);
             }}
             disabled={teamNumber == lineup[5]}
           >

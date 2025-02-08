@@ -1,6 +1,5 @@
-import { Phase, setPhase } from './setPhase.ts';
-import { match_config } from '../modes/match_config.ts';
-import Modes from '../common/modes.ts';
+import { Mode } from '../common/mode.ts';
+import { start_line } from '../modes/start_line.ts';
 
 export enum RobotPosition {
   left = 'left',
@@ -8,13 +7,10 @@ export enum RobotPosition {
   right = 'right',
 }
 
-export function autoConfig(preloaded: boolean, position: RobotPosition): Modes {
+export function autoConfig(preloaded: boolean, position: RobotPosition): Mode {
   console.log(
     'Configuring auto. Position = ' + position + ' Preloaded = ' + preloaded,
   );
 
-  //TODO: set global preloaded to preloaded
-  //TODO: set global position to position
-
-  return setPhase(match_config, Phase.auto);
+  return start_line;
 }

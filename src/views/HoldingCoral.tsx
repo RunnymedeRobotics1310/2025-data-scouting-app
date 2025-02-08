@@ -1,19 +1,24 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useContext, useState } from 'react';
 import ReefScoreOptions from './sub/ReefScoreOptions.tsx';
 import { holding_coral } from '../modes/holding_coral.ts';
-import { AlgaeLocation, pickupAlgae } from '../functions/pickupAlgae.ts';
-import { dropCoral } from '../functions/dropCoral.ts';
 import RemoveAlgaeOptions from './sub/RemoveAlgaeOptions.tsx';
-import { toggleDefence } from '../functions/toggleDefence.ts';
-import { Phase, setPhase } from '../functions/setPhase.ts';
+import { SetPhaseButton } from '../functions/setPhase.tsx';
+import PhaseContext from '../context/PhaseContext.tsx';
+import { Phase } from '../common/phase.ts';
+import RemoveAlgae from '../buttons/RemoveAlgae.tsx';
+import AutoTeleopSwitch from '../buttons/AutoTeleopSwitch.tsx';
+import PickupAlgae from '../buttons/PickupAlgae.tsx';
+import Defence from '../buttons/Defence.tsx';
+import ScoreReef from '../buttons/ScoreReef.tsx';
+import DropCoral from '../buttons/DropCoral.tsx';
+import PickupAlgaeAuto from '../buttons/PickupAlgaeAuto.tsx';
+import FieldImage from '../common/FieldImage.tsx';
+import FieldButton from '../common/FieldButton.tsx';
 
 function HoldingCoral() {
   const [showReefOptions, setShowReefOptions] = useState(false);
   const [showAlgaeOptions, setShowAlgaeOptions] = useState(false);
-  const navigate = useNavigate();
-  //TODO: this should be global
-  let auto = true;
+  const { currentPhase } = useContext(PhaseContext);
 
   function clearSubOptions() {
     setShowAlgaeOptions(false);
@@ -26,7 +31,9 @@ function HoldingCoral() {
         {showReefOptions ? (
           <ReefScoreOptions mode={holding_coral} />
         ) : (
-          <button onClick={() => setShowReefOptions(true)}>Score Reef</button>
+          <FieldButton x={175} y={250} w={64} h={16}>
+            <ScoreReef callback={() => setShowReefOptions(true)} />
+          </FieldButton>
         )}
       </>
     );
@@ -41,69 +48,76 @@ function HoldingCoral() {
             clearCallback={clearSubOptions}
           />
         ) : (
-          <button onClick={() => setShowAlgaeOptions(true)}>
-            Remove Algae
-          </button>
+          <FieldButton x={300} y={100} w={48} h={16}>
+            <RemoveAlgae
+              callback={() => {
+                setShowAlgaeOptions(true);
+              }}
+            />
+          </FieldButton>
         )}
       </>
     );
   }
 
   return (
-    <>
+    <div>
       <h1>Holding Coral</h1>
+      <FieldImage />
+      {
+        //
+        // Auto & Teleop buttons
+        //
+      }
+      <FieldButton x={175} y={0} w={32} h={16}>
+        <AutoTeleopSwitch />
+      </FieldButton>
       {showScoreReefControls()}
-      <button onClick={() => navigate(dropCoral(holding_coral).url)}>
-        Drop Coral
-      </button>
-      <button
-        onClick={() =>
-          navigate(pickupAlgae(holding_coral, AlgaeLocation.ground).url)
-        }
-      >
-        Pickup Algae
-      </button>
+      <FieldButton x={75} y={275} w={32} h={16}>
+        <DropCoral mode={holding_coral} />
+      </FieldButton>
+      <FieldButton x={300} y={250} w={48} h={16}>
+        <PickupAlgae mode={holding_coral} />
+      </FieldButton>
       {showRemoveAlgaeControls()}
-      <button onClick={() => toggleDefence()}>Defence</button>
-      {auto && (
+      {
+        //
+        // Teleop only buttons
+        //
+      }
+      {currentPhase === Phase.teleop && (
         <>
-          <br />
-          <button
-            onClick={() =>
-              navigate(pickupAlgae(holding_coral, AlgaeLocation.auto1).url)
-            }
-          >
-            Auto Algae 1
-          </button>
-          <button
-            onClick={() =>
-              navigate(pickupAlgae(holding_coral, AlgaeLocation.auto2).url)
-            }
-          >
-            Auto Algae 2
-          </button>
-          <button
-            onClick={() =>
-              navigate(pickupAlgae(holding_coral, AlgaeLocation.auto3).url)
-            }
-          >
-            Auto Algae 3
-          </button>
+          <FieldButton x={32} y={32} w={32} h={16}>
+            <Defence />
+          </FieldButton>
+          <FieldButton x={325} y={450} w={64} h={16}>
+            <SetPhaseButton
+              currentMode={holding_coral}
+              desiredPhase={Phase.endgame}
+              label={'Endgame --->'}
+            />
+          </FieldButton>
         </>
       )}
-      <br />
-      <button
-        onClick={() => navigate(setPhase(holding_coral, Phase.endgame).url)}
-      >
-        Endgame ---&gt;
-      </button>
-      <br />
-      <img
-        src={'/requirements/screens/holding-coral.jpeg'}
-        width={'25%'}
-        alt={'Holding Coral'}
-      />
-    </>
+      {
+        //
+        // Auto only buttons
+        //
+      }
+      {currentPhase === Phase.auto && (
+        <>
+          <FieldButton x={125} y={425} w={16} h={16}>
+            <PickupAlgaeAuto mode={holding_coral} />
+          </FieldButton>
+          <FieldButton x={175} y={400} w={16} h={16}>
+            <PickupAlgaeAuto mode={holding_coral} />
+          </FieldButton>
+          <FieldButton x={225} y={400} w={16} h={16}>
+            <PickupAlgaeAuto mode={holding_coral} />
+          </FieldButton>
+        </>
+      )}
+    </div>
   );
 }
 export default HoldingCoral;

@@ -1,27 +1,34 @@
-import { holding_nothing } from '../../modes/holding_nothing.ts';
-import { useNavigate } from 'react-router-dom';
-import Modes from '../../common/modes.ts';
-import { scoreReef } from '../../functions/scoreReef.ts';
+import { Mode } from '../../common/mode.ts';
+import ScoreReefMiss from '../../buttons/ScoreReefMiss.tsx';
+import ScoreReefL1 from '../../buttons/ScoreReefL1.tsx';
+import ScoreReefL2 from '../../buttons/ScoreReefL2.tsx';
+import ScoreReefL3 from '../../buttons/ScoreReefL3.tsx';
+import ScoreReefL4 from '../../buttons/ScoreReefL4.tsx';
+import FieldButton from '../../common/FieldButton.tsx';
 
 type PropTypes = {
-  mode: Modes;
+  mode: Mode;
 };
 function ReefScoreOptions(props: PropTypes) {
-  const navigate = useNavigate();
   const mode = props.mode;
-
-  function missCoral() {
-    console.log('Missed coral from ' + mode.label);
-    navigate(holding_nothing.url);
-  }
 
   return (
     <div>
-      <button onClick={() => missCoral()}>Oopsie</button>
-      <button onClick={() => navigate(scoreReef(mode, 1).url)}>1</button>
-      <button onClick={() => navigate(scoreReef(mode, 2).url)}>2</button>
-      <button onClick={() => navigate(scoreReef(mode, 3).url)}>3</button>
-      <button onClick={() => navigate(scoreReef(mode, 4).url)}>4</button>
+      <FieldButton x={175} y={150} w={24} h={16}>
+        <ScoreReefMiss mode={mode} />
+      </FieldButton>
+      <FieldButton x={151} y={125} w={16} h={16}>
+        <ScoreReefL1 mode={mode} />
+      </FieldButton>
+      <FieldButton x={167} y={125} w={16} h={16}>
+        <ScoreReefL2 mode={mode} />
+      </FieldButton>
+      <FieldButton x={158} y={125} w={16} h={16}>
+        <ScoreReefL3 mode={mode} />
+      </FieldButton>
+      <FieldButton x={174} y={125} w={16} h={16}>
+        <ScoreReefL4 mode={mode} />
+      </FieldButton>
     </div>
   );
 }

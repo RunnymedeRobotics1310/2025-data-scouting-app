@@ -1,10 +1,10 @@
-import { useNavigate } from 'react-router-dom';
-
 import { EndgameStatus, endgameStatus } from '../functions/endgameStatus.ts';
 import { useState } from 'react';
+import { SetPhaseButton } from '../functions/setPhase.tsx';
+import { endgame } from '../modes/endgame.ts';
+import { Phase } from '../common/phase.ts';
 
 function Endgame() {
-  const navigate = useNavigate();
   const [climbed, setClimbed] = useState(EndgameStatus.none);
 
   return (
@@ -50,9 +50,14 @@ function Endgame() {
         Deep Climb
       </button>
       <br />
-      <button onClick={() => navigate(endgameStatus(climbed).url)}>
-        Next ---&gt;
-      </button>
+
+      <SetPhaseButton
+        currentMode={endgame}
+        desiredPhase={Phase.comments}
+        label={'Next --->'}
+        callback={() => endgameStatus(climbed)}
+      />
+      <br />
       <br />
       <img
         src={'/requirements/screens/simple-endgame.jpeg'}

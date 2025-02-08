@@ -1,35 +1,30 @@
-import Modes from '../../common/modes.ts';
-import { removeAlgae } from '../../functions/removeAlgae.ts';
-import { useNavigate } from 'react-router-dom';
+import { Mode } from '../../common/mode.ts';
 import { holding_algae } from '../../modes/holding_algae.ts';
 import { holding_both } from '../../modes/holding_both.ts';
+import RemoveAlgaeRemove from '../../buttons/RemoveAlgaeRemove.tsx';
+import RemoveAlgaePluck from '../../buttons/RemoveAlgaePluck.tsx';
+import FieldButton from '../../common/FieldButton.tsx';
 
 type PropTypes = {
-  mode: Modes;
+  mode: Mode;
   clearCallback: any;
 };
 
-function removeAlgaeOptions(props: PropTypes) {
-  const navigate = useNavigate();
+function RemoveAlgaeOptions(props: PropTypes) {
   const mode = props.mode;
   const cb = props.clearCallback;
   return (
-    <>
-      <button
-        onClick={() => {
-          cb();
-          navigate(removeAlgae(mode, false).url);
-        }}
-      >
-        Remove
-      </button>
+    <div>
+      <FieldButton x={300} y={100} w={48} h={32}>
+        <RemoveAlgaeRemove mode={mode} clearCallback={cb} />
+      </FieldButton>
       {!(mode === holding_algae || mode === holding_both) && (
-        <button onClick={() => navigate(removeAlgae(mode, true).url)}>
-          Pluck
-        </button>
+        <FieldButton x={300} y={125} w={48} h={32}>
+          <RemoveAlgaePluck mode={mode} />
+        </FieldButton>
       )}
-    </>
+    </div>
   );
 }
 
-export default removeAlgaeOptions;
+export default RemoveAlgaeOptions;
