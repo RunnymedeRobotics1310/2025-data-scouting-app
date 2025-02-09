@@ -7,13 +7,14 @@ import PhaseContext from '../context/PhaseContext.tsx';
 import { Phase } from '../common/phase.ts';
 import RemoveAlgae from '../buttons/RemoveAlgae.tsx';
 import PickupCoral from '../buttons/PickupCoral.tsx';
-import AutoTeleopSwitch from '../buttons/AutoTeleopSwitch.tsx';
 import PickupAlgae from '../buttons/PickupAlgae.tsx';
 import Defence from '../buttons/Defence.tsx';
 import PickupCoralAuto from '../buttons/PickupCoralAuto.tsx';
 import PickupAlgaeAuto from '../buttons/PickupAlgaeAuto.tsx';
-import FieldImage from '../common/FieldImage.tsx';
-import FieldButton from '../common/FieldButton.tsx';
+import Zone from '../common/Zone.tsx';
+import Field from '../common/Field.tsx';
+import { CoralLocation } from '../functions/pickupCoral.ts';
+import { AlgaeLocation } from '../functions/pickupAlgae.ts';
 
 function HoldingNothing() {
   const [showPickupCoralOptions, setShowPickupCoralOptions] = useState(false);
@@ -34,13 +35,13 @@ function HoldingNothing() {
             clearCallback={() => clearSubOptions()}
           />
         ) : (
-          <FieldButton x={300} y={100} w={48} h={16}>
+          <Zone zone="reef-right">
             <RemoveAlgae
               callback={() => {
                 setShowAlgaeOptions(true);
               }}
             />
-          </FieldButton>
+          </Zone>
         )}
       </>
     );
@@ -52,30 +53,48 @@ function HoldingNothing() {
         {showPickupCoralOptions ? (
           <CoralPickupOptions mode={holding_nothing} />
         ) : (
-          <FieldButton x={175} y={400} w={48} h={16}>
+          <Zone zone="driver-station">
             <PickupCoral callback={() => setShowPickupCoralOptions(true)} />
-          </FieldButton>
+          </Zone>
         )}
       </>
     );
   }
 
   return (
-    <div>
-      <h1>Holding Nothing</h1>
-      <FieldImage />
+    <Field>
+      {/*<Zone zone={'barge-left'} classes={'red'}>*/}
+      {/*  Barge left*/}
+      {/*</Zone>*/}
+      {/*/!*<div className={'barge'}>barge</div>*!/*/}
+      {/*/!*<div className={'barge-right'}>barge right</div>*!/*/}
+      {/*/!*<div className={'start-zone'}>start zone</div>*!/*/}
+      {/*/!*<div className={'behind-reef'}>behind reef</div>*!/*/}
+      {/*/!*<div className={'reef-left'}>reef left</div>*!/*/}
+      {/*<div className={'reef'}>reef</div>*/}
+      {/*<div className={'reef-right'}>reef right</div>*/}
+      {/*<div className={'reef-front-left'}>reef front left</div>*/}
+      {/*<div className={'reef-front'}>reef front</div>*/}
+      {/*<div className={'reef-front-right'}>reef front right</div>*/}
+      {/*<div className={'left-station'}>left station</div>*/}
+      {/*<div className={'driver-station'}>driver station</div>*/}
+      {/*<div className={'right-station'}>right station</div>*/}
+
+      <Zone zone={'driver-station'} classes={'top'}>
+        <h1>
+          Holding Nothing--------------------------------------
+          ----------------------------------------------------------------------a
+        </h1>
+      </Zone>
       {
         //
         // Auto & Teleop buttons
         //
       }
-      <FieldButton x={175} y={0} w={32} h={16}>
-        <AutoTeleopSwitch />
-      </FieldButton>
       {showPickupCoralControls()}
-      <FieldButton x={300} y={250} w={48} h={16}>
+      <Zone zone="reef-front-right">
         <PickupAlgae mode={holding_nothing} />
-      </FieldButton>
+      </Zone>
       {showRemoveAlgaeControls()}
       {
         //
@@ -84,17 +103,17 @@ function HoldingNothing() {
       }
       {currentPhase === Phase.teleop && (
         <>
-          <FieldButton x={32} y={32} w={32} h={16}>
+          <Zone zone="start-zone" classes={'left'}>
             <Defence />
-          </FieldButton>
-          <FieldButton x={325} y={450} w={64} h={16}>
+          </Zone>
+          <Zone zone="right-station" classes={'bottom right'}>
             <SetPhaseButton
               currentMode={holding_nothing}
               desiredPhase={Phase.endgame}
               label={'Endgame --->'}
               callback={null}
             />
-          </FieldButton>
+          </Zone>
         </>
       )}
       {
@@ -104,28 +123,46 @@ function HoldingNothing() {
       }
       {currentPhase === Phase.auto && (
         <>
-          <FieldButton x={125} y={400} w={16} h={16}>
-            <PickupCoralAuto mode={holding_nothing} />
-          </FieldButton>
-          <FieldButton x={175} y={400} w={16} h={16}>
-            <PickupCoralAuto mode={holding_nothing} />
-          </FieldButton>
-          <FieldButton x={225} y={400} w={16} h={16}>
-            <PickupCoralAuto mode={holding_nothing} />
-          </FieldButton>
+          <Zone zone="reef-front" classes={'bottom'}>
+            <PickupCoralAuto
+              mode={holding_nothing}
+              location={CoralLocation.autoCenter}
+            />
+          </Zone>
+          <Zone zone="reef-front-left" classes={'bottom right'}>
+            <PickupCoralAuto
+              mode={holding_nothing}
+              location={CoralLocation.autoLeft}
+            />
+          </Zone>
+          <Zone zone="reef-front-right" classes={'bottom left'}>
+            <PickupCoralAuto
+              mode={holding_nothing}
+              location={CoralLocation.autoRight}
+            />
+          </Zone>
 
-          <FieldButton x={125} y={425} w={16} h={16}>
-            <PickupAlgaeAuto mode={holding_nothing} />
-          </FieldButton>
-          <FieldButton x={175} y={400} w={16} h={16}>
-            <PickupAlgaeAuto mode={holding_nothing} />
-          </FieldButton>
-          <FieldButton x={225} y={400} w={16} h={16}>
-            <PickupAlgaeAuto mode={holding_nothing} />
-          </FieldButton>
+          <Zone zone="driver-station" classes={'top'}>
+            <PickupAlgaeAuto
+              mode={holding_nothing}
+              location={AlgaeLocation.autoCenter}
+            />
+          </Zone>
+          <Zone zone="left-station" classes={'top right'}>
+            <PickupAlgaeAuto
+              mode={holding_nothing}
+              location={AlgaeLocation.autoLeft}
+            />
+          </Zone>
+          <Zone zone="right-station" classes={'top left'}>
+            <PickupAlgaeAuto
+              mode={holding_nothing}
+              location={AlgaeLocation.autoRight}
+            />
+          </Zone>
         </>
       )}
-    </div>
+    </Field>
   );
 }
 

@@ -8,17 +8,23 @@ function AutoTeleopSwitch() {
   if (!setCurrentPhase) return <Loading />;
 
   return (
-    <input
-      type={'checkbox'}
-      checked={currentPhase === Phase.auto}
-      onChange={() => {
-        if (currentPhase === Phase.auto) {
-          setCurrentPhase(Phase.teleop);
-        } else {
-          setCurrentPhase(Phase.auto);
-        }
-      }}
-    />
+    <>
+      <button>Auto</button>
+      <button>Teleop</button>
+      <button>Endgame</button>
+      <input
+        type={'hidden'}
+        // type={'checkbox'}
+        checked={currentPhase === Phase.auto}
+        onChange={() => {
+          if (currentPhase === Phase.auto) {
+            setCurrentPhase(Phase.teleop);
+          } else {
+            setCurrentPhase(Phase.auto);
+          }
+        }}
+      />
+    </>
   );
 }
 export default AutoTeleopSwitch;

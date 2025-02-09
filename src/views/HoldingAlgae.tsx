@@ -7,13 +7,13 @@ import PhaseContext from '../context/PhaseContext.tsx';
 import { Phase } from '../common/phase.ts';
 import RemoveAlgaeRemove from '../buttons/RemoveAlgaeRemove.tsx';
 import PickupCoral from '../buttons/PickupCoral.tsx';
-import AutoTeleopSwitch from '../buttons/AutoTeleopSwitch.tsx';
 import Defence from '../buttons/Defence.tsx';
 import ScoreAlgae from '../buttons/ScoreAlgae.tsx';
 import DropAlgae from '../buttons/DropAlgae.tsx';
 import PickupCoralAuto from '../buttons/PickupCoralAuto.tsx';
-import FieldImage from '../common/FieldImage.tsx';
-import FieldButton from '../common/FieldButton.tsx';
+import Zone from '../common/Zone.tsx';
+import Field from '../common/Field.tsx';
+import { CoralLocation } from '../functions/pickupCoral.ts';
 
 function HoldingAlgae() {
   const [showPickupCoralOptions, setShowPickupCoralOptions] = useState(false);
@@ -26,9 +26,9 @@ function HoldingAlgae() {
         {showPickupCoralOptions ? (
           <CoralPickupOptions mode={holding_algae} />
         ) : (
-          <FieldButton x={175} y={400} w={48} h={16}>
+          <Zone zone="driver-station">
             <PickupCoral callback={() => setShowPickupCoralOptions(true)} />
-          </FieldButton>
+          </Zone>
         )}
       </>
     );
@@ -40,34 +40,32 @@ function HoldingAlgae() {
         {showScoreAlgaeOptions ? (
           <AlgaeScoreOptions mode={holding_algae} />
         ) : (
-          <FieldButton x={175} y={50} w={48} h={16}>
+          <Zone zone="start-zone">
             <ScoreAlgae callback={() => setShowScoreAlgaeOptions(true)} />
-          </FieldButton>
+          </Zone>
         )}
       </>
     );
   }
 
   return (
-    <div>
-      <h1>Holding Algae</h1>
-      <FieldImage />
+    <Field>
+      <Zone zone={'driver-station'}>
+        <h1>Holding Algae</h1>
+      </Zone>
       {
         //
         // Auto & Teleop buttons
         //
       }
-      <FieldButton x={175} y={0} w={32} h={16}>
-        <AutoTeleopSwitch />
-      </FieldButton>
       {scoreAlgaeOptions()}
-      <FieldButton x={75} y={300} w={32} h={16}>
+      <Zone zone="reef-front-right">
         <DropAlgae mode={holding_algae} />
-      </FieldButton>
+      </Zone>
       {showPickupCoralControls()}
-      <FieldButton x={325} y={275} w={24} h={16}>
+      <Zone zone="reef-right">
         <RemoveAlgaeRemove mode={holding_algae} />
-      </FieldButton>
+      </Zone>
       {
         //
         // Teleop only buttons
@@ -75,16 +73,16 @@ function HoldingAlgae() {
       }
       {currentPhase === Phase.teleop && (
         <>
-          <FieldButton x={32} y={32} w={32} h={16}>
+          <Zone zone="start-zone" classes={'top left'}>
             <Defence />
-          </FieldButton>
-          <FieldButton x={325} y={450} w={64} h={16}>
+          </Zone>
+          <Zone zone="right-station" classes={'bottom right'}>
             <SetPhaseButton
               currentMode={holding_algae}
               desiredPhase={Phase.endgame}
               label={'Endgame --->'}
             />
-          </FieldButton>
+          </Zone>
         </>
       )}
       {
@@ -94,18 +92,27 @@ function HoldingAlgae() {
       }
       {currentPhase === Phase.auto && (
         <>
-          <FieldButton x={125} y={400} w={16} h={16}>
-            <PickupCoralAuto mode={holding_algae} />
-          </FieldButton>
-          <FieldButton x={175} y={400} w={16} h={16}>
-            <PickupCoralAuto mode={holding_algae} />
-          </FieldButton>
-          <FieldButton x={225} y={400} w={16} h={16}>
-            <PickupCoralAuto mode={holding_algae} />
-          </FieldButton>
+          <Zone zone="reef-front" classes={'bottom'}>
+            <PickupCoralAuto
+              mode={holding_algae}
+              location={CoralLocation.autoCenter}
+            />
+          </Zone>
+          <Zone zone="reef-front-left" classes={'bottom right'}>
+            <PickupCoralAuto
+              mode={holding_algae}
+              location={CoralLocation.autoLeft}
+            />
+          </Zone>
+          <Zone zone="reef-front-right" classes={'bottom left'}>
+            <PickupCoralAuto
+              mode={holding_algae}
+              location={CoralLocation.autoRight}
+            />
+          </Zone>
         </>
       )}
-    </div>
+    </Field>
   );
 }
 export default HoldingAlgae;

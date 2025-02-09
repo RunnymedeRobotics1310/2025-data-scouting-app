@@ -4,14 +4,13 @@ import { AlgaeLocation, pickupAlgae } from '../functions/pickupAlgae.ts';
 
 type PropTypes = {
   mode: Mode;
+  location: AlgaeLocation;
 };
 function PickupAlgaeAuto(props: PropTypes) {
   const navigate = useNavigate();
   const mode = props.mode;
   return (
-    <button
-      onClick={() => navigate(pickupAlgae(mode, AlgaeLocation.auto1).url)}
-    >
+    <button onClick={() => navigate(pickupAlgae(mode, props.location).url)}>
       Auto Algae
     </button>
   );

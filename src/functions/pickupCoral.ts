@@ -8,7 +8,9 @@ export enum CoralLocation {
   ground = 'Ground',
   left = 'Left Station',
   right = 'Right Station',
-  auto = 'Auto',
+  autoLeft = 'Left Auto',
+  autoCenter = 'Center Auto',
+  autoRight = 'Right Auto',
 }
 
 export function pickupCoral(startingMode: Mode, location: CoralLocation): Mode {

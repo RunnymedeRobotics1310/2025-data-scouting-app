@@ -48,6 +48,7 @@ function MatchSelect() {
       {lineup && (
         <>
           <button
+            className={'allianceRed'}
             id={'red1'}
             onClick={() => {
               setTeamNumber(lineup[0]);
@@ -58,6 +59,7 @@ function MatchSelect() {
             {lineup[0]}
           </button>
           <button
+            className={'allianceRed'}
             id={'red2'}
             onClick={() => {
               setTeamNumber(lineup[1]);
@@ -68,6 +70,7 @@ function MatchSelect() {
             {lineup[1]}
           </button>
           <button
+            className={'allianceRed'}
             id={'red3'}
             onClick={() => {
               setTeamNumber(lineup[2]);
@@ -79,6 +82,7 @@ function MatchSelect() {
           </button>
           <br />
           <button
+            className={'allianceBlue'}
             id={'blue1'}
             onClick={() => {
               setTeamNumber(lineup[3]);
@@ -89,6 +93,7 @@ function MatchSelect() {
             {lineup[3]}
           </button>
           <button
+            className={'allianceBlue'}
             id={'blue2'}
             onClick={() => {
               setTeamNumber(lineup[4]);
@@ -99,6 +104,7 @@ function MatchSelect() {
             {lineup[4]}
           </button>
           <button
+            className={'allianceBlue'}
             id={'blue3'}
             onClick={() => {
               setTeamNumber(lineup[5]);

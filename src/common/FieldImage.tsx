@@ -7,7 +7,7 @@ export default function () {
     return (
       <img
         src={'/requirements/fields/reefscape-red.png'}
-        width={'350'}
+        className={'field-image'}
         alt={'Field'}
       />
     );
@@ -15,7 +15,7 @@ export default function () {
     return (
       <img
         src={'/requirements/fields/reefscape-blue.png'}
-        width={'350'}
+        className={'field-image'}
         alt={'Field'}
       />
     );

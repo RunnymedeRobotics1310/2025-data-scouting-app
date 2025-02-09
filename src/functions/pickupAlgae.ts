@@ -6,7 +6,9 @@ import { holding_both } from '../modes/holding_both.ts';
 
 export enum AlgaeLocation {
   ground = 'Ground',
-  auto = 'Auto',
+  autoLeft = 'Left Auto',
+  autoCenter = 'Center Auto',
+  autoRight = 'Right Auto',
 }
 
 export function pickupAlgae(startingMode: Mode, location: AlgaeLocation): Mode {

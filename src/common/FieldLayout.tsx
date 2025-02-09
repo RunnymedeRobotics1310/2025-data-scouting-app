@@ -1,18 +1,21 @@
 import { Outlet } from 'react-router-dom';
 import { useContext } from 'react';
 import TeamContext from '../context/TeamContext.tsx';
+import AutoTeleopSwitch from '../buttons/AutoTeleopSwitch.tsx';
+import AllianceContext from '../context/AllianceContext.tsx';
 
 function FieldLayout() {
   const { teamNumber } = useContext(TeamContext);
+  const { isRed } = useContext(AllianceContext);
   return (
     <div>
-      <p>I am the frame around the game board - this is the top</p>
-      {teamNumber}
-      <button>Sync</button>
-      <button>Penalties</button>
-      <button>whatever</button>
+      <span className={isRed ? 'allianceRed' : 'allianceBlue'}>
+        {teamNumber}
+      </span>
+      <button>S</button>
+      <AutoTeleopSwitch />
+      <button>=</button>
       <Outlet />
-      <p>I am the frame around the game board - this is the bottom</p>
     </div>
   );
 }

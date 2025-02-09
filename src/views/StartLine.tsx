@@ -1,17 +1,18 @@
 import LeaveStartLine from '../buttons/LeaveStartLine.tsx';
-import FieldButton from '../common/FieldButton.tsx';
-import FieldImage from '../common/FieldImage.tsx';
+import Zone from '../common/Zone.tsx';
+import Field from '../common/Field.tsx';
 
 function StartLine() {
   return (
-    <div>
-      <h1>Start Line</h1>
+    <Field>
+      <Zone zone={'driver-station'}>
+        <h1>Start Line</h1>
+      </Zone>
 
-      <FieldImage />
-      <FieldButton x={175} y={40} w={300} h={32}>
+      <Zone zone="start-zone">
         <LeaveStartLine />
-      </FieldButton>
-    </div>
+      </Zone>
+    </Field>
   );
 }
 export default StartLine;

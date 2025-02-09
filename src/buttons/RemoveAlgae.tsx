@@ -1,3 +1,5 @@
+import Algae from '../common/Algae.tsx';
+
 type PropTypes = {
   callback: any;
 };
@@ -11,7 +13,7 @@ function RemoveAlgae(props: PropTypes) {
         cb();
       }}
     >
-      Remove Algae
+      Remove <Algae />
     </button>
   );
 }

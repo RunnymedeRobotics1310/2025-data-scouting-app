@@ -1,0 +1,177 @@
+/*
+ *
+ * LAYOUT
+ *
+ */
+.red-field-container,
+.blue-field-container{
+    display: grid;
+    grid-template-columns: 194fr 441fr 458fr 445fr 198fr;
+    grid-template-rows: 301fr 205fr 206fr 397fr 264fr 408fr;
+    grid-template-areas:
+        "left barge-left barge barge-right right"
+        "left start-zone start-zone start-zone right"
+        "left . behind-reef . right"
+        "left reef-left reef reef-right right"
+        "left reef-front-left reef-front reef-front-right right"
+        "left left-station driver-station right-station right";
+    aspect-ratio: 1736/1791;
+
+}
+.barge-left{
+    grid-area: barge-left;
+}
+.barge{
+    grid-area: barge;
+}
+.barge-right{
+    grid-area: barge-right;
+}
+.start-zone{
+    grid-area: start-zone;
+}
+.behind-reef{
+    grid-area: behind-reef;
+}
+.reef-left{
+    grid-area: reef-left;
+}
+.reef{
+    grid-area: reef;
+}
+.reef-right{
+    grid-area: reef-right;
+}
+.reef-front-left{
+    grid-area: reef-front-left;
+}
+.reef-front{
+    grid-area: reef-front;
+}
+.reef-front-right{
+    grid-area: reef-front-right;
+}
+.left-station{
+    grid-area: left-station;
+}
+.driver-station{
+    grid-area: driver-station;
+}
+.right-station{
+    grid-area: right-station;
+}
+
+.red-field-container > div {
+    min-height: 0;
+    min-width: 0;
+    justify-self: center;
+    align-self: center;
+    overflow: clip;
+}
+
+.left {
+    justify-self: left;
+}
+.right {
+    justify-self: right;
+}
+.top {
+    align-self: start;
+
+}
+.bottom {
+    align-self: end;
+}
+
+
+
+/*
+ *
+ * COLORS
+ *
+ */
+:root {
+    --primary-text: #222;
+    --primary-background: #eed;
+    --secondary-text: blue;
+    --secondary-background: #eed;
+    --alliance-red: red;
+    --alliance-blue: navy;
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --primary-text: #eed;
+        --primary-background: #222;
+        --secondary-text: skyblue;
+        --secondary-background: #222;
+        --alliance-red: red;
+        --alliance-blue: dodgerblue;
+    }
+}
+html {
+    color: var(--primary-text);
+    background-color: var(--primary-background);
+}
+a,
+a:visited,
+a:hover,
+a:active {
+    text-decoration: none;
+    color: var(--secondary-text)
+}
+.allianceRed {
+    color: var(--alliance-red)
+}
+.allianceBlue {
+    color: var(--alliance-blue)
+}
+
+
+/*
+ *
+ * TYPOGRAPHY
+ *
+ */
+html {
+    font-family: "Roboto Light", sans-serif;
+}
+
+
+
+/*
+ *
+ * GENERAL STYLING
+ *
+ */
+.red-field-container,
+.blue-field-container{
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.red-field-container{
+    background-image: url("../requirements/fields/reefscape-red.png");
+}
+.blue-field-container{
+    background-image: url("../requirements/fields/reefscape-blue.png");
+}
+
+
+/*
+ *
+ * COMPONENTS
+ *
+ */
+.algae {
+    font-weight: 900;
+    color: lightseagreen;
+    text-decoration: none;
+
+}
+.coral {
+    font-weight: 900;
+    color: lightgrey;
+}
+button {
+    font-size: 0.8rem;
+}
