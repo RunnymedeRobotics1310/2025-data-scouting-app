@@ -27,19 +27,20 @@ function Checklist() {
         />
         Fall over
       </label>
-
       {fall && (
-        <label htmlFor={'recover'}>
-          <input
-            type={'checkbox'}
-            checked={recover}
-            id={'recover'}
-            onChange={() => setRecover(!recover)}
-          />
-          Recover
-        </label>
+        <>
+          <label htmlFor={'recover'}>
+            <input
+              type={'checkbox'}
+              checked={recover}
+              id={'recover'}
+              onChange={() => setRecover(!recover)}
+            />
+            Recover
+          </label>
+        </>
       )}
-
+      <br />
       <label htmlFor={'shut-down'}>
         <input
           type={'checkbox'}
@@ -49,7 +50,7 @@ function Checklist() {
         />
         Shut down
       </label>
-
+      <br />
       <label htmlFor={'defence'}>
         <input
           type={'checkbox'}
@@ -59,19 +60,20 @@ function Checklist() {
         />
         Play defence
       </label>
-
       {defence && (
-        <label htmlFor={'effectively'}>
-          <input
-            type={'checkbox'}
-            checked={effectively}
-            id={'effectively'}
-            onChange={() => setEffectively(!effectively)}
-          />
-          Effectively
-        </label>
+        <>
+          <label htmlFor={'effectively'}>
+            <input
+              type={'checkbox'}
+              checked={effectively}
+              id={'effectively'}
+              onChange={() => setEffectively(!effectively)}
+            />
+            Effectively
+          </label>
+        </>
       )}
-
+      <br />
       <label htmlFor={'collector'}>
         <input
           type={'checkbox'}
@@ -81,7 +83,7 @@ function Checklist() {
         />
         Play collector
       </label>
-
+      <br />
       <label htmlFor={'foul'}>
         <input
           type={'checkbox'}
@@ -91,7 +93,7 @@ function Checklist() {
         />
         Foul often
       </label>
-
+      <br />
       <label htmlFor={'score'}>
         <input
           type={'checkbox'}
@@ -101,7 +103,7 @@ function Checklist() {
         />
         Score consistently
       </label>
-
+      <br />
       <label htmlFor={'fast'}>
         <input
           type={'checkbox'}
@@ -111,7 +113,7 @@ function Checklist() {
         />
         Drive fast
       </label>
-
+      <br />
       <button
         onClick={() =>
           navigate(

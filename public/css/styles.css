@@ -67,6 +67,8 @@ html {
     grid-area: right-station;
 }
 
+
+.blue-field-container,
 .red-field-container > div {
     min-height: 0;
     min-width: 0;
@@ -154,6 +156,21 @@ footer {
     }
 }
 
+.red-auto-map,
+.blue-auto-map {
+    justify-self: center;
+    align-self: center;
+    display: grid;
+    grid-template-areas: "left center right";
+    aspect-ratio: 1376/494;
+    width: 75%;
+    div{
+        justify-self: center;
+        align-self: center;
+    }
+}
+
+
 /*
  *
  * COLORS
@@ -198,6 +215,9 @@ a:active {
 #layout > header {
     background-color: var(--title-bar-background)
 }
+.gold {
+    fill: goldenrod;
+}
 
 
 /*
@@ -231,6 +251,25 @@ html {
 }
 .blue-field-container{
     background-image: url("../requirements/fields/reefscape-blue.png");
+}
+
+.red-auto-map,
+.blue-auto-map {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.red-auto-map{
+    background-image: url("../requirements/fields/automap-red.png");
+}
+.blue-auto-map{
+    background-image: url("../requirements/fields/automap-blue.png");
+}
+
+.camoButton{
+    background: none;
+    outline: none;
+    border: none;
 }
 
 

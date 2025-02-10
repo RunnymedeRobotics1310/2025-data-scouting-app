@@ -4,15 +4,16 @@ import CoralContext from '../context/CoralContext.tsx';
 import { SetPhaseButton } from '../functions/setPhase.tsx';
 import { match_config } from '../modes/match_config.ts';
 import { Phase } from '../common/phase.ts';
+import AllianceContext from '../context/AllianceContext.tsx';
 
 function MatchConfig() {
   // const [preloaded, setPreloaded] = useState(false);
   const [position, setPosition] = useState(RobotPosition.left);
   const { preloaded, setPreloaded } = useContext(CoralContext);
+  const { isRed } = useContext(AllianceContext);
   return (
     <>
-      <h1>Match Config</h1>
-
+      <br />
       <label htmlFor={'preloaded'}>
         <input
           type={'checkbox'}
@@ -23,34 +24,42 @@ function MatchConfig() {
         Preloaded
       </label>
 
-      <button
-        id={'left'}
-        onClick={() => {
-          setPosition(RobotPosition.left);
-        }}
-        disabled={position == RobotPosition.left}
-      >
-        Left
-      </button>
-      <button
-        id={'center'}
-        onClick={() => {
-          setPosition(RobotPosition.center);
-        }}
-        disabled={position == RobotPosition.center}
-      >
-        Center
-      </button>
-      <button
-        id={'right'}
-        onClick={() => {
-          setPosition(RobotPosition.right);
-        }}
-        disabled={position == RobotPosition.right}
-      >
-        Right
-      </button>
-
+      <h4>Position</h4>
+      <section className={isRed ? 'red-auto-map' : 'blue-auto-map'}>
+        <div>
+          <button
+            id={'left'}
+            onClick={() => {
+              setPosition(RobotPosition.left);
+            }}
+            disabled={position == RobotPosition.left}
+          >
+            Left
+          </button>
+        </div>
+        <div>
+          <button
+            id={'center'}
+            onClick={() => {
+              setPosition(RobotPosition.center);
+            }}
+            disabled={position == RobotPosition.center}
+          >
+            Center
+          </button>
+        </div>
+        <div>
+          <button
+            id={'right'}
+            onClick={() => {
+              setPosition(RobotPosition.right);
+            }}
+            disabled={position == RobotPosition.right}
+          >
+            Right
+          </button>
+        </div>
+      </section>
       <br />
 
       <SetPhaseButton

@@ -18,33 +18,29 @@ function MatchSelect() {
     <>
       <h1>Match Select</h1>
 
-      <label htmlFor={'name'}>
-        Name
-        <input
-          type={'text'}
-          id={'name'}
-          onChange={e => setName(e.target.value)}
-        />
-      </label>
-
-      <label htmlFor={'name'}>
-        Match Number
-        <input
-          type={'number'}
-          id={'matchNumber'}
-          onChange={e => {
-            const n = e.target.valueAsNumber;
-            if (n > 0 && n <= 1000) {
-              setMatchNumber(n);
-              setLineup(getTeamsForMatch(n));
-            } else {
-              setMatchNumber(0);
-              setLineup(undefined);
-            }
-          }}
-        />
-      </label>
-
+      <input
+        type={'text'}
+        id={'name'}
+        placeholder={'Name'}
+        onChange={e => setName(e.target.value)}
+      />
+      <br />
+      <input
+        type={'number'}
+        id={'matchNumber'}
+        placeholder={'Match Number'}
+        onChange={e => {
+          const n = e.target.valueAsNumber;
+          if (n > 0 && n <= 1000) {
+            setMatchNumber(n);
+            setLineup(getTeamsForMatch(n));
+          } else {
+            setMatchNumber(0);
+            setLineup(undefined);
+          }
+        }}
+      />
+      <br />
       {lineup && (
         <>
           <button
@@ -116,7 +112,7 @@ function MatchSelect() {
           </button>
         </>
       )}
-
+      <br />
       <label htmlFor={'rematch'}>
         <input
           type={'checkbox'}
@@ -126,6 +122,7 @@ function MatchSelect() {
         />
         Rematch
       </label>
+      <br />
       <button
         onClick={() =>
           navigate(selectMatch(name, matchNumber, teamNumber, checked).url)

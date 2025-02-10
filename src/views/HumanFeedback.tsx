@@ -3,6 +3,7 @@ import { saveFeedback } from '../functions/saveFeedback.ts';
 import { SetPhaseButton } from '../functions/setPhase.tsx';
 import { human_feedback } from '../modes/human_feedback.ts';
 import { Phase } from '../common/phase.ts';
+import Star from '../icons/Star.tsx';
 
 function HumanFeedback() {
   const [comment, setComment] = useState('');
@@ -14,15 +15,14 @@ function HumanFeedback() {
   return (
     <>
       <h1>Human Feedback</h1>
-      <label htmlFor={'comment'}>
-        type here
-        <input
-          type={'text'}
-          id={'comment'}
-          onChange={e => setComment(e.target.value)}
-        />
-      </label>
-      RPs
+      <input
+        type={'text'}
+        id={'comment'}
+        placeholder={'type here'}
+        onChange={e => setComment(e.target.value)}
+      />
+      <br />
+      <p>Ranking Points</p>
       <label htmlFor={'auto'}>
         <input
           type={'checkbox'}
@@ -50,6 +50,7 @@ function HumanFeedback() {
         />
         Barge
       </label>
+      <br />
       Rating:
       <input
         type={'checkbox'}
@@ -82,6 +83,9 @@ function HumanFeedback() {
         onChange={() => setStars(5)}
       />
       <br />
+      <span className={'gold'}>
+        <Star />
+      </span>
       <SetPhaseButton
         currentMode={human_feedback}
         desiredPhase={Phase.pre_match}
