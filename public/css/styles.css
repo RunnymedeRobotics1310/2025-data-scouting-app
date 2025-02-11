@@ -169,6 +169,18 @@ footer {
     }
 }
 
+main {
+    padding: 0 25px;
+}
+@media screen and (min-width: 900px) {
+    #layout > header,
+    main,
+    footer {
+        padding-left: calc(10% + 25px);
+        padding-right: calc(10% + 25px);
+    }
+}
+
 
 /*
  *
@@ -211,8 +223,8 @@ a:active {
 .allianceBlue {
     color: var(--alliance-blue)
 }
-#layout > header {
-    background-color: var(--title-bar-background)
+#layout > header{
+    background-color: var(--title-bar-background);
 }
 .gold {
     fill: goldenrod;
@@ -227,7 +239,6 @@ a:active {
 .star-empty{
     fill: var(--primary-background);
 }
-
 
 /*
  *

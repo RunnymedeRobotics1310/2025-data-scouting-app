@@ -9,7 +9,7 @@ function FieldLayout() {
   const { teamNumber } = useContext(TeamContext);
   const { isRed } = useContext(AllianceContext);
   return (
-    <main id="field-layout">
+    <section id="field-layout">
       <header>
         <span className={isRed ? 'team allianceRed' : 'team allianceBlue'}>
           Team {teamNumber}
@@ -24,7 +24,7 @@ function FieldLayout() {
         </span>
       </header>
       <Outlet />
-    </main>
+    </section>
   );
 }
 export default FieldLayout;

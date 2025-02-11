@@ -35,7 +35,9 @@ function AppLayout() {
           </span>
         </div>
       </header>
-      <Outlet />
+      <main>
+        <Outlet />
+      </main>
       <footer>
         <div>&copy; 2025 Runnymede Robotics Team 1310</div>
         <menu id="menu">
