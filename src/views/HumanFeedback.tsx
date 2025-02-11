@@ -52,40 +52,22 @@ function HumanFeedback() {
       </label>
       <br />
       Rating:
-      <input
-        type={'checkbox'}
-        checked={stars >= 1}
-        id={'star1'}
-        onChange={() => setStars(1)}
-      />
-      <input
-        type={'checkbox'}
-        checked={stars >= 2}
-        id={'star2'}
-        onChange={() => setStars(2)}
-      />
-      <input
-        type={'checkbox'}
-        checked={stars >= 3}
-        id={'star3'}
-        onChange={() => setStars(3)}
-      />
-      <input
-        type={'checkbox'}
-        checked={stars >= 4}
-        id={'star4'}
-        onChange={() => setStars(4)}
-      />
-      <input
-        type={'checkbox'}
-        checked={stars >= 5}
-        id={'star5'}
-        onChange={() => setStars(5)}
-      />
+      <button className={'camoButton'} id={'star1'} onClick={() => setStars(1)}>
+        <Star filled={stars >= 1} />
+      </button>
+      <button className={'camoButton'} id={'star2'} onClick={() => setStars(2)}>
+        <Star filled={stars >= 2} />
+      </button>
+      <button className={'camoButton'} id={'star3'} onClick={() => setStars(3)}>
+        <Star filled={stars >= 3} />
+      </button>
+      <button className={'camoButton'} id={'star4'} onClick={() => setStars(4)}>
+        <Star filled={stars >= 4} />
+      </button>
+      <button className={'camoButton'} id={'star5'} onClick={() => setStars(5)}>
+        <Star filled={stars >= 5} />
+      </button>
       <br />
-      <span className={'gold'}>
-        <Star />
-      </span>
       <SetPhaseButton
         currentMode={human_feedback}
         desiredPhase={Phase.pre_match}

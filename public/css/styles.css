@@ -68,7 +68,6 @@ html {
 }
 
 
-.blue-field-container,
 .red-field-container > div {
     min-height: 0;
     min-width: 0;
@@ -78,17 +77,17 @@ html {
 }
 
 .left {
-    justify-self: left;
+    justify-self: left !important;
 }
 .right {
-    justify-self: right;
+    justify-self: right !important;
 }
 .top {
-    align-self: start;
+    align-self: start !important;
 
 }
 .bottom {
-    align-self: end;
+    align-self: end !important;
 }
 
 #layout {
@@ -217,6 +216,16 @@ a:active {
 }
 .gold {
     fill: goldenrod;
+}
+
+.star-outline{
+    fill: var(--primary-text);
+}
+.star-filled{
+    fill: goldenrod;
+}
+.star-empty{
+    fill: var(--primary-background);
 }
 
 

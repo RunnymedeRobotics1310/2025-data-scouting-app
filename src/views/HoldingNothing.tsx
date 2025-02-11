@@ -2,7 +2,6 @@ import { useContext, useState } from 'react';
 import { holding_nothing } from '../modes/holding_nothing.ts';
 import RemoveAlgaeOptions from './sub/RemoveAlgaeOptions.tsx';
 import CoralPickupOptions from './sub/CoralPickupOptions.tsx';
-import { SetPhaseButton } from '../functions/setPhase.tsx';
 import PhaseContext from '../context/PhaseContext.tsx';
 import { Phase } from '../common/phase.ts';
 import RemoveAlgae from '../buttons/RemoveAlgae.tsx';
@@ -105,14 +104,6 @@ function HoldingNothing() {
         <>
           <Zone zone="start-zone" classes={'left'}>
             <Defence />
-          </Zone>
-          <Zone zone="right-station" classes={'bottom right'}>
-            <SetPhaseButton
-              currentMode={holding_nothing}
-              desiredPhase={Phase.endgame}
-              label={'Endgame --->'}
-              callback={null}
-            />
           </Zone>
         </>
       )}

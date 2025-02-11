@@ -1,8 +1,14 @@
+import Algae from '../common/Algae.tsx';
+
 type PropTypes = {
   callback: any;
 };
 function ScoreAlgae(props: PropTypes) {
   const cb = props.callback;
-  return <button onClick={() => cb()}>Score Algae</button>;
+  return (
+    <button onClick={() => cb()}>
+      Score <Algae />
+    </button>
+  );
 }
 export default ScoreAlgae;

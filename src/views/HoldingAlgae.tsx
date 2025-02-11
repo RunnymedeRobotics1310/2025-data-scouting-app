@@ -2,7 +2,6 @@ import { useContext, useState } from 'react';
 import CoralPickupOptions from './sub/CoralPickupOptions.tsx';
 import { holding_algae } from '../modes/holding_algae.ts';
 import AlgaeScoreOptions from './sub/AlgaeScoreOptions.tsx';
-import { SetPhaseButton } from '../functions/setPhase.tsx';
 import PhaseContext from '../context/PhaseContext.tsx';
 import { Phase } from '../common/phase.ts';
 import RemoveAlgaeRemove from '../buttons/RemoveAlgaeRemove.tsx';
@@ -75,13 +74,6 @@ function HoldingAlgae() {
         <>
           <Zone zone="start-zone" classes={'top left'}>
             <Defence />
-          </Zone>
-          <Zone zone="right-station" classes={'bottom right'}>
-            <SetPhaseButton
-              currentMode={holding_algae}
-              desiredPhase={Phase.endgame}
-              label={'Endgame --->'}
-            />
           </Zone>
         </>
       )}

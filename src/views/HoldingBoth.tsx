@@ -2,7 +2,6 @@ import { useContext, useState } from 'react';
 import { holding_both } from '../modes/holding_both.ts';
 import ReefScoreOptions from './sub/ReefScoreOptions.tsx';
 import AlgaeScoreOptions from './sub/AlgaeScoreOptions.tsx';
-import { SetPhaseButton } from '../functions/setPhase.tsx';
 import { Phase } from '../common/phase.ts';
 import RemoveAlgaeRemove from '../buttons/RemoveAlgaeRemove.tsx';
 import Defence from '../buttons/Defence.tsx';
@@ -76,13 +75,6 @@ function HoldingBoth() {
         <>
           <Zone zone="start-zone" classes={'top left'}>
             <Defence />
-          </Zone>
-          <Zone zone="right-station" classes={'bottom right'}>
-            <SetPhaseButton
-              currentMode={holding_both}
-              desiredPhase={Phase.endgame}
-              label={'Endgame --->'}
-            />
           </Zone>
         </>
       )}
