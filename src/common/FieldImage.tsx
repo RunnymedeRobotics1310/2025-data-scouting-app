@@ -1,8 +1,9 @@
 import { useContext } from 'react';
-import AllianceContext from '../context/AllianceContext.tsx';
+import GameContext from '../context/GameContext.tsx';
 
 export default function () {
-  const { isRed } = useContext(AllianceContext);
+  const { gamestate } = useContext(GameContext);
+  const { isRed } = gamestate;
   if (isRed) {
     return (
       <img

@@ -1,11 +1,11 @@
 import { Link, Outlet } from 'react-router-dom';
 import Sync from '../icons/Sync.tsx';
-import { useContext } from 'react';
-import GameContext from '../context/GameContext.tsx';
+// import { useContext } from 'react';
+// import GameContext from '../context/GameContext.tsx';
 
 function AppLayout() {
-  const { gamestate, setGamestate } = useContext(GameContext);
-  const { boole } = gamestate;
+  // const { gamestate, setGamestate } = useContext(GameContext);
+  // const { boole } = gamestate;
   function sync() {
     console.log("Help me, I'm syncing!");
   }
@@ -17,17 +17,6 @@ function AppLayout() {
         </div>
         <div id="title">
           <img src="/images/title.png" alt="1310 Raven Eye" />
-          <button
-            onClick={() =>
-              setGamestate({
-                ...gamestate,
-                boole: !boole,
-                message: `The current date is ${new Date()}`,
-              })
-            }
-          >
-            {boole ? 'yay' : 'boo'} {gamestate.message}
-          </button>
         </div>
         <div className={'sync-button'}>
           <span className={'button'} onClick={() => sync()}>

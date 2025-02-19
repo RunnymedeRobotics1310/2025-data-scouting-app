@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { saveChecklist } from '../functions/saveChecklist.ts';
+import gameContext from '../context/GameContext.tsx';
 
 function Checklist() {
   const navigate = useNavigate();
@@ -13,133 +14,158 @@ function Checklist() {
   const [foul, setFoul] = useState(false);
   const [score, setScore] = useState(false);
   const [fast, setFast] = useState(false);
+  const { gamestate } = useContext(gameContext);
+  const { isRed, teamNumber } = gamestate;
 
   return (
-    <>
-      <h1>Did the robot...</h1>
+    <div className={'general-layout'}>
+      <div className={'comments-checklist'}>
+        <label id={'external-team-number'}>
+          <span className={isRed ? 'team allianceRed' : 'team allianceBlue'}>
+            Team {teamNumber}
+          </span>
+        </label>
 
-      <label htmlFor={'fall-over'}>
-        <input
-          type={'checkbox'}
-          checked={fall}
-          id={'fall-over'}
-          onChange={() => setFall(!fall)}
-        />
-        Fall over
-      </label>
-      {fall && (
-        <>
-          <label htmlFor={'recover'}>
-            <input
-              type={'checkbox'}
-              checked={recover}
-              id={'recover'}
-              onChange={() => setRecover(!recover)}
-            />
-            Recover
-          </label>
-        </>
-      )}
-      <br />
-      <label htmlFor={'shut-down'}>
-        <input
-          type={'checkbox'}
-          checked={shutDown}
-          id={'shut-down'}
-          onChange={() => setShutDown(!shutDown)}
-        />
-        Shut down
-      </label>
-      <br />
-      <label htmlFor={'defence'}>
-        <input
-          type={'checkbox'}
-          checked={defence}
-          id={'defence'}
-          onChange={() => setDefence(!defence)}
-        />
-        Play defence
-      </label>
-      {defence && (
-        <>
-          <label htmlFor={'effectively'}>
-            <input
-              type={'checkbox'}
-              checked={effectively}
-              id={'effectively'}
-              onChange={() => setEffectively(!effectively)}
-            />
-            Effectively
-          </label>
-        </>
-      )}
-      <br />
-      <label htmlFor={'collector'}>
-        <input
-          type={'checkbox'}
-          checked={collector}
-          id={'collector'}
-          onChange={() => setCollector(!collector)}
-        />
-        Play collector
-      </label>
-      <br />
-      <label htmlFor={'foul'}>
-        <input
-          type={'checkbox'}
-          checked={foul}
-          id={'foul'}
-          onChange={() => setFoul(!foul)}
-        />
-        Foul often
-      </label>
-      <br />
-      <label htmlFor={'score'}>
-        <input
-          type={'checkbox'}
-          checked={score}
-          id={'score'}
-          onChange={() => setScore(!score)}
-        />
-        Score consistently
-      </label>
-      <br />
-      <label htmlFor={'fast'}>
-        <input
-          type={'checkbox'}
-          checked={fast}
-          id={'fast'}
-          onChange={() => setFast(!fast)}
-        />
-        Drive fast
-      </label>
-      <br />
-      <button
-        onClick={() =>
-          navigate(
-            saveChecklist(
-              fall,
-              recover,
-              shutDown,
-              defence,
-              effectively,
-              collector,
-              foul,
-              score,
-              fast,
-            ).url,
-          )
-        }
-      >
-        Next ---&gt;
-      </button>
-      <br />
-      <img
-        src={'/requirements/screens/checklist.jpeg'}
-        width={'25%'}
-        alt={'Did the robot...'}
-      />
-    </>
+        <h1>Did the robot...</h1>
+
+        <div className={'checkboxes'}>
+          <section className={'checklist'}>
+            <label className={'checkbox-and-label shared '}>
+              <input
+                type={'checkbox'}
+                checked={fall}
+                id={'fall-over'}
+                onChange={() => setFall(!fall)}
+              />
+              <span>Fall over</span>
+            </label>
+            {fall && (
+              <label className={'checkbox-and-label shared'}>
+                <input
+                  type={'checkbox'}
+                  checked={recover}
+                  id={'recover'}
+                  onChange={() => setRecover(!recover)}
+                />
+                <span>Recover</span>
+              </label>
+            )}
+          </section>
+
+          <section className={'checklist'}>
+            <label className={'checkbox-and-label'}>
+              <input
+                type={'checkbox'}
+                checked={shutDown}
+                id={'shut-down'}
+                onChange={() => setShutDown(!shutDown)}
+              />
+              <span>Shut down</span>
+            </label>
+          </section>
+
+          <section className={'checklist'}>
+            <label className={'checkbox-and-label shared '}>
+              <input
+                type={'checkbox'}
+                checked={defence}
+                id={'defence'}
+                onChange={() => setDefence(!defence)}
+              />
+              <span>Play defence</span>
+            </label>
+            {defence && (
+              <label className={'checkbox-and-label shared'}>
+                <input
+                  type={'checkbox'}
+                  checked={effectively}
+                  id={'effectively'}
+                  onChange={() => setEffectively(!effectively)}
+                />
+                <span>Effectively</span>
+              </label>
+            )}
+          </section>
+
+          <section className={'checklist'}>
+            <label className={'checkbox-and-label '}>
+              <input
+                type={'checkbox'}
+                checked={collector}
+                id={'collector'}
+                onChange={() => setCollector(!collector)}
+              />
+              <span>Play collector</span>
+            </label>
+          </section>
+
+          <section className={'checklist'}>
+            <label className={'checkbox-and-label '}>
+              <input
+                type={'checkbox'}
+                checked={foul}
+                id={'foul'}
+                onChange={() => setFoul(!foul)}
+              />
+              <span>Foul often</span>
+            </label>
+          </section>
+
+          <section className={'checklist'}>
+            <label className={'checkbox-and-label '}>
+              <input
+                type={'checkbox'}
+                checked={score}
+                id={'score'}
+                onChange={() => setScore(!score)}
+              />
+              <span>Score consistently</span>
+            </label>
+          </section>
+
+          <section className={'checklist'}>
+            <label className={'checkbox-and-label '}>
+              <input
+                type={'checkbox'}
+                checked={fast}
+                id={'fast'}
+                onChange={() => setFast(!fast)}
+              />
+              <span>Drive fast</span>
+            </label>
+          </section>
+        </div>
+
+        <label className={'next-button'} id={'checklist'}>
+          <button
+            onClick={() =>
+              navigate(
+                saveChecklist(
+                  fall,
+                  recover,
+                  shutDown,
+                  defence,
+                  effectively,
+                  collector,
+                  foul,
+                  score,
+                  fast,
+                ).url,
+              )
+            }
+          >
+            Next ---&gt;
+          </button>
+        </label>
+
+        {/*<img*/}
+        {/*  src={'/requirements/screens/checklist.jpeg'}*/}
+        {/*  width={'25%'}*/}
+        {/*  alt={'Did the robot...'}*/}
+        {/*/>*/}
+      </div>
+    </div>
   );
 }
+
 export default Checklist;

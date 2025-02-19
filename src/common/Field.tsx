@@ -1,8 +1,9 @@
 import { useContext } from 'react';
-import AllianceContext from '../context/AllianceContext.tsx';
+import GameContext from '../context/GameContext.tsx';
 
 function Field(props: any) {
-  const { isRed } = useContext(AllianceContext);
+  const { gamestate } = useContext(GameContext);
+  const { isRed } = gamestate;
   return (
     <section className={isRed ? 'red-field-container' : 'blue-field-container'}>
       {props.children}

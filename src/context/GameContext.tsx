@@ -4,8 +4,20 @@ import { Phase } from '../common/phase.ts';
 
 export const DEFAULT_GAME_STATE = {
   boole: false,
-  phase: Phase.pre_match,
+  preloaded: false,
+  teamNumber: 0,
+  currentPhase: Phase.pre_match,
+  isRed: true,
   message: 'foo',
+  left: false,
+  holdingCoral: false,
+  holdingAlgae: false,
+  pickedAutoCoralLeft: false,
+  pickedAutoCoralCenter: false,
+  pickedAutoCoralRight: false,
+  pickedAutoAlgaeLeft: false,
+  pickedAutoAlgaeCenter: false,
+  pickedAutoAlgaeRight: false,
 } as GS;
 
 const GameContext: Context<{

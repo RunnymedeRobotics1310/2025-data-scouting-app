@@ -10,13 +10,14 @@ import DropCoral from '../buttons/DropCoral.tsx';
 import DropAlgae from '../buttons/DropAlgae.tsx';
 import Zone from '../common/Zone.tsx';
 import ScoreReef from '../buttons/ScoreReef.tsx';
-import PhaseContext from '../context/PhaseContext.tsx';
 import Field from '../common/Field.tsx';
+import GameContext from '../context/GameContext.tsx';
 
 function HoldingBoth() {
   const [showReefOptions, setShowReefOptions] = useState(false);
   const [showScoreAlgaeOptions, setShowScoreAlgaeOptions] = useState(false);
-  const { currentPhase } = useContext(PhaseContext);
+  const { gamestate } = useContext(GameContext);
+  const { currentPhase } = gamestate;
 
   function showScoreReefControls() {
     return (

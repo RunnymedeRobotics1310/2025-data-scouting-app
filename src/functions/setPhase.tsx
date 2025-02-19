@@ -5,10 +5,10 @@ import { checklist } from '../modes/checklist.ts';
 import { endgame } from '../modes/endgame.ts';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
-import PhaseContext from '../context/PhaseContext.tsx';
 import Button from '../common/Button.tsx';
 import { Phase } from '../common/phase.ts';
 import Loading from '../common/Loading.tsx';
+import GameContext from '../context/GameContext.tsx';
 
 export type SetPhaseRetVal = {
   mode: Mode;
@@ -45,16 +45,16 @@ export type SetPhaseButtonType = {
 };
 
 export function SetPhaseButton(props: SetPhaseButtonType) {
-  const { setCurrentPhase } = useContext(PhaseContext);
+  const { gamestate, setGamestate } = useContext(GameContext);
   const navigate = useNavigate();
 
-  if (!setCurrentPhase) return <Loading />;
+  if (!setGamestate) return <Loading />;
   return (
     <Button
       label={props.label}
       callback={() => {
         props.callback;
-        setCurrentPhase(props.desiredPhase);
+        setGamestate({ ...gamestate, currentPhase: props.desiredPhase });
         navigate(getNextMode(props.currentMode, props.desiredPhase).url);
       }}
     />

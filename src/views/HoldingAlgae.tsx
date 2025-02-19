@@ -2,7 +2,6 @@ import { useContext, useState } from 'react';
 import CoralPickupOptions from './sub/CoralPickupOptions.tsx';
 import { holding_algae } from '../modes/holding_algae.ts';
 import AlgaeScoreOptions from './sub/AlgaeScoreOptions.tsx';
-import PhaseContext from '../context/PhaseContext.tsx';
 import { Phase } from '../common/phase.ts';
 import RemoveAlgaeRemove from '../buttons/RemoveAlgaeRemove.tsx';
 import PickupCoral from '../buttons/PickupCoral.tsx';
@@ -13,12 +12,18 @@ import PickupCoralAuto from '../buttons/PickupCoralAuto.tsx';
 import Zone from '../common/Zone.tsx';
 import Field from '../common/Field.tsx';
 import { CoralLocation } from '../functions/pickupCoral.ts';
+import GameContext from '../context/GameContext.tsx';
 
 function HoldingAlgae() {
   const [showPickupCoralOptions, setShowPickupCoralOptions] = useState(false);
   const [showScoreAlgaeOptions, setShowScoreAlgaeOptions] = useState(false);
-  const { currentPhase } = useContext(PhaseContext);
-
+  const { gamestate } = useContext(GameContext);
+  const {
+    currentPhase,
+    pickedAutoAlgaeLeft,
+    pickedAutoAlgaeCenter,
+    pickedAutoAlgaeRight,
+  } = gamestate;
   function showPickupCoralControls() {
     return (
       <>
@@ -84,24 +89,30 @@ function HoldingAlgae() {
       }
       {currentPhase === Phase.auto && (
         <>
-          <Zone zone="reef-front" classes={'bottom'}>
-            <PickupCoralAuto
-              mode={holding_algae}
-              location={CoralLocation.autoCenter}
-            />
-          </Zone>
-          <Zone zone="reef-front-left" classes={'bottom right'}>
-            <PickupCoralAuto
-              mode={holding_algae}
-              location={CoralLocation.autoLeft}
-            />
-          </Zone>
-          <Zone zone="reef-front-right" classes={'bottom left'}>
-            <PickupCoralAuto
-              mode={holding_algae}
-              location={CoralLocation.autoRight}
-            />
-          </Zone>
+          {!pickedAutoAlgaeCenter && (
+            <Zone zone="reef-front" classes={'bottom'}>
+              <PickupCoralAuto
+                mode={holding_algae}
+                location={CoralLocation.autoCenter}
+              />
+            </Zone>
+          )}
+          {!pickedAutoAlgaeLeft && (
+            <Zone zone="reef-front-left" classes={'bottom right'}>
+              <PickupCoralAuto
+                mode={holding_algae}
+                location={CoralLocation.autoLeft}
+              />
+            </Zone>
+          )}
+          {!pickedAutoAlgaeRight && (
+            <Zone zone="reef-front-right" classes={'bottom left'}>
+              <PickupCoralAuto
+                mode={holding_algae}
+                location={CoralLocation.autoRight}
+              />
+            </Zone>
+          )}
         </>
       )}
     </Field>

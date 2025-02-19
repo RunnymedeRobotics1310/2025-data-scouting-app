@@ -1,13 +1,12 @@
 import { Outlet } from 'react-router-dom';
 import { useContext } from 'react';
-import TeamContext from '../context/TeamContext.tsx';
 import GamePhaseSwitch from '../buttons/GamePhaseSwitch.tsx';
-import AllianceContext from '../context/AllianceContext.tsx';
 import Law from '../icons/Law.tsx';
+import GameContext from '../context/GameContext.tsx';
 
 function FieldLayout() {
-  const { teamNumber } = useContext(TeamContext);
-  const { isRed } = useContext(AllianceContext);
+  const { gamestate } = useContext(GameContext);
+  const { teamNumber, isRed } = gamestate;
   return (
     <section id="field-layout">
       <header>
