@@ -4,19 +4,33 @@
  *
  */
 :root {
-    --header-height: 80px;
-    --footer-height: 65px;
+    --header-height: 5rem;
+    --footer-height: 4rem;
     --border-radius: 0.6rem;
     --min-main-height: calc(100vh - var(--header-height) - var(--footer-height));
 }
 
 
 html {
+    font-size: 16px;
     body {
         margin: 0;
         padding: 0;
     }
 }
+
+@media screen and (min-width: 700px) and (min-height: 500px) {
+    html {
+        font-size: 24px;
+    }
+}
+@media screen and (min-width: 1000px) and (min-height: 1000px) {
+    html {
+        font-size: 32px;
+    }
+
+}
+
 .red-field-container,
 .blue-field-container{
     display: grid;
@@ -343,8 +357,8 @@ input {
     white-space: nowrap;
     input {
         vertical-align: middle;
-        width: 23px;
-        height: 23px;
+        width: 1.25rem;
+        height: 1.25rem;
         border-radius: var(--border-radius);
     }
     span {
@@ -355,7 +369,7 @@ input {
 
 .checklist {
     width: 100%;
-    padding-left: 1rem;
+    padding-left: 4rem;
     padding-bottom: 0.5rem;
     label {
         display: inline-block;
@@ -525,6 +539,7 @@ s
  */
 .red-field-container,
 .blue-field-container{
+    max-height: calc(var(--min-main-height) - var(--header-height));/*todo: fixme it doesn't work*/
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;

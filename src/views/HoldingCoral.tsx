@@ -78,9 +78,6 @@ function HoldingCoral() {
       <Zone zone="driver-station">
         <DropCoral mode={holding_coral} />
       </Zone>
-      <Zone zone="reef-front-right" classes={'top left'}>
-        <PickupAlgae mode={holding_coral} />
-      </Zone>
       {showRemoveAlgaeControls()}
       {
         //
@@ -89,6 +86,9 @@ function HoldingCoral() {
       }
       {currentPhase === Phase.teleop && (
         <>
+          <Zone zone="reef-front-right" classes={'top left'}>
+            <PickupAlgae mode={holding_coral} />
+          </Zone>
           <Zone zone="start-zone" classes={'top left'}>
             <Defence />
           </Zone>

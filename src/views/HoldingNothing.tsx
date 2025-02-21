@@ -100,9 +100,6 @@ function HoldingNothing() {
         //
       }
       {showPickupCoralControls()}
-      <Zone zone="reef-front-right">
-        <PickupAlgae mode={holding_nothing} />
-      </Zone>
       {showRemoveAlgaeControls()}
       {
         //
@@ -111,6 +108,9 @@ function HoldingNothing() {
       }
       {currentPhase === Phase.teleop && (
         <>
+          <Zone zone="reef-front-right">
+            <PickupAlgae mode={holding_nothing} />
+          </Zone>
           <Zone zone="start-zone" classes={'left'}>
             <Defence />
           </Zone>
