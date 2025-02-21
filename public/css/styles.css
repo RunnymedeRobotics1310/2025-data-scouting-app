@@ -142,6 +142,9 @@ html {
     }
 }
 section#field-layout {
+    display: grid;
+    justify-self: center;
+
     min-height: calc(100vh - 2 * (var(--header-height) + 1rem));
     padding: 1rem 0;
     header {
