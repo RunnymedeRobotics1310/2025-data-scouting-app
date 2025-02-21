@@ -10,7 +10,7 @@ function RobotHead() {
         // xmlns:xlink="http://www.w3.org/1999/xlink"
         x="0px"
         y="0px"
-        viewBox="0 0 122.88 93.04"
+        viewBox="0 0 122.88 110"
         // style="enable-background:new 0 0 122.88 93.04"
         // xml:space="preserve"
       >
