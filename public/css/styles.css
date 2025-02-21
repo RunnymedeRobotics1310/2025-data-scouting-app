@@ -489,7 +489,7 @@ a:active {
 .allianceBlue {
     color: var(--alliance-blue);
     border: var(--alliance-blue) solid medium;
-    border: var(--border-radius);
+    border-radius: var(--border-radius);
     margin: 0.25rem;
 }
 #layout > header{
