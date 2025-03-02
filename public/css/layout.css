@@ -169,9 +169,6 @@ main {
             overflow: clip;
         }
 
-        * {
-            max-width: 100%;
-        }
     }
 
 
