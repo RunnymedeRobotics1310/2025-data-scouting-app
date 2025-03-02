@@ -204,6 +204,29 @@ main {
         }
     }
 
+    .penalties{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-content: center;
+        justify-self: center;
+        height: 100%;
+
+        h1 {
+            align-self: center;
+        }
+
+        button{
+            width: 8rem;
+            align-self: center;
+        }
+
+        #back-button{
+            width: 10rem;
+            align-self: center;
+        }
+    }
+
 }
 
 .general-layout {
