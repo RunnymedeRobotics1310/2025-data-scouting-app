@@ -17,6 +17,7 @@ import FieldLayout from './common/FieldLayout.tsx';
 import { endgame } from './modes/endgame.ts';
 import GameContext from './context/GameContext.tsx';
 import { GS, DEFAULT_GAME_STATE } from './context/GS.ts';
+import { penalties } from './modes/penalties.ts';
 
 function App() {
   const [gamestate, setGamestate] = useState<GS>(DEFAULT_GAME_STATE);
@@ -45,8 +46,9 @@ function App() {
                 <Route path="holding-algae" element={<holding_algae.view />} />
                 <Route path="holding-both" element={<holding_both.view />} />
                 <Route path="endgame" element={<endgame.view />} />
+                <Route path="penalties" element={<penalties.view />} />
               </Route>
-              <Route path="match-select" element={<match_select.view />} />{' '}
+              <Route path="match-select" element={<match_select.view />} />
               <Route path="match-config" element={<match_config.view />} />
               <Route path="checklist" element={<checklist.view />} />
               <Route path="human-feedback" element={<human_feedback.view />} />
