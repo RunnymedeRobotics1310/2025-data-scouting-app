@@ -2,7 +2,7 @@
   "name": "1310-2025-data-scouting-app",
   "private": false,
   "version": "0.0.1",
-  "homepage": "https://runnymederobotics1310.github.io/raven-eye",
+  "homepage": "https://runnymederobotics1310.github.io/2025-data-scouting-app",
   "type": "module",
   "scripts": {
     "dev": "vite --port 3000",
@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "react": "^18.3.1",
