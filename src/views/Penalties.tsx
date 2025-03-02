@@ -101,6 +101,12 @@ function Penalties() {
       </PLayout>
     );
   }
+
+  return (
+    <PLayout>
+      <p>Invalid penalty situation.</p>
+    </PLayout>
+  );
 }
 
 export default Penalties;
