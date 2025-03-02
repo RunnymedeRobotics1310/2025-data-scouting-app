@@ -8,7 +8,7 @@ import GameContext from '../context/GameContext.tsx';
 function MatchConfig() {
   // const [preloaded, setPreloaded] = useState(false);
   const [position, setPosition] = useState(RobotPosition.left);
-  const { gamestate, setGamestate } = useContext(GameContext);
+  const { gamestate, saveGamestate } = useContext(GameContext);
   const { preloaded, isRed, teamNumber } = gamestate;
   return (
     <div className={'general-layout'}>
@@ -25,7 +25,7 @@ function MatchConfig() {
             checked={preloaded}
             id={'preloaded'}
             onChange={() => {
-              setGamestate({
+              saveGamestate({
                 ...gamestate,
                 preloaded: !preloaded,
                 holdingCoral: preloaded,

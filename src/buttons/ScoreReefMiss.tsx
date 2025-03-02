@@ -12,13 +12,13 @@ type PropTypes = {
 function ScoreReefMiss(props: PropTypes) {
   const navigate = useNavigate();
   const mode = props.mode;
-  const { gamestate, setGamestate } = useContext(GameContext);
+  const { gamestate, saveGamestate } = useContext(GameContext);
 
   function missCoral() {
     console.log('Missed coral from ' + mode.label);
     //TODO: Save Missed Coral
     navigate((mode == holding_both ? holding_algae : holding_nothing).url);
-    setGamestate({ ...gamestate, holdingCoral: false });
+    saveGamestate({ ...gamestate, holdingCoral: false });
   }
 
   return <button onClick={() => missCoral()}>Oopsie</button>;

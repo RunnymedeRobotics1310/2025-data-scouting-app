@@ -4,8 +4,6 @@ import Sync from '../icons/Sync.tsx';
 // import GameContext from '../context/GameContext.tsx';
 
 function AppLayout() {
-  // const { gamestate, setGamestate } = useContext(GameContext);
-  // const { boole } = gamestate;
   function sync() {
     console.log("Help me, I'm syncing!");
   }

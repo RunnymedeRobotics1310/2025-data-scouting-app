@@ -45,16 +45,16 @@ export type SetPhaseButtonType = {
 };
 
 export function SetPhaseButton(props: SetPhaseButtonType) {
-  const { gamestate, setGamestate } = useContext(GameContext);
+  const { gamestate, saveGamestate } = useContext(GameContext);
   const navigate = useNavigate();
 
-  if (!setGamestate) return <Loading />;
+  if (!saveGamestate) return <Loading />;
   return (
     <Button
       label={props.label}
       callback={() => {
         props.callback;
-        setGamestate({ ...gamestate, currentPhase: props.desiredPhase });
+        saveGamestate({ ...gamestate, currentPhase: props.desiredPhase });
         navigate(getNextMode(props.currentMode, props.desiredPhase).url);
       }}
     />

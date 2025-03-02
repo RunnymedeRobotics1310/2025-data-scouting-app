@@ -10,8 +10,8 @@ function MatchSelect() {
   const [name, setName] = useState('');
   const [matchNumber, setMatchNumber] = useState(0);
   const [lineup, setLineup] = useState<number[]>(defaultArray);
-  const { gamestate, setGamestate } = useContext(GameContext);
-  const { teamNumber } = gamestate;
+  const { gamestate, saveGamestate } = useContext(GameContext);
+  const { scoutingSessionId, teamNumber } = gamestate;
   const [checked, setChecked] = useState(false);
   const visibility = lineup[0] > 0 ? ' ' : 'isNotVisible';
 
@@ -53,7 +53,7 @@ function MatchSelect() {
             className={`allianceRed ${visibility}`}
             id={'red1'}
             onClick={() =>
-              setGamestate({
+              saveGamestate({
                 ...gamestate,
                 teamNumber: lineup[0],
                 isRed: true,
@@ -67,7 +67,7 @@ function MatchSelect() {
             className={`allianceRed ${visibility}`}
             id={'red2'}
             onClick={() =>
-              setGamestate({
+              saveGamestate({
                 ...gamestate,
                 teamNumber: lineup[1],
                 isRed: true,
@@ -81,7 +81,7 @@ function MatchSelect() {
             className={`allianceRed ${visibility}`}
             id={'red3'}
             onClick={() =>
-              setGamestate({
+              saveGamestate({
                 ...gamestate,
                 teamNumber: lineup[2],
                 isRed: true,
@@ -95,7 +95,7 @@ function MatchSelect() {
             className={`allianceBlue ${visibility}`}
             id={'blue1'}
             onClick={() =>
-              setGamestate({
+              saveGamestate({
                 ...gamestate,
                 teamNumber: lineup[3],
                 isRed: false,
@@ -109,7 +109,7 @@ function MatchSelect() {
             className={`allianceBlue ${visibility}`}
             id={'blue2'}
             onClick={() =>
-              setGamestate({
+              saveGamestate({
                 ...gamestate,
                 teamNumber: lineup[4],
                 isRed: false,
@@ -123,7 +123,7 @@ function MatchSelect() {
             className={`allianceBlue ${visibility}`}
             id={'blue3'}
             onClick={() =>
-              setGamestate({
+              saveGamestate({
                 ...gamestate,
                 teamNumber: lineup[5],
                 isRed: false,
@@ -148,19 +148,22 @@ function MatchSelect() {
         <label className={'next-button'}>
           <button
             className={'right'}
-            onClick={() =>
-              navigate(selectMatch(name, matchNumber, teamNumber, checked).url)
-            }
+            onClick={() => {
+              saveGamestate({
+                ...gamestate,
+                scoutingSessionId: {
+                  ...scoutingSessionId,
+                  scout: name,
+                  match: matchNumber,
+                  team: teamNumber,
+                },
+              });
+              navigate(selectMatch(name, matchNumber, teamNumber, checked).url);
+            }}
           >
             Next ---&gt;
           </button>
         </label>
-
-        {/*<img*/}
-        {/*  src={'/requirements/screens/match-select.jpeg'}*/}
-        {/*  width={'25%'}*/}
-        {/*  alt={'Match Select'}*/}
-        {/*/>*/}
       </div>
     </div>
   );

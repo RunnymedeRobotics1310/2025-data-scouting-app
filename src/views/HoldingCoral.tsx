@@ -66,9 +66,6 @@ function HoldingCoral() {
 
   return (
     <Field>
-      <Zone zone={'driver-station'}>
-        <h1>Holding Coral</h1>
-      </Zone>
       {
         //
         // Auto & Teleop buttons

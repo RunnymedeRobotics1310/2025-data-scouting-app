@@ -11,13 +11,13 @@ type PropTypes = {
 function DropAlgae(props: PropTypes) {
   const navigate = useNavigate();
   const mode = props.mode;
-  const { gamestate, setGamestate } = useContext(GameContext);
+  const { gamestate, saveGamestate } = useContext(GameContext);
 
   return (
     <button
       onClick={() => {
         navigate(dropAlgae(mode).url);
-        setGamestate({ ...gamestate, holdingAlgae: false });
+        saveGamestate({ ...gamestate, holdingAlgae: false });
       }}
     >
       Drop <Algae />

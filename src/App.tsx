@@ -20,7 +20,14 @@ import { GS } from './context/GS.ts';
 
 function App() {
   const [gamestate, setGamestate] = useState<GS>(DEFAULT_GAME_STATE);
-  const defaultGameStateContext = { gamestate, setGamestate };
+
+  const saveGamestate = (state: GS) => {
+    setGamestate(state);
+    const gamestateString = JSON.stringify(gamestate);
+    localStorage.setItem('current-gamestate', gamestateString);
+  };
+
+  const defaultGameStateContext = { gamestate, saveGamestate };
 
   return (
     <GameContext.Provider value={defaultGameStateContext}>

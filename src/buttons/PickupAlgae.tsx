@@ -11,12 +11,12 @@ type PropTypes = {
 function PickupAlgae(props: PropTypes) {
   const navigate = useNavigate();
   const mode = props.mode;
-  const { gamestate, setGamestate } = useContext(GameContext);
+  const { gamestate, saveGamestate } = useContext(GameContext);
   return (
     <button
       onClick={() => {
         navigate(pickupAlgae(mode, AlgaeLocation.ground).url);
-        setGamestate({ ...gamestate, holdingAlgae: true });
+        saveGamestate({ ...gamestate, holdingAlgae: true });
       }}
     >
       Pickup <Algae />

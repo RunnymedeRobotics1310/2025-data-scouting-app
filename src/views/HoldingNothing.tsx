@@ -71,29 +71,6 @@ function HoldingNothing() {
 
   return (
     <Field>
-      {/*<Zone zone={'barge-left'} classes={'red'}>*/}
-      {/*  Barge left*/}
-      {/*</Zone>*/}
-      {/*/!*<div className={'barge'}>barge</div>*!/*/}
-      {/*/!*<div className={'barge-right'}>barge right</div>*!/*/}
-      {/*/!*<div className={'start-zone'}>start zone</div>*!/*/}
-      {/*/!*<div className={'behind-reef'}>behind reef</div>*!/*/}
-      {/*/!*<div className={'reef-left'}>reef left</div>*!/*/}
-      {/*<div className={'reef'}>reef</div>*/}
-      {/*<div className={'reef-right'}>reef right</div>*/}
-      {/*<div className={'reef-front-left'}>reef front left</div>*/}
-      {/*<div className={'reef-front'}>reef front</div>*/}
-      {/*<div className={'reef-front-right'}>reef front right</div>*/}
-      {/*<div className={'left-station'}>left station</div>*/}
-      {/*<div className={'driver-station'}>driver station</div>*/}
-      {/*<div className={'right-station'}>right station</div>*/}
-
-      <Zone zone={'driver-station'} classes={'top'}>
-        <h1>
-          Holding Nothing--------------------------------------
-          ----------------------------------------------------------------------a
-        </h1>
-      </Zone>
       {
         //
         // Auto & Teleop buttons

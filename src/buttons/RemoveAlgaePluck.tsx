@@ -10,12 +10,12 @@ type PropTypes = {
 function RemoveAlgaePluck(props: PropTypes) {
   const navigate = useNavigate();
   const mode = props.mode;
-  const { gamestate, setGamestate } = useContext(GameContext);
+  const { gamestate, saveGamestate } = useContext(GameContext);
   return (
     <button
       onClick={() => {
         navigate(removeAlgae(mode, true).url);
-        setGamestate({ ...gamestate, holdingAlgae: true });
+        saveGamestate({ ...gamestate, holdingAlgae: true });
       }}
     >
       Pluck

@@ -10,13 +10,13 @@ type PropTypes = {
 function ScoreAlgaeProcessor(props: PropTypes) {
   const navigate = useNavigate();
   const mode = props.mode;
-  const { gamestate, setGamestate } = useContext(GameContext);
+  const { gamestate, saveGamestate } = useContext(GameContext);
 
   return (
     <button
       onClick={() => {
         navigate(scoreAlgaeProcessor(mode).url);
-        setGamestate({ ...gamestate, holdingAlgae: false });
+        saveGamestate({ ...gamestate, holdingAlgae: false });
       }}
     >
       Score Processor

@@ -1,6 +1,8 @@
 import { Phase } from '../common/phase.ts';
+import { ScoutingSessionId } from '../types/ScoutingSessionId.ts';
 
 export type GS = {
+  scoutingSessionId: ScoutingSessionId;
   boole: boolean;
   preloaded: boolean;
   teamNumber: number;

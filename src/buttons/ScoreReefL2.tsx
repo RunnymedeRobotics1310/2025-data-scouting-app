@@ -10,12 +10,12 @@ type PropTypes = {
 function ScoreReefL2(props: PropTypes) {
   const navigate = useNavigate();
   const mode = props.mode;
-  const { gamestate, setGamestate } = useContext(GameContext);
+  const { gamestate, saveGamestate } = useContext(GameContext);
   return (
     <button
       onClick={() => {
         navigate(scoreReef(mode, 2).url);
-        setGamestate({ ...gamestate, holdingCoral: false });
+        saveGamestate({ ...gamestate, holdingCoral: false });
       }}
     >
       2

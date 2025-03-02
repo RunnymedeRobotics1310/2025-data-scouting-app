@@ -11,12 +11,12 @@ type PropTypes = {
 function DropCoral(props: PropTypes) {
   const navigate = useNavigate();
   const mode = props.mode;
-  const { gamestate, setGamestate } = useContext(GameContext);
+  const { gamestate, saveGamestate } = useContext(GameContext);
   return (
     <button
       onClick={() => {
         navigate(dropCoral(mode).url);
-        setGamestate({ ...gamestate, holdingCoral: false });
+        saveGamestate({ ...gamestate, holdingCoral: false });
       }}
     >
       Drop <Coral />

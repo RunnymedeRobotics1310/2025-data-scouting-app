@@ -15,9 +15,9 @@ import { holding_algae } from '../modes/holding_algae.ts';
 
 function GamePhaseSwitch() {
   const navigate = useNavigate();
-  const { gamestate, setGamestate } = useContext(GameContext);
+  const { gamestate, saveGamestate } = useContext(GameContext);
   const { currentPhase, left, holdingCoral, holdingAlgae } = gamestate;
-  if (!setGamestate) return <Loading />;
+  if (!saveGamestate) return <Loading />;
 
   return (
     <div className={'phase-selector-switch'}>
@@ -26,7 +26,7 @@ function GamePhaseSwitch() {
           id={'auto'}
           className={'camoButton'}
           onClick={() => {
-            setGamestate({ ...gamestate, currentPhase: Phase.auto });
+            saveGamestate({ ...gamestate, currentPhase: Phase.auto });
             if (!left) {
               navigate(start_line.url);
             }
@@ -39,7 +39,7 @@ function GamePhaseSwitch() {
           id={'teleop'}
           className={'camoButton'}
           onClick={() => {
-            setGamestate({ ...gamestate, currentPhase: Phase.teleop });
+            saveGamestate({ ...gamestate, currentPhase: Phase.teleop });
             let nextMode;
             if (holdingCoral && holdingAlgae) {
               nextMode = holding_both;
@@ -60,7 +60,7 @@ function GamePhaseSwitch() {
           id={'endgame'}
           className={'camoButton'}
           onClick={() => {
-            setGamestate({ ...gamestate, currentPhase: Phase.endgame });
+            saveGamestate({ ...gamestate, currentPhase: Phase.endgame });
             navigate(endgame.url);
           }}
           disabled={currentPhase == Phase.endgame || currentPhase == Phase.auto}
@@ -73,9 +73,9 @@ function GamePhaseSwitch() {
           checked={currentPhase === Phase.auto}
           onChange={() => {
             if (currentPhase === Phase.auto) {
-              setGamestate({ ...gamestate, currentPhase: Phase.teleop });
+              saveGamestate({ ...gamestate, currentPhase: Phase.teleop });
             } else {
-              setGamestate({ ...gamestate, currentPhase: Phase.auto });
+              saveGamestate({ ...gamestate, currentPhase: Phase.auto });
             }
           }}
         />

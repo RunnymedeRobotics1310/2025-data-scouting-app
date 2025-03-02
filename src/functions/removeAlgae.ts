@@ -6,12 +6,21 @@ import { holding_both } from '../modes/holding_both.ts';
 
 export function removeAlgae(startingMode: Mode, plucked: boolean): Mode {
   console.log(
-    'Removed algae from reef from : ' +
+    'Removed algae from reef from: ' +
       startingMode.label +
       ' Plucked: ' +
       plucked,
   );
 
+  if (plucked) {
+    console.log('plucked');
+  }
+  if (startingMode === holding_nothing) {
+    console.log('holding nothing');
+  }
+  if (startingMode === holding_coral) {
+    console.log('holding coral');
+  }
   if (plucked && startingMode === holding_nothing) {
     return holding_algae;
   }

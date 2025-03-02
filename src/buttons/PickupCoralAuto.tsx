@@ -14,19 +14,20 @@ function PickupCoralAuto(props: PropTypes) {
   const navigate = useNavigate();
   const mode = props.mode;
   const location = props.location;
-  const { gamestate, setGamestate } = useContext(GameContext);
+  const { gamestate, saveGamestate } = useContext(GameContext);
   return (
     <button
+      className={'camoButton'}
       onClick={() => {
         navigate(pickupCoral(mode, props.location).url);
-        setGamestate({ ...gamestate, holdingCoral: true });
+        saveGamestate({ ...gamestate, holdingCoral: true });
 
         if (location == CoralLocation.autoLeft) {
-          setGamestate({ ...gamestate, pickedAutoCoralLeft: true });
+          saveGamestate({ ...gamestate, pickedAutoCoralLeft: true });
         } else if (location == CoralLocation.autoCenter) {
-          setGamestate({ ...gamestate, pickedAutoCoralCenter: true });
+          saveGamestate({ ...gamestate, pickedAutoCoralCenter: true });
         } else if (location == CoralLocation.autoRight) {
-          setGamestate({ ...gamestate, pickedAutoCoralRight: true });
+          saveGamestate({ ...gamestate, pickedAutoCoralRight: true });
         }
       }}
     >

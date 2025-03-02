@@ -13,19 +13,19 @@ function PickupAlgaeAuto(props: PropTypes) {
   const navigate = useNavigate();
   const mode = props.mode;
   const location = props.location;
-  const { gamestate, setGamestate } = useContext(GameContext);
+  const { gamestate, saveGamestate } = useContext(GameContext);
   return (
     <button
       onClick={() => {
         navigate(pickupAlgae(mode, props.location).url);
-        setGamestate({ ...gamestate, holdingAlgae: true });
+        saveGamestate({ ...gamestate, holdingAlgae: true });
 
         if (location == AlgaeLocation.autoLeft) {
-          setGamestate({ ...gamestate, pickedAutoAlgaeLeft: true });
+          saveGamestate({ ...gamestate, pickedAutoAlgaeLeft: true });
         } else if (location == AlgaeLocation.autoCenter) {
-          setGamestate({ ...gamestate, pickedAutoAlgaeCenter: true });
+          saveGamestate({ ...gamestate, pickedAutoAlgaeCenter: true });
         } else if (location == AlgaeLocation.autoRight) {
-          setGamestate({ ...gamestate, pickedAutoAlgaeRight: true });
+          saveGamestate({ ...gamestate, pickedAutoAlgaeRight: true });
         }
       }}
     >

@@ -11,6 +11,7 @@ export function autoConfig(preloaded: boolean, position: RobotPosition): Mode {
   console.log(
     'Configuring auto. Position = ' + position + ' Preloaded = ' + preloaded,
   );
+  localStorage;
 
   return start_line;
 }

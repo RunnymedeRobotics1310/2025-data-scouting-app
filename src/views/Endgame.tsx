@@ -56,11 +56,6 @@ function Endgame() {
         label={'Next --->'}
         callback={() => endgameStatus(climbed)}
       />
-      {/*<img*/}
-      {/*  src={'/requirements/screens/simple-endgame.jpeg'}*/}
-      {/*  width={'25%'}*/}
-      {/*  alt={'Endgame'}*/}
-      {/*/>*/}
     </div>
   );
 }

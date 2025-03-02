@@ -10,12 +10,12 @@ type PropTypes = {
 function PickupCoralRight(props: PropTypes) {
   const navigate = useNavigate();
   const mode = props.mode;
-  const { gamestate, setGamestate } = useContext(GameContext);
+  const { gamestate, saveGamestate } = useContext(GameContext);
   return (
     <button
       onClick={() => {
         navigate(pickupCoral(mode, CoralLocation.right).url);
-        setGamestate({ ...gamestate, holdingCoral: true });
+        saveGamestate({ ...gamestate, holdingCoral: true });
       }}
     >
       Right

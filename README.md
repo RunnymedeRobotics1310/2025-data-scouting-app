@@ -25,6 +25,7 @@ This app is built as a single-page application using React, TypeScript, and Vite
 - Add sync button
 - Add schedule ingestion
 - Add penalties
+- Make a list of everything that needs to be stored (We will give them code names later)
 
 ### Small things
 - checkboxes are blue

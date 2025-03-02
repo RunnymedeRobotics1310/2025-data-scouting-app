@@ -5,13 +5,13 @@ import GameContext from '../context/GameContext.tsx';
 
 function LeaveStartLine() {
   const navigate = useNavigate();
-  const { gamestate, setGamestate } = useContext(GameContext);
+  const { gamestate, saveGamestate } = useContext(GameContext);
   const { preloaded } = gamestate;
   return (
     <button
       onClick={() => {
         navigate(leaveStartingLine(preloaded).url);
-        setGamestate({ ...gamestate, left: true });
+        saveGamestate({ ...gamestate, left: true });
       }}
     >
       Leave Starting Line

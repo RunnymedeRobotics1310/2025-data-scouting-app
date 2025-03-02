@@ -54,9 +54,6 @@ function HoldingAlgae() {
 
   return (
     <Field>
-      <Zone zone={'driver-station'}>
-        <h1>Holding Algae</h1>
-      </Zone>
       {
         //
         // Auto & Teleop buttons

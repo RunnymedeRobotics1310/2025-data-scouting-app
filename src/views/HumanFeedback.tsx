@@ -12,7 +12,7 @@ function HumanFeedback() {
   const [coral, setCoral] = useState(false);
   const [barge, setBarge] = useState(false);
   const [stars, setStars] = useState(0);
-  const { gamestate, setGamestate } = useContext(GameContext);
+  const { gamestate, saveGamestate } = useContext(GameContext);
   const { isRed, teamNumber } = gamestate;
 
   return (
@@ -104,7 +104,7 @@ function HumanFeedback() {
           label={'Done --->'}
           callback={
             (saveFeedback(comment, auto, coral, barge, stars),
-            setGamestate(DEFAULT_GAME_STATE))
+            saveGamestate(DEFAULT_GAME_STATE))
           }
         />
         {/*<img*/}

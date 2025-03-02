@@ -49,9 +49,6 @@ function HoldingBoth() {
 
   return (
     <Field>
-      <Zone zone={'driver-station'}>
-        <h1>Holding Both</h1>
-      </Zone>
       {
         //
         // Auto & Teleop buttons
