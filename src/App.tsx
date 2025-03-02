@@ -15,8 +15,8 @@ import { holding_coral } from './modes/holding_coral.ts';
 import { human_feedback } from './modes/human_feedback.ts';
 import FieldLayout from './common/FieldLayout.tsx';
 import { endgame } from './modes/endgame.ts';
-import GameContext, { DEFAULT_GAME_STATE } from './context/GameContext.tsx';
-import { GS } from './context/GS.ts';
+import GameContext from './context/GameContext.tsx';
+import { GS, DEFAULT_GAME_STATE } from './context/GS.ts';
 
 function App() {
   const [gamestate, setGamestate] = useState<GS>(DEFAULT_GAME_STATE);
@@ -24,13 +24,11 @@ function App() {
   const saveGamestate = (state: GS) => {
     setGamestate(state);
     const gamestateString = JSON.stringify(gamestate);
-    localStorage.setItem('current-gamestate', gamestateString);
+    localStorage.setItem('rrCurrentGamestate', gamestateString);
   };
 
-  const defaultGameStateContext = { gamestate, saveGamestate };
-
   return (
-    <GameContext.Provider value={defaultGameStateContext}>
+    <GameContext.Provider value={{ gamestate, saveGamestate }}>
       <Suspense fallback={<p>Loading...</p>}>
         <BrowserRouter>
           <Routes>

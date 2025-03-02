@@ -1,38 +1,11 @@
-import { Context, createContext } from 'react';
-import { GS } from './GS.ts';
-import { Phase } from '../common/phase.ts';
-import { ScoutingSessionId } from '../types/ScoutingSessionId.ts';
+import { createContext } from 'react';
+import { GameContextType } from './GameContextType.ts';
+import { DEFAULT_GAME_STATE, GS } from './GS.ts';
 
-const defaultSessionId: ScoutingSessionId = {
-  tournament: 'elkhartLake',
-  scout: 'Quentin the Not-so-Great',
-  match: -1,
-  team: -1310,
-};
-
-export const DEFAULT_GAME_STATE = {
-  scoutingSessionId: defaultSessionId,
-  boole: false,
-  preloaded: false,
-  teamNumber: 0,
-  currentPhase: Phase.pre_match,
-  isRed: true,
-  message: 'foo',
-  left: false,
-  holdingCoral: false,
-  holdingAlgae: false,
-  pickedAutoCoralLeft: false,
-  pickedAutoCoralCenter: false,
-  pickedAutoCoralRight: false,
-  pickedAutoAlgaeLeft: false,
-  pickedAutoAlgaeCenter: false,
-  pickedAutoAlgaeRight: false,
-} as GS;
-
-const GameContext: Context<{
-  gamestate: GS;
-  // setGamestate: React.Dispatch<React.SetStateAction<GS>>;
-  saveGamestate: (state: GS) => void;
-}> = createContext(DEFAULT_GAME_STATE);
-
+const GameContext = createContext<GameContextType>({
+  gamestate: DEFAULT_GAME_STATE,
+  saveGamestate: (state: GS) => {
+    console.log('Saving Gamestate using default context,', state);
+  },
+});
 export default GameContext;

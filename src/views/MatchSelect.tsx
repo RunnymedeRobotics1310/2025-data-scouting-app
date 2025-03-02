@@ -8,10 +8,10 @@ function MatchSelect() {
   const defaultArray = [-1, -1, -1, -1, -1, -1];
   const navigate = useNavigate();
   const [name, setName] = useState('');
-  const [matchNumber, setMatchNumber] = useState(0);
+  const [match, setMatch] = useState(0);
   const [lineup, setLineup] = useState<number[]>(defaultArray);
   const { gamestate, saveGamestate } = useContext(GameContext);
-  const { scoutingSessionId, teamNumber } = gamestate;
+  const { teamNumber } = gamestate;
   const [checked, setChecked] = useState(false);
   const visibility = lineup[0] > 0 ? ' ' : 'isNotVisible';
 
@@ -38,10 +38,10 @@ function MatchSelect() {
             onChange={e => {
               const n = e.target.valueAsNumber;
               if (n > 0 && n <= 1000) {
-                setMatchNumber(n);
+                setMatch(n);
                 setLineup(getTeamsForMatch(n));
               } else {
-                setMatchNumber(0);
+                setMatch(0);
                 setLineup(defaultArray);
               }
             }}
@@ -151,14 +151,10 @@ function MatchSelect() {
             onClick={() => {
               saveGamestate({
                 ...gamestate,
-                scoutingSessionId: {
-                  ...scoutingSessionId,
-                  scout: name,
-                  match: matchNumber,
-                  team: teamNumber,
-                },
+                scoutName: name,
+                matchNumber: match,
               });
-              navigate(selectMatch(name, matchNumber, teamNumber, checked).url);
+              navigate(selectMatch(name, match, teamNumber, checked).url);
             }}
           >
             Next ---&gt;

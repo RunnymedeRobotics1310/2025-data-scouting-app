@@ -4,7 +4,8 @@ import { SetPhaseButton } from '../functions/setPhase.tsx';
 import { human_feedback } from '../modes/human_feedback.ts';
 import { Phase } from '../common/phase.ts';
 import Star from '../icons/Star.tsx';
-import GameContext, { DEFAULT_GAME_STATE } from '../context/GameContext.tsx';
+import GameContext from '../context/GameContext.tsx';
+import { DEFAULT_GAME_STATE } from '../context/GS.ts';
 
 function HumanFeedback() {
   const [comment, setComment] = useState('');
@@ -14,6 +15,18 @@ function HumanFeedback() {
   const [stars, setStars] = useState(0);
   const { gamestate, saveGamestate } = useContext(GameContext);
   const { isRed, teamNumber } = gamestate;
+
+  function processHumanFeedback(
+    comment: string,
+    auto: boolean,
+    coral: boolean,
+    barge: boolean,
+    stars: number,
+  ) {
+    const target = saveFeedback(comment, auto, coral, barge, stars);
+    saveGamestate(DEFAULT_GAME_STATE);
+    return target;
+  }
 
   return (
     <div className={'general-layout'}>
@@ -102,16 +115,8 @@ function HumanFeedback() {
           currentMode={human_feedback}
           desiredPhase={Phase.pre_match}
           label={'Done --->'}
-          callback={
-            (saveFeedback(comment, auto, coral, barge, stars),
-            saveGamestate(DEFAULT_GAME_STATE))
-          }
+          callback={processHumanFeedback(comment, auto, coral, barge, stars)}
         />
-        {/*<img*/}
-        {/*  src={'/requirements/screens/human-feedback.jpeg'}*/}
-        {/*  width={'25%'}*/}
-        {/*  alt={'Human Feedback'}*/}
-        {/*/>*/}
       </div>
     </div>
   );

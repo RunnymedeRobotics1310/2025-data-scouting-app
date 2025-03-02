@@ -16,6 +16,7 @@ function PickupAlgaeAuto(props: PropTypes) {
   const { gamestate, saveGamestate } = useContext(GameContext);
   return (
     <button
+      className={'camoButton'}
       onClick={() => {
         navigate(pickupAlgae(mode, props.location).url);
         saveGamestate({ ...gamestate, holdingAlgae: true });
