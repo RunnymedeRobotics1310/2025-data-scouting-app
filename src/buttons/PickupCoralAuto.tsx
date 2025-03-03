@@ -15,11 +15,12 @@ function PickupCoralAuto(props: PropTypes) {
   const mode = props.mode;
   const location = props.location;
   const { gamestate, saveGamestate } = useContext(GameContext);
+  const { scoutingSessionId } = gamestate;
   return (
     <button
       className={'camoButton'}
       onClick={() => {
-        navigate(pickupCoral(mode, props.location).url);
+        navigate(pickupCoral(scoutingSessionId, mode, props.location).url);
         saveGamestate({ ...gamestate, holdingCoral: true });
 
         if (location == CoralLocation.autoLeft) {

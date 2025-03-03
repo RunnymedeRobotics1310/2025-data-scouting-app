@@ -15,14 +15,15 @@ function Checklist() {
   const [score, setScore] = useState(false);
   const [fast, setFast] = useState(false);
   const { gamestate } = useContext(gameContext);
-  const { isRed, teamNumber } = gamestate;
+  const { scoutingSessionId } = gamestate;
+  const isRed = scoutingSessionId.alliance == 'red';
 
   return (
     <div className={'general-layout'}>
       <div className={'comments-checklist'}>
         <label id={'external-team-number'}>
           <span className={isRed ? 'team allianceRed' : 'team allianceBlue'}>
-            Team {teamNumber}
+            Team {scoutingSessionId.teamNumber}
           </span>
         </label>
 
@@ -141,6 +142,7 @@ function Checklist() {
             onClick={() =>
               navigate(
                 saveChecklist(
+                  scoutingSessionId,
                   fall,
                   recover,
                   shutDown,

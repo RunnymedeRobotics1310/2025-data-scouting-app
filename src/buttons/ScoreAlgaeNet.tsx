@@ -11,11 +11,12 @@ function ScoreAlgaeNet(props: PropTypes) {
   const navigate = useNavigate();
   const mode = props.mode;
   const { gamestate, saveGamestate } = useContext(GameContext);
+  const { scoutingSessionId } = gamestate;
 
   return (
     <button
       onClick={() => {
-        navigate(scoreAlgaeNet(mode).url);
+        navigate(scoreAlgaeNet(scoutingSessionId, mode).url);
         saveGamestate({ ...gamestate, holdingAlgae: false });
       }}
     >

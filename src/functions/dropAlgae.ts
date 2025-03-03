@@ -3,9 +3,16 @@ import { holding_algae } from '../modes/holding_algae.ts';
 import { holding_nothing } from '../modes/holding_nothing.ts';
 import { holding_both } from '../modes/holding_both.ts';
 import { holding_coral } from '../modes/holding_coral.ts';
+import { ScoutingSessionId } from '../types/ScoutingSessionId.ts';
+import { addEvent } from '../storage/util.ts';
 
-export function dropAlgae(mode: Mode): Mode {
+export function dropAlgae(
+  scoutingSessionId: ScoutingSessionId,
+  mode: Mode,
+): Mode {
   console.log('Dropped algae from ' + mode.label);
+
+  addEvent(scoutingSessionId, 'drop-algae');
 
   if (mode === holding_algae) {
     return holding_nothing;

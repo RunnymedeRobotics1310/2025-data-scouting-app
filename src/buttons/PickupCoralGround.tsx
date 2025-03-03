@@ -11,10 +11,13 @@ function PickupCoralGround(props: PropTypes) {
   const navigate = useNavigate();
   const mode = props.mode;
   const { gamestate, saveGamestate } = useContext(GameContext);
+  const { scoutingSessionId } = gamestate;
   return (
     <button
       onClick={() => {
-        navigate(pickupCoral(mode, CoralLocation.ground).url);
+        navigate(
+          pickupCoral(scoutingSessionId, mode, CoralLocation.ground).url,
+        );
         saveGamestate({ ...gamestate, holdingCoral: true });
       }}
     >

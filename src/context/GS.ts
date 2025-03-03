@@ -1,16 +1,13 @@
 import { Phase } from '../common/phase.ts';
 import { Mode } from '../common/mode.ts';
 import { holding_nothing } from '../modes/holding_nothing.ts';
+import { ScoutingSessionId } from '../types/ScoutingSessionId.ts';
 
 export type GS = {
-  tournamentId: string;
-  scoutName: string;
-  matchNumber: number;
-  teamNumber: number;
+  scoutingSessionId: ScoutingSessionId;
 
   preloaded: boolean;
   currentPhase: Phase;
-  isRed: boolean;
   left: boolean;
   holdingCoral: boolean;
   holdingAlgae: boolean;
@@ -23,15 +20,19 @@ export type GS = {
   modeBeforePenalty: Mode;
 };
 
-export const DEFAULT_GAME_STATE = {
-  tournamentId: 'elkhartLake',
+const DEFAULT_SESSION_ID = {
+  tournamentId: 'elkhart-lake',
   scoutName: 'Quentin the Not-so-Great',
-  matchNumber: -1,
+  matchId: -1,
+  alliance: 'orange',
   teamNumber: -1310,
+} as ScoutingSessionId;
+
+export const DEFAULT_GAME_STATE = {
+  scoutingSessionId: DEFAULT_SESSION_ID,
 
   preloaded: false,
   currentPhase: Phase.pre_match,
-  isRed: true,
   left: false,
   holdingCoral: false,
   holdingAlgae: false,

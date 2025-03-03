@@ -1,18 +1,27 @@
 import { Mode } from '../common/mode.ts';
+import { ScoutingSessionId } from '../types/ScoutingSessionId.ts';
+import { addEvent } from '../storage/util.ts';
 
 export enum Penalty {
-  opponentContact = 'Opponent Contact',
-  throwingAlgae = 'Throwing O',
+  opponentContact = 'opponent-contact',
+  throwingAlgae = 'throwing-algae',
 
-  pin = 'Pin',
-  zoneViolation = 'Zone Violation',
+  pin = 'pin',
+  zoneViolation = 'zone-violation',
 
-  offLimitContact = 'Off-limit contact',
-  fieldDamage = 'Field damage',
-  tooManyGamePieces = 'Too many []/O',
-  other = 'Other',
+  offLimitContact = 'off-limit-contact',
+  fieldDamage = 'field-damage',
+  tooManyGamePieces = 'too-many-game-pieces',
+  other = 'other',
 }
-export function logPenalty(penalty: Penalty, prevMode: Mode): Mode {
+export function logPenalty(
+  scoutingSessionId: ScoutingSessionId,
+  penalty: Penalty,
+  prevMode: Mode,
+): Mode {
   console.log('Robot committed penalty: ' + penalty);
+
+  addEvent(scoutingSessionId, 'penalty-' + penalty);
+
   return prevMode;
 }

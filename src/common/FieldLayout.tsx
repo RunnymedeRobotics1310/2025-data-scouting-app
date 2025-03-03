@@ -8,7 +8,8 @@ import { getModeForUrl } from '../functions/getModeForUrl.ts';
 
 function FieldLayout() {
   const { gamestate, saveGamestate } = useContext(GameContext);
-  const { teamNumber, isRed } = gamestate;
+  const { teamNumber, alliance } = gamestate.scoutingSessionId;
+  const isRed = alliance == 'red';
   const navigate = useNavigate();
   return (
     <section id="field-layout">

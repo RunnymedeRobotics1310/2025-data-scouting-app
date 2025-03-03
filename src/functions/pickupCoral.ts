@@ -3,20 +3,28 @@ import { holding_nothing } from '../modes/holding_nothing.ts';
 import { holding_coral } from '../modes/holding_coral.ts';
 import { holding_algae } from '../modes/holding_algae.ts';
 import { holding_both } from '../modes/holding_both.ts';
+import { ScoutingSessionId } from '../types/ScoutingSessionId.ts';
+import { addEvent } from '../storage/util.ts';
 
 export enum CoralLocation {
-  ground = 'Ground',
-  left = 'Left Station',
-  right = 'Right Station',
-  autoLeft = 'Left Auto',
-  autoCenter = 'Center Auto',
-  autoRight = 'Right Auto',
+  ground = 'floor',
+  left = 'station-left',
+  right = 'station-right',
+  autoLeft = 'auto-left',
+  autoCenter = 'auto-center',
+  autoRight = 'auto-right',
 }
 
-export function pickupCoral(startingMode: Mode, location: CoralLocation): Mode {
+export function pickupCoral(
+  scoutingSessionId: ScoutingSessionId,
+  startingMode: Mode,
+  location: CoralLocation,
+): Mode {
   console.log(
     'Picking up coral from ' + location + ' from ' + startingMode.label,
   );
+
+  addEvent(scoutingSessionId, 'pickup-coral-' + location);
 
   if (startingMode == holding_nothing) {
     return holding_coral;

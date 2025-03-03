@@ -11,10 +11,11 @@ function ScoreReefL2(props: PropTypes) {
   const navigate = useNavigate();
   const mode = props.mode;
   const { gamestate, saveGamestate } = useContext(GameContext);
+  const { scoutingSessionId } = gamestate;
   return (
     <button
       onClick={() => {
-        navigate(scoreReef(mode, 2).url);
+        navigate(scoreReef(scoutingSessionId, mode, 2).url);
         saveGamestate({ ...gamestate, holdingCoral: false });
       }}
     >

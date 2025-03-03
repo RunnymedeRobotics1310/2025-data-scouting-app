@@ -14,7 +14,8 @@ function HumanFeedback() {
   const [barge, setBarge] = useState(false);
   const [stars, setStars] = useState(0);
   const { gamestate, saveGamestate } = useContext(GameContext);
-  const { isRed, teamNumber } = gamestate;
+  const { scoutingSessionId } = gamestate;
+  const isRed = scoutingSessionId.alliance == 'red';
 
   function processHumanFeedback(
     comment: string,
@@ -23,7 +24,14 @@ function HumanFeedback() {
     barge: boolean,
     stars: number,
   ) {
-    const target = saveFeedback(comment, auto, coral, barge, stars);
+    const target = saveFeedback(
+      scoutingSessionId,
+      comment,
+      auto,
+      coral,
+      barge,
+      stars,
+    );
     saveGamestate(DEFAULT_GAME_STATE);
     return target;
   }
@@ -33,7 +41,7 @@ function HumanFeedback() {
       <div className={'human-feedback'}>
         <label id={'external-team-number'}>
           <span className={isRed ? 'team allianceRed' : 'team allianceBlue'}>
-            Team {teamNumber}
+            Team {scoutingSessionId.teamNumber}
           </span>
         </label>
         <h1>Comments</h1>
@@ -115,7 +123,9 @@ function HumanFeedback() {
           currentMode={human_feedback}
           desiredPhase={Phase.pre_match}
           label={'Done --->'}
-          callback={processHumanFeedback(comment, auto, coral, barge, stars)}
+          callback={() =>
+            processHumanFeedback(comment, auto, coral, barge, stars)
+          }
         />
       </div>
     </div>

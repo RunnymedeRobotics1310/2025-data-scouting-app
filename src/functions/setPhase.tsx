@@ -9,6 +9,7 @@ import Button from '../common/Button.tsx';
 import { Phase } from '../common/phase.ts';
 import Loading from '../common/Loading.tsx';
 import GameContext from '../context/GameContext.tsx';
+import { addEvent } from '../storage/util.ts';
 
 export type SetPhaseRetVal = {
   mode: Mode;
@@ -18,6 +19,7 @@ export type SetPhaseRetVal = {
 function getNextMode(currentMode: Mode, desiredPhase: Phase): Mode {
   console.log('Proceeding to ' + desiredPhase);
   // todo: save phase
+
   if (desiredPhase === Phase.pre_match) {
     return match_select;
   }
@@ -46,6 +48,7 @@ export type SetPhaseButtonType = {
 
 export function SetPhaseButton(props: SetPhaseButtonType) {
   const { gamestate, saveGamestate } = useContext(GameContext);
+  const { scoutingSessionId } = gamestate;
   const navigate = useNavigate();
 
   if (!saveGamestate) return <Loading />;
@@ -53,8 +56,11 @@ export function SetPhaseButton(props: SetPhaseButtonType) {
     <Button
       label={props.label}
       callback={() => {
-        props.callback;
         saveGamestate({ ...gamestate, currentPhase: props.desiredPhase });
+        addEvent(scoutingSessionId, 'set-phase-' + props.desiredPhase);
+        if (props.callback) {
+          props.callback();
+        }
         navigate(getNextMode(props.currentMode, props.desiredPhase).url);
       }}
     />

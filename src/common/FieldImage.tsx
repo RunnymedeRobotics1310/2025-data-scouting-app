@@ -3,7 +3,7 @@ import GameContext from '../context/GameContext.tsx';
 
 export default function () {
   const { gamestate } = useContext(GameContext);
-  const { isRed } = gamestate;
+  const isRed = gamestate.scoutingSessionId.alliance == 'red';
   if (isRed) {
     return (
       <img

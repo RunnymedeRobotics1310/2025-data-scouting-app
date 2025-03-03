@@ -14,11 +14,12 @@ function PickupAlgaeAuto(props: PropTypes) {
   const mode = props.mode;
   const location = props.location;
   const { gamestate, saveGamestate } = useContext(GameContext);
+  const { scoutingSessionId } = gamestate;
   return (
     <button
       className={'camoButton'}
       onClick={() => {
-        navigate(pickupAlgae(mode, props.location).url);
+        navigate(pickupAlgae(scoutingSessionId, mode, props.location).url);
         saveGamestate({ ...gamestate, holdingAlgae: true });
 
         if (location == AlgaeLocation.autoLeft) {

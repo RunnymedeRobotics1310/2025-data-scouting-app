@@ -1,6 +1,7 @@
 export type ScoutingSessionId = {
   tournamentId: string;
   scoutName: string;
-  matchNumber: number;
+  matchId: number;
+  alliance: string;
   teamNumber: number;
 };
