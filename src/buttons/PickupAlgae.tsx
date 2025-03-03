@@ -12,10 +12,13 @@ function PickupAlgae(props: PropTypes) {
   const navigate = useNavigate();
   const mode = props.mode;
   const { gamestate, saveGamestate } = useContext(GameContext);
+  const { scoutingSessionId } = gamestate;
   return (
     <button
       onClick={() => {
-        navigate(pickupAlgae(mode, AlgaeLocation.ground).url);
+        navigate(
+          pickupAlgae(scoutingSessionId, mode, AlgaeLocation.ground).url,
+        );
         saveGamestate({ ...gamestate, holdingAlgae: true });
       }}
     >

@@ -9,7 +9,7 @@ import { logPenalty, Penalty } from '../functions/logPenalty.ts';
 function Penalties() {
   const navigate = useNavigate();
   const { gamestate } = useContext(GameContext);
-  const { currentPhase, modeBeforePenalty } = gamestate;
+  const { scoutingSessionId, currentPhase, modeBeforePenalty } = gamestate;
 
   function PLayout(props: any) {
     return (
@@ -19,7 +19,11 @@ function Penalties() {
         <button
           onClick={() => {
             navigate(
-              logPenalty(Penalty.offLimitContact, modeBeforePenalty).url,
+              logPenalty(
+                scoutingSessionId,
+                Penalty.offLimitContact,
+                modeBeforePenalty,
+              ).url,
             );
           }}
         >
@@ -27,7 +31,13 @@ function Penalties() {
         </button>
         <button
           onClick={() => {
-            navigate(logPenalty(Penalty.fieldDamage, modeBeforePenalty).url);
+            navigate(
+              logPenalty(
+                scoutingSessionId,
+                Penalty.fieldDamage,
+                modeBeforePenalty,
+              ).url,
+            );
           }}
         >
           Field Damage
@@ -35,7 +45,11 @@ function Penalties() {
         <button
           onClick={() => {
             navigate(
-              logPenalty(Penalty.tooManyGamePieces, modeBeforePenalty).url,
+              logPenalty(
+                scoutingSessionId,
+                Penalty.tooManyGamePieces,
+                modeBeforePenalty,
+              ).url,
             );
           }}
         >
@@ -43,7 +57,10 @@ function Penalties() {
         </button>
         <button
           onClick={() => {
-            navigate(logPenalty(Penalty.other, modeBeforePenalty).url);
+            navigate(
+              logPenalty(scoutingSessionId, Penalty.other, modeBeforePenalty)
+                .url,
+            );
           }}
         >
           Other
@@ -64,7 +81,11 @@ function Penalties() {
         <button
           onClick={() => {
             navigate(
-              logPenalty(Penalty.opponentContact, modeBeforePenalty).url,
+              logPenalty(
+                scoutingSessionId,
+                Penalty.opponentContact,
+                modeBeforePenalty,
+              ).url,
             );
           }}
         >
@@ -72,7 +93,13 @@ function Penalties() {
         </button>
         <button
           onClick={() => {
-            navigate(logPenalty(Penalty.throwingAlgae, modeBeforePenalty).url);
+            navigate(
+              logPenalty(
+                scoutingSessionId,
+                Penalty.throwingAlgae,
+                modeBeforePenalty,
+              ).url,
+            );
           }}
         >
           Throwing <Algae />
@@ -86,14 +113,22 @@ function Penalties() {
       <PLayout>
         <button
           onClick={() => {
-            navigate(logPenalty(Penalty.pin, modeBeforePenalty).url);
+            navigate(
+              logPenalty(scoutingSessionId, Penalty.pin, modeBeforePenalty).url,
+            );
           }}
         >
           Pin
         </button>
         <button
           onClick={() => {
-            navigate(logPenalty(Penalty.zoneViolation, modeBeforePenalty).url);
+            navigate(
+              logPenalty(
+                scoutingSessionId,
+                Penalty.zoneViolation,
+                modeBeforePenalty,
+              ).url,
+            );
           }}
         >
           Zone Violation
@@ -104,7 +139,7 @@ function Penalties() {
 
   return (
     <PLayout>
-      <p>Invalid penalty situation.</p>
+      <p>Invalid Phase</p>
     </PLayout>
   );
 }

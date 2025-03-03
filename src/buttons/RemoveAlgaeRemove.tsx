@@ -1,20 +1,22 @@
 import { Mode } from '../common/mode.ts';
-import { useNavigate } from 'react-router-dom';
 import { removeAlgae } from '../functions/removeAlgae.ts';
+import { useContext } from 'react';
+import GameContext from '../context/GameContext.tsx';
 
 type PropTypes = {
   mode: Mode;
   clearCallback?: any;
 };
 function RemoveAlgaeRemove(props: PropTypes) {
-  const navigate = useNavigate();
   const mode = props.mode;
   const cb = props.clearCallback;
+  const { gamestate } = useContext(GameContext);
+  const { scoutingSessionId } = gamestate;
   return (
     <button
       onClick={() => {
         if (cb) cb();
-        navigate(removeAlgae(mode, false).url);
+        removeAlgae(scoutingSessionId, mode, false);
       }}
     >
       Remove

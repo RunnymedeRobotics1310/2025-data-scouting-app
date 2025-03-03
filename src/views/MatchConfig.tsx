@@ -9,13 +9,14 @@ function MatchConfig() {
   // const [preloaded, setPreloaded] = useState(false);
   const [position, setPosition] = useState(RobotPosition.left);
   const { gamestate, saveGamestate } = useContext(GameContext);
-  const { preloaded, isRed, teamNumber } = gamestate;
+  const { scoutingSessionId, preloaded } = gamestate;
+  const isRed = scoutingSessionId.alliance == 'red';
   return (
     <div className={'general-layout'}>
       <div className={'match-config'}>
         <label id={'external-team-number'}>
           <span className={isRed ? 'team allianceRed' : 'team allianceBlue'}>
-            Team {teamNumber}
+            Team {scoutingSessionId.teamNumber}
           </span>
         </label>
 
@@ -80,14 +81,9 @@ function MatchConfig() {
             currentMode={match_config}
             desiredPhase={Phase.auto}
             label={'Start --->'}
-            callback={() => autoConfig(preloaded, position)}
+            callback={() => autoConfig(scoutingSessionId, preloaded, position)}
           />
         </label>
-        {/*<img*/}
-        {/*  src={'/requirements/screens/match-config.jpeg'}*/}
-        {/*  width={'25%'}*/}
-        {/*  alt={'Match Config'}*/}
-        {/*/>*/}
       </div>
     </div>
   );

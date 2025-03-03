@@ -1,22 +1,17 @@
 import { Mode } from '../common/mode.ts';
 import { match_config } from '../modes/match_config.ts';
+import { ScoutingSessionId } from '../types/ScoutingSessionId.ts';
+import { addEvent } from '../storage/util.ts';
 
 export function selectMatch(
-  scout: string,
-  match: number,
-  team: number,
+  scoutingSessionId: ScoutingSessionId,
   rematch: boolean,
 ): Mode {
-  console.log(
-    'Scout ' +
-      scout +
-      ' is scouting team ' +
-      team +
-      ' in match ' +
-      match +
-      '. Rematch: ' +
-      rematch,
-  );
+  console.log(scoutingSessionId + '. Rematch: ' + rematch);
+
+  if (rematch) {
+    addEvent(scoutingSessionId, 'rematch');
+  }
 
   return match_config;
 }

@@ -11,15 +11,13 @@ function MatchSelect() {
   const [match, setMatch] = useState(0);
   const [lineup, setLineup] = useState<number[]>(defaultArray);
   const { gamestate, saveGamestate } = useContext(GameContext);
-  const { teamNumber } = gamestate;
+  const { scoutingSessionId } = gamestate;
   const [checked, setChecked] = useState(false);
   const visibility = lineup[0] > 0 ? ' ' : 'isNotVisible';
 
   return (
     <div className={'general-layout'}>
       <div className={'match-select'}>
-        {/*<h1 className={'center'}>Match Select</h1>*/}
-
         <label>
           <input
             className={'center'}
@@ -39,7 +37,7 @@ function MatchSelect() {
               const n = e.target.valueAsNumber;
               if (n > 0 && n <= 1000) {
                 setMatch(n);
-                setLineup(getTeamsForMatch(n));
+                setLineup(getTeamsForMatch(scoutingSessionId.tournamentId, n));
               } else {
                 setMatch(0);
                 setLineup(defaultArray);
@@ -55,11 +53,14 @@ function MatchSelect() {
             onClick={() =>
               saveGamestate({
                 ...gamestate,
-                teamNumber: lineup[0],
-                isRed: true,
+                scoutingSessionId: {
+                  ...scoutingSessionId,
+                  teamNumber: lineup[0],
+                  alliance: 'red',
+                },
               })
             }
-            disabled={teamNumber == lineup[0]}
+            disabled={scoutingSessionId.teamNumber == lineup[0]}
           >
             {lineup[0]}
           </button>
@@ -69,11 +70,14 @@ function MatchSelect() {
             onClick={() =>
               saveGamestate({
                 ...gamestate,
-                teamNumber: lineup[1],
-                isRed: true,
+                scoutingSessionId: {
+                  ...scoutingSessionId,
+                  teamNumber: lineup[1],
+                  alliance: 'red',
+                },
               })
             }
-            disabled={teamNumber == lineup[1]}
+            disabled={scoutingSessionId.teamNumber == lineup[1]}
           >
             {lineup[1]}
           </button>
@@ -83,11 +87,14 @@ function MatchSelect() {
             onClick={() =>
               saveGamestate({
                 ...gamestate,
-                teamNumber: lineup[2],
-                isRed: true,
+                scoutingSessionId: {
+                  ...scoutingSessionId,
+                  teamNumber: lineup[2],
+                  alliance: 'red',
+                },
               })
             }
-            disabled={teamNumber == lineup[2]}
+            disabled={scoutingSessionId.teamNumber == lineup[2]}
           >
             {lineup[2]}
           </button>
@@ -97,11 +104,14 @@ function MatchSelect() {
             onClick={() =>
               saveGamestate({
                 ...gamestate,
-                teamNumber: lineup[3],
-                isRed: false,
+                scoutingSessionId: {
+                  ...scoutingSessionId,
+                  teamNumber: lineup[3],
+                  alliance: 'blue',
+                },
               })
             }
-            disabled={teamNumber == lineup[3]}
+            disabled={scoutingSessionId.teamNumber == lineup[3]}
           >
             {lineup[3]}
           </button>
@@ -111,11 +121,14 @@ function MatchSelect() {
             onClick={() =>
               saveGamestate({
                 ...gamestate,
-                teamNumber: lineup[4],
-                isRed: false,
+                scoutingSessionId: {
+                  ...scoutingSessionId,
+                  teamNumber: lineup[4],
+                  alliance: 'blue',
+                },
               })
             }
-            disabled={teamNumber == lineup[4]}
+            disabled={scoutingSessionId.teamNumber == lineup[4]}
           >
             {lineup[4]}
           </button>
@@ -125,11 +138,14 @@ function MatchSelect() {
             onClick={() =>
               saveGamestate({
                 ...gamestate,
-                teamNumber: lineup[5],
-                isRed: false,
+                scoutingSessionId: {
+                  ...scoutingSessionId,
+                  teamNumber: lineup[5],
+                  alliance: 'blue',
+                },
               })
             }
-            disabled={teamNumber == lineup[5]}
+            disabled={scoutingSessionId.teamNumber == lineup[5]}
           >
             {lineup[5]}
           </button>
@@ -151,10 +167,13 @@ function MatchSelect() {
             onClick={() => {
               saveGamestate({
                 ...gamestate,
-                scoutName: name,
-                matchNumber: match,
+                scoutingSessionId: {
+                  ...scoutingSessionId,
+                  scoutName: name,
+                  matchId: match,
+                },
               });
-              navigate(selectMatch(name, match, teamNumber, checked).url);
+              navigate(selectMatch(scoutingSessionId, checked).url);
             }}
           >
             Next ---&gt;
