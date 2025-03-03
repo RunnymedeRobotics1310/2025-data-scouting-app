@@ -1,5 +1,10 @@
 import AppLayout from './common/AppLayout.tsx';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from 'react-router-dom';
 import Home from './views/Home.tsx';
 import NotFound from './views/NotFound.tsx';
 import DevResources from './dev/DevResources.tsx';
@@ -28,34 +33,35 @@ function App() {
     localStorage.setItem('rrCurrentGamestate', gamestateString);
   };
 
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path="/" element={<AppLayout />}>
+        <Route index element={<Home />} />
+        <Route path="dev" element={<DevResources />} />
+        <Route path="game/" element={<FieldLayout />}>
+          <Route path="start-line" element={<start_line.view />} />
+          <Route path="holding-nothing" element={<holding_nothing.view />} />
+          <Route path="holding-coral" element={<holding_coral.view />} />
+          <Route path="holding-algae" element={<holding_algae.view />} />
+          <Route path="holding-both" element={<holding_both.view />} />
+          <Route path="endgame" element={<endgame.view />} />
+          <Route path="penalties" element={<penalties.view />} />
+        </Route>
+        <Route path="/match-select" element={<match_select.view />} />
+        <Route path="/match-config" element={<match_config.view />} />
+        <Route path="/checklist" element={<checklist.view />} />
+        <Route path="/human-feedback" element={<human_feedback.view />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>,
+    ),
+    {
+      basename: '/2025-data-scouting-app', // todo: fixme: make this dynamic
+    },
+  );
   return (
     <GameContext.Provider value={{ gamestate, saveGamestate }}>
       <Suspense fallback={<p>Loading...</p>}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<AppLayout />}>
-              <Route index element={<Home />} />
-              <Route path="dev" element={<DevResources />} />
-              <Route path="game/" element={<FieldLayout />}>
-                <Route path="start-line" element={<start_line.view />} />
-                <Route
-                  path="holding-nothing"
-                  element={<holding_nothing.view />}
-                />
-                <Route path="holding-coral" element={<holding_coral.view />} />
-                <Route path="holding-algae" element={<holding_algae.view />} />
-                <Route path="holding-both" element={<holding_both.view />} />
-                <Route path="endgame" element={<endgame.view />} />
-                <Route path="penalties" element={<penalties.view />} />
-              </Route>
-              <Route path="match-select" element={<match_select.view />} />
-              <Route path="match-config" element={<match_config.view />} />
-              <Route path="checklist" element={<checklist.view />} />
-              <Route path="human-feedback" element={<human_feedback.view />} />
-              <Route path="*" element={<NotFound />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
+        <RouterProvider router={router} />
       </Suspense>
     </GameContext.Provider>
   );

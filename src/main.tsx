@@ -2,6 +2,11 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import { MyType } from './types/myType.ts';
+import './assets/css/global.css';
+import './assets/css/typography.css';
+import './assets/css/colors.css';
+import './assets/css/layout.css';
+import './assets/css/components.css';
 
 console.log('Hiya here we go');
 let thingString = localStorage.getItem('the-thing');

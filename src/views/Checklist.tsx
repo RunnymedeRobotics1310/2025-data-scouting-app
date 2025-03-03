@@ -159,12 +159,6 @@ function Checklist() {
             Next ---&gt;
           </button>
         </label>
-
-        {/*<img*/}
-        {/*  src={'/requirements/screens/checklist.jpeg'}*/}
-        {/*  width={'25%'}*/}
-        {/*  alt={'Did the robot...'}*/}
-        {/*/>*/}
       </div>
     </div>
   );

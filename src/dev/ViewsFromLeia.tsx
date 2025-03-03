@@ -1,3 +1,19 @@
+import initialViewsUrl from '../assets/requirements/designs/initial-views.jpeg';
+import blueAutoStartUrl from '../assets/requirements/designs/blue-auto-start.jpeg';
+import afterStartUrl from '../assets/requirements/designs/after-start.jpeg';
+import generalAutoPlayUrl from '../assets/requirements/designs/general-auto-play.jpeg';
+import holdingBothAutoUrl from '../assets/requirements/designs/holding-both-auto.jpeg';
+import holdingTeleopWithDefenceUrl from '../assets/requirements/designs/holding-teleop-with-defence.jpeg';
+import holdingTeleopUrl from '../assets/requirements/designs/holding-teleop.jpeg';
+import teleop3Url from '../assets/requirements/designs/teleop3.jpeg';
+import endgameComments1Url from '../assets/requirements/designs/endgame-comments1.jpeg';
+import endgameComment2Url from '../assets/requirements/designs/endgame-comment2.jpeg';
+import endgameComments3Url from '../assets/requirements/designs/endgame-comments-3.jpeg';
+import overallCommentsUrl from '../assets/requirements/designs/overall-comments.jpeg';
+import mindmap1Url from '../assets/requirements/designs/mindmap1.jpeg';
+import mindmap2Url from '../assets/requirements/designs/mindmap2.jpeg';
+import mindmapThreeUrl from '../assets/requirements/designs/mindmap-three.jpeg';
+
 type DesignImage = {
   src: string;
   alt: string;
@@ -7,77 +23,77 @@ type DesignImage = {
 function ViewsFromLeia() {
   const images: DesignImage[] = [
     {
-      src: 'requirements/designs/initial-views.jpeg',
+      src: initialViewsUrl,
       alt: 'Initial Views (screen 1 is start, then go to 2 or 3 based on alliance. Next 3 screens are versions of auto screens based on what the user is doing in auto.',
       width: '100%',
     },
     {
-      src: 'requirements/designs/blue-auto-start.jpeg',
+      src: blueAutoStartUrl,
       alt: 'AUTO: Beginning of auto (fits into above)',
       width: '100%',
     },
     {
-      src: 'requirements/designs/after-start.jpeg',
+      src: afterStartUrl,
       alt: 'AUTO: Left - click score on reef; right: click score on algae',
       width: '100%',
     },
     {
-      src: 'requirements/designs/general-auto-play.jpeg',
+      src: generalAutoPlayUrl,
       alt: 'AUTO: Penalty options',
       width: '100%',
     },
     {
-      src: 'requirements/designs/holding-both-auto.jpeg',
+      src: holdingBothAutoUrl,
       alt: 'AUTO: Options when a user is holding both autos (shown to ensure that buttons fit)',
       width: '100%',
     },
     {
-      src: 'requirements/designs/holding-teleop-with-defence.jpeg',
+      src: holdingTeleopWithDefenceUrl,
       alt: 'TELEOP regular screens - showing options available based on what is being held',
       width: '100%',
     },
     {
-      src: 'requirements/designs/holding-teleop.jpeg',
+      src: holdingTeleopUrl,
       alt: 'TELEOP: once score is pressed, gives score options',
       width: '100%',
     },
     {
-      src: 'requirements/designs/teleop3.jpeg',
+      src: teleop3Url,
       alt: 'TELEOP: Shows penalties for teleop AND Shows pickup coral; shows coral pickup locations (ignore "holding algae" title); shows defence timer; ',
       width: '100%',
     },
     {
-      src: 'requirements/designs/endgame-comments1.jpeg',
+      src: endgameComments1Url,
       alt: 'Endgame flow + comemnt flow',
       width: '100%',
     },
     {
-      src: 'requirements/designs/endgame-comment2.jpeg',
+      src: endgameComment2Url,
       alt: 'Endgame flow + comemnt flow (second screen of each)',
       width: '100%',
     },
     {
-      src: 'requirements/designs/endgame-comments-3.jpeg',
+      src: endgameComments3Url,
       alt: 'Endgame flow + comemnt flow (third screen of each)',
       width: '100%',
     },
     {
-      src: 'requirements/designs/overall-comments.jpeg',
+      src: overallCommentsUrl,
       alt: 'Final human-entered comments, shows ranking points, arbitrary rating)',
       width: '100%',
     },
     {
-      src: 'requirements/designs/mindmap1.jpeg',
+      src: mindmap1Url,
       alt: 'Mindmap 1 (for inspriation, not solid requirements)',
       width: '100%',
     },
     {
-      src: 'requirements/designs/mindmap2.jpeg',
+      src: mindmap2Url,
       alt: 'Mindmap 2 (for inspriation, not solid requirements)',
       width: '100%',
     },
     {
-      src: 'requirements/designs/mindmap-three.jpeg',
+      src: mindmapThreeUrl,
       alt: 'Mindmap Three (for inspriation, not solid requirements)',
       width: '100%',
     },

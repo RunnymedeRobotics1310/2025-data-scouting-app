@@ -1,7 +1,7 @@
 import { Link, Outlet } from 'react-router-dom';
 import Sync from '../icons/Sync.tsx';
-// import { useContext } from 'react';
-// import GameContext from '../context/GameContext.tsx';
+import logoUrl from '/src/assets/images/logo.png';
+import titleUrl from '/src/assets/images/title.png';
 
 function AppLayout() {
   function sync() {
@@ -11,10 +11,10 @@ function AppLayout() {
     <section id="layout">
       <header>
         <div id="logo">
-          <img src="/images/logo.png" alt="Runnymede Robotics" />
+          <img src={logoUrl} alt="Runnymede Robotics" />
         </div>
         <div id="title">
-          <img src="/images/title.png" alt="1310 Raven Eye" />
+          <img src={titleUrl} alt="1310 Raven Eye" />
         </div>
         <div className={'sync-button'}>
           <span className={'button'} onClick={() => sync()}>
