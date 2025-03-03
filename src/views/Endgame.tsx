@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { SetPhaseButton } from '../functions/setPhase.tsx';
 import { endgame } from '../modes/endgame.ts';
 import { Phase } from '../common/phase.ts';
+import logoUrl from '/src/assets/images/logo.png';
 
 function Endgame() {
   const [climbed, setClimbed] = useState(EndgameStatus.none);
@@ -10,7 +11,7 @@ function Endgame() {
   return (
     <div className={'endgame'}>
       <h1>Endgame</h1>
-      <img src="/images/logo.png" alt="Runnymede Robotics" width={'250'} />
+      <img src={logoUrl} alt="Runnymede Robotics" width={'250'} />
 
       <div>
         <button
