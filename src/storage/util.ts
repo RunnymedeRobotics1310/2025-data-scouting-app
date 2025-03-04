@@ -1,6 +1,7 @@
 import { ScoutingSessionId } from '../types/ScoutingSessionId.ts';
 import { GameEvent } from '../types/GameEvent.ts';
 import { GameEvents } from '../types/GameEvents.ts';
+import { Tournament } from '../types/Tournament.ts';
 
 export function parseKey(keyString: string): ScoutingSessionId {
   const arr = keyString.split('|');
@@ -66,4 +67,19 @@ export function addEvent(
   stringifiedEventsListing = JSON.stringify(gameEvents);
 
   localStorage.setItem(storageKey, stringifiedEventsListing);
+}
+
+export function getAllTournaments() {
+  const eventListString = localStorage.getItem('rrAllTournaments');
+  if (!eventListString) {
+    return [''];
+  }
+
+  const eventList: Tournament[] = JSON.parse(eventListString);
+
+  return eventList;
+}
+
+export function getCurrentTournament() {
+  return;
 }
