@@ -4,6 +4,8 @@ import { dropAlgae } from '../functions/dropAlgae.ts';
 import Algae from '../common/Algae.tsx';
 import { useContext } from 'react';
 import GameContext from '../context/GameContext.tsx';
+import { getScoutingSessionId } from '../storage/util.ts';
+import Loading from '../common/Loading.tsx';
 
 type PropTypes = {
   mode: Mode;
@@ -12,7 +14,8 @@ function DropAlgae(props: PropTypes) {
   const navigate = useNavigate();
   const mode = props.mode;
   const { gamestate, saveGamestate } = useContext(GameContext);
-  const { scoutingSessionId } = gamestate;
+  const scoutingSessionId = getScoutingSessionId();
+  if (!scoutingSessionId) return <Loading />;
 
   return (
     <button

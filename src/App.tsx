@@ -23,6 +23,8 @@ import { endgame } from './modes/endgame.ts';
 import GameContext from './context/GameContext.tsx';
 import { GS, DEFAULT_GAME_STATE } from './context/GS.ts';
 import { penalties } from './modes/penalties.ts';
+import { scout_select } from './modes/scout_select.ts';
+import { tournament_select } from './modes/tournament_select.ts';
 
 function App() {
   const [gamestate, setGamestate] = useState<GS>(DEFAULT_GAME_STATE);
@@ -47,6 +49,8 @@ function App() {
           <Route path="endgame" element={<endgame.view />} />
           <Route path="penalties" element={<penalties.view />} />
         </Route>
+        <Route path="/scout-select" element={<scout_select.view />} />
+        <Route path="/tournament-select" element={<tournament_select.view />} />
         <Route path="/match-select" element={<match_select.view />} />
         <Route path="/match-config" element={<match_config.view />} />
         <Route path="/checklist" element={<checklist.view />} />

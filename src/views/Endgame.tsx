@@ -1,16 +1,16 @@
 import { EndgameStatus, endgameStatus } from '../functions/endgameStatus.ts';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { SetPhaseButton } from '../functions/setPhase.tsx';
 import { endgame } from '../modes/endgame.ts';
 import { Phase } from '../common/phase.ts';
 import logoUrl from '/src/assets/images/logo.png';
-import GameContext from '../context/GameContext.tsx';
+import { getScoutingSessionId } from '../storage/util.ts';
+import NotFound from './NotFound.tsx';
 
 function Endgame() {
   const [climbed, setClimbed] = useState(EndgameStatus.none);
-  const { gamestate } = useContext(GameContext);
-  const { scoutingSessionId } = gamestate;
-
+  const scoutingSessionId = getScoutingSessionId();
+  if (!scoutingSessionId) return <NotFound />;
   return (
     <div className={'endgame'}>
       <h1>Endgame</h1>

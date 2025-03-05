@@ -4,6 +4,8 @@ import { AlgaeLocation, pickupAlgae } from '../functions/pickupAlgae.ts';
 import Algae from '../common/Algae.tsx';
 import { useContext } from 'react';
 import GameContext from '../context/GameContext.tsx';
+import { getScoutingSessionId } from '../storage/util.ts';
+import Loading from '../common/Loading.tsx';
 
 type PropTypes = {
   mode: Mode;
@@ -14,7 +16,8 @@ function PickupAlgaeAuto(props: PropTypes) {
   const mode = props.mode;
   const location = props.location;
   const { gamestate, saveGamestate } = useContext(GameContext);
-  const { scoutingSessionId } = gamestate;
+  const scoutingSessionId = getScoutingSessionId();
+  if (!scoutingSessionId) return <Loading />;
   return (
     <button
       className={'camoButton'}

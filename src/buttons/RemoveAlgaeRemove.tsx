@@ -1,7 +1,7 @@
 import { Mode } from '../common/mode.ts';
 import { removeAlgae } from '../functions/removeAlgae.ts';
-import { useContext } from 'react';
-import GameContext from '../context/GameContext.tsx';
+import { getScoutingSessionId } from '../storage/util.ts';
+import Loading from '../common/Loading.tsx';
 
 type PropTypes = {
   mode: Mode;
@@ -10,8 +10,8 @@ type PropTypes = {
 function RemoveAlgaeRemove(props: PropTypes) {
   const mode = props.mode;
   const cb = props.clearCallback;
-  const { gamestate } = useContext(GameContext);
-  const { scoutingSessionId } = gamestate;
+  const scoutingSessionId = getScoutingSessionId();
+  if (!scoutingSessionId) return <Loading />;
   return (
     <button
       onClick={() => {

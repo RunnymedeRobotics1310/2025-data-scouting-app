@@ -5,17 +5,20 @@ import Law from '../icons/Law.tsx';
 import GameContext from '../context/GameContext.tsx';
 import { penalties } from '../modes/penalties.ts';
 import { getModeForUrl } from '../functions/getModeForUrl.ts';
+import { getScoutingSessionId } from '../storage/util.ts';
+import Loading from './Loading.tsx';
 
 function FieldLayout() {
-  const { gamestate, saveGamestate } = useContext(GameContext);
-  const { teamNumber, alliance } = gamestate.scoutingSessionId;
-  const isRed = alliance == 'red';
   const navigate = useNavigate();
+  const { gamestate, saveGamestate } = useContext(GameContext);
+  const scoutingSessionId = getScoutingSessionId();
+  if (!scoutingSessionId) return <Loading />;
+  const isRed = scoutingSessionId.alliance == 'red';
   return (
     <section id="field-layout">
       <header>
         <span className={isRed ? 'team allianceRed' : 'team allianceBlue'}>
-          Team {teamNumber}
+          Team {scoutingSessionId.teamNumber}
         </span>
         <span className={'phase-selector'}>
           <GamePhaseSwitch />

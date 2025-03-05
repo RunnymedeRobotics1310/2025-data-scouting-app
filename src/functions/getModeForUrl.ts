@@ -5,6 +5,7 @@ import { holding_algae } from '../modes/holding_algae.ts';
 import { holding_both } from '../modes/holding_both.ts';
 import { endgame } from '../modes/endgame.ts';
 import { holding_coral } from '../modes/holding_coral.ts';
+import { human_feedback } from '../modes/human_feedback.ts';
 
 export function getModeForUrl(url: string): Mode {
   const modeList: Mode[] = [
@@ -17,9 +18,9 @@ export function getModeForUrl(url: string): Mode {
   ];
 
   for (let i = 0; i < modeList.length; i++) {
-    if (modeList[i].url == url) {
+    if ('/2025-data-scouting-app' + modeList[i].url == url) {
       return modeList[i];
     }
   }
-  return modeList[0];
+  return human_feedback;
 }

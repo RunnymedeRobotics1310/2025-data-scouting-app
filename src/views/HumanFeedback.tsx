@@ -6,6 +6,12 @@ import { Phase } from '../common/phase.ts';
 import Star from '../icons/Star.tsx';
 import GameContext from '../context/GameContext.tsx';
 import { DEFAULT_GAME_STATE } from '../context/GS.ts';
+import {
+  getScoutingSessionId,
+  setMatchNumber,
+  setTeam,
+} from '../storage/util.ts';
+import NotFound from './NotFound.tsx';
 
 function HumanFeedback() {
   const [comment, setComment] = useState('');
@@ -13,8 +19,9 @@ function HumanFeedback() {
   const [coral, setCoral] = useState(false);
   const [barge, setBarge] = useState(false);
   const [stars, setStars] = useState(0);
-  const { gamestate, saveGamestate } = useContext(GameContext);
-  const { scoutingSessionId } = gamestate;
+  const { saveGamestate } = useContext(GameContext);
+  const scoutingSessionId = getScoutingSessionId();
+  if (!scoutingSessionId) return <NotFound />;
   const isRed = scoutingSessionId.alliance == 'red';
 
   function processHumanFeedback(
@@ -24,6 +31,7 @@ function HumanFeedback() {
     barge: boolean,
     stars: number,
   ) {
+    if (!scoutingSessionId) return null;
     const target = saveFeedback(
       scoutingSessionId,
       comment,
@@ -33,6 +41,8 @@ function HumanFeedback() {
       stars,
     );
     saveGamestate(DEFAULT_GAME_STATE);
+    setMatchNumber(scoutingSessionId.matchId + 1);
+    setTeam(-1310);
     return target;
   }
 

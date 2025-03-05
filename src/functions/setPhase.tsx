@@ -9,7 +9,7 @@ import Button from '../common/Button.tsx';
 import { Phase } from '../common/phase.ts';
 import Loading from '../common/Loading.tsx';
 import GameContext from '../context/GameContext.tsx';
-import { addEvent } from '../storage/util.ts';
+import { addEvent, getScoutingSessionId } from '../storage/util.ts';
 
 export type SetPhaseRetVal = {
   mode: Mode;
@@ -48,10 +48,10 @@ export type SetPhaseButtonType = {
 
 export function SetPhaseButton(props: SetPhaseButtonType) {
   const { gamestate, saveGamestate } = useContext(GameContext);
-  const { scoutingSessionId } = gamestate;
+  const scoutingSessionId = getScoutingSessionId();
   const navigate = useNavigate();
 
-  if (!saveGamestate) return <Loading />;
+  if (!saveGamestate || !scoutingSessionId) return <Loading />;
   return (
     <Button
       label={props.label}

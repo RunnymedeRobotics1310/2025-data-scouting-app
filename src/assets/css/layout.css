@@ -261,6 +261,18 @@ main {
  *
  */
 
+
+.scout-select {
+    display: flex;
+    align-self: center;
+    align-content: center;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+    width: 100%;
+}
+
+
 .match-select {
     align-self: center;
     display: flex;

@@ -1,10 +1,10 @@
 import { toggleDefence } from '../functions/toggleDefence.ts';
-import { useContext } from 'react';
-import GameContext from '../context/GameContext.tsx';
+import { getScoutingSessionId } from '../storage/util.ts';
+import Loading from '../common/Loading.tsx';
 
 function Defence() {
-  const { gamestate } = useContext(GameContext);
-  const { scoutingSessionId } = gamestate;
+  const scoutingSessionId = getScoutingSessionId();
+  if (!scoutingSessionId) return <Loading />;
   return (
     <button onClick={() => toggleDefence(scoutingSessionId)}>Defence</button>
   );

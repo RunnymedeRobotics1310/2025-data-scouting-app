@@ -5,11 +5,15 @@ import { useContext } from 'react';
 import GameContext from '../context/GameContext.tsx';
 import { Phase } from '../common/phase.ts';
 import { logPenalty, Penalty } from '../functions/logPenalty.ts';
+import { getScoutingSessionId } from '../storage/util.ts';
+import Loading from '../common/Loading.tsx';
 
 function Penalties() {
   const navigate = useNavigate();
   const { gamestate } = useContext(GameContext);
-  const { scoutingSessionId, currentPhase, modeBeforePenalty } = gamestate;
+  const { currentPhase, modeBeforePenalty } = gamestate;
+  const scoutingSessionId = getScoutingSessionId();
+  if (!scoutingSessionId) return <Loading />;
 
   function PLayout(props: any) {
     return (
@@ -18,49 +22,57 @@ function Penalties() {
         {props.children}
         <button
           onClick={() => {
-            navigate(
-              logPenalty(
-                scoutingSessionId,
-                Penalty.offLimitContact,
-                modeBeforePenalty,
-              ).url,
-            );
+            if (scoutingSessionId) {
+              navigate(
+                logPenalty(
+                  scoutingSessionId,
+                  Penalty.offLimitContact,
+                  modeBeforePenalty,
+                ).url,
+              );
+            }
           }}
         >
           Off-limit contact
         </button>
         <button
           onClick={() => {
-            navigate(
-              logPenalty(
-                scoutingSessionId,
-                Penalty.fieldDamage,
-                modeBeforePenalty,
-              ).url,
-            );
+            if (scoutingSessionId) {
+              navigate(
+                logPenalty(
+                  scoutingSessionId,
+                  Penalty.fieldDamage,
+                  modeBeforePenalty,
+                ).url,
+              );
+            }
           }}
         >
           Field Damage
         </button>
         <button
           onClick={() => {
-            navigate(
-              logPenalty(
-                scoutingSessionId,
-                Penalty.tooManyGamePieces,
-                modeBeforePenalty,
-              ).url,
-            );
+            if (scoutingSessionId) {
+              navigate(
+                logPenalty(
+                  scoutingSessionId,
+                  Penalty.tooManyGamePieces,
+                  modeBeforePenalty,
+                ).url,
+              );
+            }
           }}
         >
           Too many <Algae />/<Coral />
         </button>
         <button
           onClick={() => {
-            navigate(
-              logPenalty(scoutingSessionId, Penalty.other, modeBeforePenalty)
-                .url,
-            );
+            if (scoutingSessionId) {
+              navigate(
+                logPenalty(scoutingSessionId, Penalty.other, modeBeforePenalty)
+                  .url,
+              );
+            }
           }}
         >
           Other
