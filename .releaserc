@@ -4,10 +4,12 @@
     "@semantic-release/release-notes-generator",
     "@semantic-release/github",
     "@semantic-release/npm",
-    "@semantic-release/exec"
+    [
+      "@semantic-release/exec",
+      {
+        "publishCmd": "./semver-publish.sh"
+      }
+    ]
   ],
  "npmPublish": false,
- "exec": {
-    "publishCmd": "bash ./semver-publish.sh"
-  }
 }
