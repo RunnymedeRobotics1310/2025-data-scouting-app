@@ -22,6 +22,8 @@ jobs:
         run: npm run build
       - name: Semantic Release
         run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Commit package.json and package-lock.json
         run: git add package.json package-lock.json && git commit; git push
         env:
