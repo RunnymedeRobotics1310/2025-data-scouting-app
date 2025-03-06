@@ -57,8 +57,9 @@ function HumanFeedback() {
           </span>
         </label>
         <h1>Comments</h1>
-        <input
-          type={'text'}
+        <textarea
+          rows={5}
+          cols={40}
           id={'comment'}
           placeholder={'type here'}
           onChange={e => setComment(e.target.value)}
