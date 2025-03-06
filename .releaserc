@@ -8,6 +8,6 @@
   ],
  "npmPublish": false,
  "exec": {
-    "publishCmd": "npm run deploy"
+    "publishCmd": "./semver-publish.sh"
   }
 }

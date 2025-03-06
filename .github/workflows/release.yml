@@ -24,19 +24,3 @@ jobs:
         run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-      - name: Commit package.json and package-lock.json
-        run: |
-          git config user.email "1310.runnymede.robotics@gmail.com"
-          git config user.name "Runnymede Robotics CI"
-          git add package.json package-lock.json
-          git commit -m "chore(release): update package.json and package-lock.json"
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-      - name: Deploy
-        run: |
-          git config user.email "1310.runnymede.robotics@gmail.com"
-          git config user.name "Runnymede Robotics CI"
-          npm run deploy
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
