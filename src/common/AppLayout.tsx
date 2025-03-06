@@ -3,6 +3,7 @@ import Sync from '../icons/Sync.tsx';
 import logoUrl from '/src/assets/images/logo.png';
 import titleUrl from '/src/assets/images/title.png';
 import { isDevelopment } from '../dev/util.ts';
+import VersionDisplay from './VersionDisplay.tsx';
 
 function AppLayout() {
   function sync() {
@@ -30,6 +31,7 @@ function AppLayout() {
       </main>
       <footer>
         <div>&copy; 2025 Runnymede Robotics Team 1310</div>
+        <VersionDisplay />
         {isDevelopment() && (
           <menu id="menu">
             <li>
