@@ -10,6 +10,7 @@ import { Phase } from '../common/phase.ts';
 import Loading from '../common/Loading.tsx';
 import GameContext from '../context/GameContext.tsx';
 import { addEvent, getScoutingSessionId } from '../storage/util.ts';
+import { GS } from '../context/GS.ts';
 
 export type SetPhaseRetVal = {
   mode: Mode;
@@ -43,6 +44,7 @@ export type SetPhaseButtonType = {
   currentMode: Mode;
   desiredPhase: Phase;
   label: string;
+  desiredGamestate?: GS;
   callback?: any;
 };
 
@@ -50,13 +52,17 @@ export function SetPhaseButton(props: SetPhaseButtonType) {
   const { gamestate, saveGamestate } = useContext(GameContext);
   const scoutingSessionId = getScoutingSessionId();
   const navigate = useNavigate();
+  let state = gamestate;
+  if (props.desiredGamestate) {
+    state = props.desiredGamestate;
+  }
 
   if (!saveGamestate || !scoutingSessionId) return <Loading />;
   return (
     <Button
       label={props.label}
       callback={() => {
-        saveGamestate({ ...gamestate, currentPhase: props.desiredPhase });
+        saveGamestate({ ...state, currentPhase: props.desiredPhase });
         addEvent(scoutingSessionId, 'set-phase-' + props.desiredPhase);
         if (props.callback) {
           props.callback();

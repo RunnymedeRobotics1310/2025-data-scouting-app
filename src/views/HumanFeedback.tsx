@@ -9,6 +9,7 @@ import { DEFAULT_GAME_STATE } from '../context/GS.ts';
 import {
   getScoutingSessionId,
   setMatchNumber,
+  setScoutingSessionId,
   setTeam,
 } from '../storage/util.ts';
 import NotFound from './NotFound.tsx';
@@ -41,8 +42,9 @@ function HumanFeedback() {
       stars,
     );
     saveGamestate(DEFAULT_GAME_STATE);
-    setMatchNumber(scoutingSessionId.matchId + 1);
+    setMatchNumber(0);
     setTeam(-1310);
+    setScoutingSessionId('red');
     return target;
   }
 
@@ -129,14 +131,16 @@ function HumanFeedback() {
             <Star filled={stars >= 5} />
           </button>
         </div>
-        <SetPhaseButton
-          currentMode={human_feedback}
-          desiredPhase={Phase.pre_match}
-          label={'Done --->'}
-          callback={() =>
-            processHumanFeedback(comment, auto, coral, barge, stars)
-          }
-        />
+        {stars > 0 && (
+          <SetPhaseButton
+            currentMode={human_feedback}
+            desiredPhase={Phase.pre_match}
+            label={'Done --->'}
+            callback={() =>
+              processHumanFeedback(comment, auto, coral, barge, stars)
+            }
+          />
+        )}
       </div>
     </div>
   );

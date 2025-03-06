@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { getTeamsForMatch } from '../functions/getTeamsForMatch.ts';
 import { selectMatch } from '../functions/selectMatch.ts';
 import { Tournament } from '../types/Tournament.ts';
@@ -8,6 +8,8 @@ import {
   setScoutingSessionId,
   setTeam,
 } from '../storage/util.ts';
+import { DEFAULT_GAME_STATE } from '../context/GS.ts';
+import GameContext from '../context/GameContext.tsx';
 
 function MatchSelect() {
   const defaultArray = [-1, -1, -1, -1, -1, -1];
@@ -17,6 +19,7 @@ function MatchSelect() {
   const [teamNumber, setTeamNumber] = useState(-1310);
   const [alliance, setAlliance] = useState('red');
   const [checked, setChecked] = useState(false);
+  const { saveGamestate } = useContext(GameContext);
   const visibility = lineup[0] > 0 ? ' ' : 'isNotVisible';
 
   const currentTournamentString = localStorage.getItem('rrTournament');
@@ -136,6 +139,7 @@ function MatchSelect() {
                 setMatchNumber(match);
                 setTeam(teamNumber);
                 setScoutingSessionId(alliance);
+                saveGamestate(DEFAULT_GAME_STATE);
                 navigate(selectMatch(checked).url);
               }}
             >

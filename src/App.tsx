@@ -46,8 +46,9 @@ function App() {
 
   const saveGamestate = (state: GS) => {
     setGamestate(state);
-    const gamestateString = JSON.stringify(gamestate);
+    const gamestateString = JSON.stringify(state);
     localStorage.setItem('rrCurrentGamestate', gamestateString);
+    console.log('saved gamestate to', state);
   };
 
   const router = createBrowserRouter(

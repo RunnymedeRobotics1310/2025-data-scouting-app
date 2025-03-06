@@ -6,17 +6,17 @@ import { Phase } from '../common/phase.ts';
 import GameContext from '../context/GameContext.tsx';
 import { getScoutingSessionId } from '../storage/util.ts';
 import NotFound from './NotFound.tsx';
+import { GS } from '../context/GS.ts';
 
 function MatchConfig() {
   // const [preloaded, setPreloaded] = useState(false);
   const [position, setPosition] = useState(RobotPosition.left);
-  const { gamestate, saveGamestate } = useContext(GameContext);
+  const { gamestate } = useContext(GameContext);
   const [isPreloaded, setIsPreloaded] = useState(false);
   const { preloaded } = gamestate;
   const scoutingSessionId = getScoutingSessionId();
   if (!scoutingSessionId) return <NotFound />;
   const isRed = scoutingSessionId.alliance == 'red';
-  console.log('id: ', scoutingSessionId);
 
   return (
     <div className={'general-layout'}>
@@ -85,14 +85,14 @@ function MatchConfig() {
             currentMode={match_config}
             desiredPhase={Phase.auto}
             label={'Start --->'}
-            callback={() => {
-              saveGamestate({
+            desiredGamestate={
+              {
                 ...gamestate,
                 preloaded: isPreloaded,
                 holdingCoral: isPreloaded,
-              });
-              autoConfig(scoutingSessionId, preloaded, position);
-            }}
+              } as GS
+            }
+            callback={() => autoConfig(scoutingSessionId, preloaded, position)}
           />
         </label>
       </div>
