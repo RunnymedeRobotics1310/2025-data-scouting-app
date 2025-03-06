@@ -7,6 +7,7 @@ import { Phase } from '../common/phase.ts';
 import { logPenalty, Penalty } from '../functions/logPenalty.ts';
 import { getScoutingSessionId } from '../storage/util.ts';
 import Loading from '../common/Loading.tsx';
+import { getModeForUrl } from '../functions/getModeForUrl.ts';
 
 function Penalties() {
   const navigate = useNavigate();
@@ -14,6 +15,8 @@ function Penalties() {
   const { currentPhase, modeBeforePenalty } = gamestate;
   const scoutingSessionId = getScoutingSessionId();
   if (!scoutingSessionId) return <Loading />;
+
+  const modeBeforePenaltyObj = getModeForUrl(modeBeforePenalty);
 
   function PLayout(props: any) {
     return (
@@ -27,7 +30,7 @@ function Penalties() {
                 logPenalty(
                   scoutingSessionId,
                   Penalty.offLimitContact,
-                  modeBeforePenalty,
+                  modeBeforePenaltyObj,
                 ).url,
               );
             }
@@ -42,7 +45,7 @@ function Penalties() {
                 logPenalty(
                   scoutingSessionId,
                   Penalty.fieldDamage,
-                  modeBeforePenalty,
+                  modeBeforePenaltyObj,
                 ).url,
               );
             }
@@ -57,7 +60,7 @@ function Penalties() {
                 logPenalty(
                   scoutingSessionId,
                   Penalty.tooManyGamePieces,
-                  modeBeforePenalty,
+                  modeBeforePenaltyObj,
                 ).url,
               );
             }
@@ -69,18 +72,18 @@ function Penalties() {
           onClick={() => {
             if (scoutingSessionId) {
               navigate(
-                logPenalty(scoutingSessionId, Penalty.other, modeBeforePenalty)
-                  .url,
+                logPenalty(
+                  scoutingSessionId,
+                  Penalty.other,
+                  modeBeforePenaltyObj,
+                ).url,
               );
             }
           }}
         >
           Other
         </button>
-        <button
-          id={'back-button'}
-          onClick={() => navigate(modeBeforePenalty.url)}
-        >
+        <button id={'back-button'} onClick={() => navigate(modeBeforePenalty)}>
           Back to Field
         </button>
       </div>
@@ -96,7 +99,7 @@ function Penalties() {
               logPenalty(
                 scoutingSessionId,
                 Penalty.opponentContact,
-                modeBeforePenalty,
+                modeBeforePenaltyObj,
               ).url,
             );
           }}
@@ -109,7 +112,7 @@ function Penalties() {
               logPenalty(
                 scoutingSessionId,
                 Penalty.throwingAlgae,
-                modeBeforePenalty,
+                modeBeforePenaltyObj,
               ).url,
             );
           }}
@@ -126,7 +129,8 @@ function Penalties() {
         <button
           onClick={() => {
             navigate(
-              logPenalty(scoutingSessionId, Penalty.pin, modeBeforePenalty).url,
+              logPenalty(scoutingSessionId, Penalty.pin, modeBeforePenaltyObj)
+                .url,
             );
           }}
         >
@@ -138,7 +142,7 @@ function Penalties() {
               logPenalty(
                 scoutingSessionId,
                 Penalty.zoneViolation,
-                modeBeforePenalty,
+                modeBeforePenaltyObj,
               ).url,
             );
           }}

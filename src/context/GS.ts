@@ -1,6 +1,4 @@
 import { Phase } from '../common/phase.ts';
-import { Mode } from '../common/mode.ts';
-import { holding_nothing } from '../modes/holding_nothing.ts';
 
 export type GS = {
   preloaded: boolean;
@@ -14,7 +12,7 @@ export type GS = {
   pickedAutoAlgaeLeft: boolean;
   pickedAutoAlgaeCenter: boolean;
   pickedAutoAlgaeRight: boolean;
-  modeBeforePenalty: Mode;
+  modeBeforePenalty: string;
 };
 
 export const DEFAULT_GAME_STATE = {
@@ -29,5 +27,5 @@ export const DEFAULT_GAME_STATE = {
   pickedAutoAlgaeLeft: false,
   pickedAutoAlgaeCenter: false,
   pickedAutoAlgaeRight: false,
-  modeBeforePenalty: holding_nothing,
+  modeBeforePenalty: '/game/holding-nothing', // todo: consider moving to constants
 } as GS;

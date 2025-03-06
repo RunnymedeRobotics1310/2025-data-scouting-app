@@ -1,7 +1,7 @@
-import { LazyExoticComponent } from 'react';
+import * as React from 'react';
 
 export interface Mode {
   label: string;
   url: string;
-  view: LazyExoticComponent<() => JSX.Element>;
+  view: () => React.JSX.Element;
 }

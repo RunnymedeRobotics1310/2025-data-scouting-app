@@ -1,8 +1,8 @@
 import { Mode } from '../common/mode.ts';
-import { lazy } from 'react';
+import Penalties from '../views/Penalties.tsx';
 
 export const penalties: Mode = {
   label: 'Penalties',
   url: '/game/penalties',
-  view: lazy(() => import('../views/Penalties.tsx')),
+  view: Penalties,
 };

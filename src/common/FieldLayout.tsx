@@ -4,7 +4,6 @@ import GamePhaseSwitch from '../buttons/GamePhaseSwitch.tsx';
 import Law from '../icons/Law.tsx';
 import GameContext from '../context/GameContext.tsx';
 import { penalties } from '../modes/penalties.ts';
-import { getModeForUrl } from '../functions/getModeForUrl.ts';
 import { getScoutingSessionId } from '../storage/util.ts';
 import Loading from './Loading.tsx';
 import { myBasename } from '../App.tsx';
@@ -31,7 +30,7 @@ function FieldLayout() {
               if (location.pathname != myBasename + penalties.url) {
                 saveGamestate({
                   ...gamestate,
-                  modeBeforePenalty: getModeForUrl(location.pathname),
+                  modeBeforePenalty: location.pathname,
                 });
                 navigate(penalties.url);
               }

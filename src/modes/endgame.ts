@@ -1,8 +1,8 @@
 import { Mode } from '../common/mode.ts';
-import { lazy } from 'react';
+import Endgame from '../views/Endgame.tsx';
 
 export const endgame: Mode = {
   label: 'Endgame',
   url: '/game/endgame',
-  view: lazy(() => import('../views/Endgame.tsx')),
+  view: Endgame,
 };
