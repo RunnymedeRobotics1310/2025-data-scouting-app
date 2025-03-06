@@ -28,9 +28,10 @@ function FieldLayout() {
             className={'button'}
             onClick={() => {
               if (location.pathname != myBasename + penalties.url) {
+                const currUrl = location.pathname.replace(myBasename, '');
                 saveGamestate({
                   ...gamestate,
-                  modeBeforePenalty: location.pathname,
+                  modeBeforePenalty: currUrl,
                 });
                 navigate(penalties.url);
               }
