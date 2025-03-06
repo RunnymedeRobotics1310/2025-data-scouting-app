@@ -5,26 +5,27 @@ on:
   pull_request:
     branches:
       - main
-publish:
-  needs: [ build ]
-  runs-on: ubuntu-latest
-  steps:
-    - name: Checkout
-      uses: actions/checkout@v1
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
-    - name: Install dependencies
-      run: npm install
-    - name: Build
-      run: npm run build
-    - name: Semantic Release
-      uses: cycjimmy/semantic-release-action@v2
-      with:
-        extra_plugins: |
-          @semantic-release/git
-          @semantic-release/exec
-          @semantic-release/changelog
-      env:
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+jobs:
+  publish:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: npm install
+      - name: Build
+        run: npm run build
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v2
+        with:
+          extra_plugins: |
+            @semantic-release/git
+            @semantic-release/exec
+            @semantic-release/changelog
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
