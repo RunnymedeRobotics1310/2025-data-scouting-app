@@ -7,7 +7,7 @@
     [
       "@semantic-release/exec",
       {
-        "publishCmd": "npm run deploy"
+        "publishCmd": "npm run deploy",
         "successCmd": "./semver-publish.sh"
       }
     ]
