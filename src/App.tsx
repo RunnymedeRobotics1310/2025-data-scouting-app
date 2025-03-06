@@ -26,10 +26,11 @@ import { penalties } from './modes/penalties.ts';
 import { scout_select } from './modes/scout_select.ts';
 import { tournament_select } from './modes/tournament_select.ts';
 
+export const myBasename = '/2025-data-scouting-app'; // todo: fixme: make this dynamic
+
 function App() {
   const [gamestate, setGamestate] = useState<GS>(DEFAULT_GAME_STATE);
 
-  const myBasename = '/2025-data-scouting-app'; // todo: fixme: make this dynamic
   const pictures = [
     `${myBasename}/images/logo.png`,
     `${myBasename}/images/title.png`,

@@ -7,6 +7,7 @@ import { penalties } from '../modes/penalties.ts';
 import { getModeForUrl } from '../functions/getModeForUrl.ts';
 import { getScoutingSessionId } from '../storage/util.ts';
 import Loading from './Loading.tsx';
+import { myBasename } from '../App.tsx';
 
 function FieldLayout() {
   const navigate = useNavigate();
@@ -27,11 +28,13 @@ function FieldLayout() {
           <span
             className={'button'}
             onClick={() => {
-              saveGamestate({
-                ...gamestate,
-                modeBeforePenalty: getModeForUrl(location.pathname),
-              });
-              navigate(penalties.url);
+              if (location.pathname != myBasename + penalties.url) {
+                saveGamestate({
+                  ...gamestate,
+                  modeBeforePenalty: getModeForUrl(location.pathname),
+                });
+                navigate(penalties.url);
+              }
             }}
           >
             <Law />
