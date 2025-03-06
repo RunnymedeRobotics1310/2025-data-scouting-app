@@ -3,9 +3,9 @@
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
     "@semantic-release/github",
-    "@semantic-release/github-pages"
+    "@semantic-release/exec"
   ],
-  "github-pages": {
-    "branch": "gh-pages"
+  "exec": {
+    "publishCmd": "npm run deploy"
   }
 }
