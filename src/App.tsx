@@ -25,6 +25,12 @@ import { GS, DEFAULT_GAME_STATE } from './context/GS.ts';
 import { penalties } from './modes/penalties.ts';
 import { scout_select } from './modes/scout_select.ts';
 import { tournament_select } from './modes/tournament_select.ts';
+import logoUrl from '/src/assets/images/logo.png';
+import titleUrl from '/src/assets/images/title.png';
+import automapBlueUrl from '/src/assets/requirements/fields/automap-blue.png';
+import automapRedUrl from '/src/assets/requirements/fields/automap-red.png';
+import reefscapeBlueUrl from '/src/assets/requirements/fields/reefscape-blue.png';
+import reefscapeRedUrl from '/src/assets/requirements/fields/reefscape-red.png';
 
 export const myBasename = '/2025-data-scouting-app'; // todo: fixme: make this dynamic
 
@@ -32,13 +38,12 @@ function App() {
   const [gamestate, setGamestate] = useState<GS>(DEFAULT_GAME_STATE);
 
   const pictures = [
-    `${myBasename}/images/logo.png`,
-    `${myBasename}/images/title.png`,
-    `${myBasename}/images/title-orig.png`,
-    `${myBasename}/requirements/fields/automap-blue.png`,
-    `${myBasename}/requirements/fields/automap-red.png`,
-    `${myBasename}/requirements/fields/reefscape-blue.png`,
-    `${myBasename}/requirements/fields/reefscape-red.png`,
+    logoUrl,
+    titleUrl,
+    automapBlueUrl,
+    automapRedUrl,
+    reefscapeBlueUrl,
+    reefscapeRedUrl,
   ];
   pictures.forEach(picture => {
     const img = new Image();
