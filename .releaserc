@@ -10,7 +10,12 @@
         "successCmd": "./semver-publish.sh"
       }
     ],
-    "@qiwi/semantic-release-gh-pages-plugin"
+    [
+      "@qiwi/semantic-release-gh-pages-plugin",
+      {
+        "src": "dist"
+      }
+    ]
   ],
  "npmPublish": false,
 }
