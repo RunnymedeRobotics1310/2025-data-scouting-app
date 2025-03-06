@@ -7,7 +7,7 @@
     [
       "@semantic-release/exec",
       {
-        "successCmd": "./semver-publish.sh"
+        "prepareCmd": "./semver-commit.sh"
       }
     ],
     [
