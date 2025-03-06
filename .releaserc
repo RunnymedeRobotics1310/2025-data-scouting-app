@@ -6,7 +6,8 @@
     "@semantic-release/npm",
     "@semantic-release/exec"
   ],
-  "exec": {
+ "npmPublish": false,
+ "exec": {
     "publishCmd": "npm run deploy"
   }
 }
