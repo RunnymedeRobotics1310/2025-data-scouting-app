@@ -29,6 +29,21 @@ import { tournament_select } from './modes/tournament_select.ts';
 function App() {
   const [gamestate, setGamestate] = useState<GS>(DEFAULT_GAME_STATE);
 
+  const myBasename = '/2025-data-scouting-app'; // todo: fixme: make this dynamic
+  const pictures = [
+    `${myBasename}/images/logo.png`,
+    `${myBasename}/images/title.png`,
+    `${myBasename}/images/title-orig.png`,
+    `${myBasename}/requirements/fields/automap-blue.png`,
+    `${myBasename}/requirements/fields/automap-red.png`,
+    `${myBasename}/requirements/fields/reefscape-blue.png`,
+    `${myBasename}/requirements/fields/reefscape-red.png`,
+  ];
+  pictures.forEach(picture => {
+    const img = new Image();
+    img.src = picture;
+  });
+
   const saveGamestate = (state: GS) => {
     setGamestate(state);
     const gamestateString = JSON.stringify(gamestate);
@@ -59,7 +74,7 @@ function App() {
       </Route>,
     ),
     {
-      basename: '/2025-data-scouting-app', // todo: fixme: make this dynamic
+      basename: myBasename,
     },
   );
   return (
