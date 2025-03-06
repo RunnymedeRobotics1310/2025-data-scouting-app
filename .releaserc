@@ -8,6 +8,6 @@
   ],
  "npmPublish": false,
  "exec": {
-    "publishCmd": "pwd && ./semver-publish.sh"
+    "publishCmd": "bash ./semver-publish.sh"
   }
 }
