@@ -5,6 +5,3 @@ git config user.name "Runnymede Robotics CI"
 git add package.json package-lock.json
 git commit -m "chore(release): update package.json and package-lock.json"
 git push
-echo "Deploying to github pages"
-npm run deploy
-echo "Done"
