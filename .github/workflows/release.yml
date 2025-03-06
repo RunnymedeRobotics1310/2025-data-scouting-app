@@ -25,6 +25,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Commit package.json and package-lock.json
-        run: git add package.json package-lock.json && git commit; git push
+        run: |
+          git config --global user.email "1310.runnymede.robotics@gmail.com" && \
+          git config --global user.name "Runnymede Robotics CI" && \
+          git add package.json package-lock.json && \
+          git commit && \
+          git push
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
