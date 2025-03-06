@@ -7,10 +7,10 @@
     [
       "@semantic-release/exec",
       {
-        "publishCmd": "npm run deploy",
         "successCmd": "./semver-publish.sh"
       }
-    ]
+    ],
+    "@qiwi/semantic-release-gh-pages-plugin"
   ],
  "npmPublish": false,
 }
