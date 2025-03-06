@@ -34,6 +34,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Deploy
-        run: npm run deploy
+        run: |
+          git config user.email "1310.runnymede.robotics@gmail.com"
+          git config user.name "Runnymede Robotics CI"
+          npm run deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
