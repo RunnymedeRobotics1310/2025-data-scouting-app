@@ -30,8 +30,10 @@ function AppLayout() {
         <Outlet />
       </main>
       <footer>
-        <div>&copy; 2025 Runnymede Robotics Team 1310</div>
-        <VersionDisplay />
+        <section>
+          <div>&copy; 2025 Runnymede Robotics Team 1310</div>
+          <VersionDisplay />
+        </section>
         {isDevelopment() && (
           <menu id="menu">
             <li>
