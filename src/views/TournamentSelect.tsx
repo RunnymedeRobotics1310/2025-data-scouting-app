@@ -21,7 +21,11 @@ function ScoutSelect() {
           >
             <option value={''}> -- select --</option>
             {tournaments.map(t => {
-              return <option value={t.id}>{t.name}</option>;
+              return (
+                <option key={t.id} value={t.id}>
+                  {t.name}
+                </option>
+              );
             })}
           </select>
         </label>
