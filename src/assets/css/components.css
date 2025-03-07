@@ -172,7 +172,29 @@ button {
     }
 }
 
+.spinner {
+    height: 1.5rem;
+    width: 1.5rem;
+    border: 6px solid;
+    border-color: var(--alliance-red) transparent var(--primary-text) transparent;
+    border-radius: 50%;
+    animation: spin 1.3s linear infinite;
+}
+@keyframes spin {
+    to {
+        transform: rotate(360deg)
+    }
+}
 
+
+.googleExampleContentPreStyle {
+    white-space: pre-wrap;
+}
+table.tools {
+    td {
+        padding: 0.25rem;
+    }
+}
 /*
  *
  * FORMS

@@ -43,8 +43,6 @@ function ScoutSelect() {
             </button>
           </label>
         )}
-
-        <p>this page looks bad, remind me to fix it</p>
       </div>
     </div>
   );
