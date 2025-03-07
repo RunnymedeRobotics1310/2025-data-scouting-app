@@ -54,7 +54,7 @@ function HoldingBoth() {
         // Auto & Teleop buttons
         //
       }
-      {showScoreReefControls()} {scoreAlgaeOptions()}
+      {scoreAlgaeOptions()} {showScoreReefControls()}
       <Zone zone="driver-station">
         <DropCoral mode={holding_both} />
       </Zone>

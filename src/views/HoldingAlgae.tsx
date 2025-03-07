@@ -44,7 +44,7 @@ function HoldingAlgae() {
         {showScoreAlgaeOptions ? (
           <AlgaeScoreOptions mode={holding_algae} />
         ) : (
-          <Zone zone="start-zone">
+          <Zone zone="start-zone" classes={'top'}>
             <ScoreAlgae callback={() => setShowScoreAlgaeOptions(true)} />
           </Zone>
         )}

@@ -14,7 +14,7 @@ function AlgaeScoreOptions(props: PropTypes) {
       <Zone zone="barge-left">
         <ScoreAlgaeNet mode={mode} />
       </Zone>
-      <Zone zone="behind-reef" classes={'top left'}>
+      <Zone zone="behind-reef" classes={'top right'}>
         <ScoreAlgaeProcessor mode={mode} />
       </Zone>
     </>
