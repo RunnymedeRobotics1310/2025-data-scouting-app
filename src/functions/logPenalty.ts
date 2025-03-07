@@ -1,6 +1,7 @@
 import { Mode } from '../common/mode.ts';
 import { ScoutingSessionId } from '../types/ScoutingSessionId.ts';
 import { addEvent } from '../storage/util.ts';
+import { Phase } from '../common/phase.ts';
 
 export enum Penalty {
   opponentContact = 'opponent-contact',
@@ -16,12 +17,13 @@ export enum Penalty {
 }
 export function logPenalty(
   scoutingSessionId: ScoutingSessionId,
+  phase: Phase,
   penalty: Penalty,
   prevMode: Mode,
 ): Mode {
   console.log('Robot committed penalty: ' + penalty);
 
-  addEvent(scoutingSessionId, 'penalty-' + penalty);
+  addEvent(scoutingSessionId, phase, 'penalty-' + penalty);
 
   return prevMode;
 }

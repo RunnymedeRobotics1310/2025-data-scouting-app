@@ -5,14 +5,16 @@ import { holding_both } from '../modes/holding_both.ts';
 import { holding_algae } from '../modes/holding_algae.ts';
 import { ScoutingSessionId } from '../types/ScoutingSessionId.ts';
 import { addEvent } from '../storage/util.ts';
+import { Phase } from '../common/phase.ts';
 
 export function dropCoral(
   scoutingSessionId: ScoutingSessionId,
+  phase: Phase,
   mode: Mode,
 ): Mode {
   console.log('Dropped coral from ' + mode.label);
 
-  addEvent(scoutingSessionId, 'drop-coral');
+  addEvent(scoutingSessionId, phase, 'drop-coral');
 
   if (mode === holding_coral) {
     return holding_nothing;

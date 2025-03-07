@@ -4,9 +4,11 @@ import { holding_coral } from '../modes/holding_coral.ts';
 import { ScoutingSessionId } from '../types/ScoutingSessionId.ts';
 import { AlgaeLocation, pickupAlgae } from './pickupAlgae.ts';
 import { addEvent } from '../storage/util.ts';
+import { Phase } from '../common/phase.ts';
 
 export function removeAlgae(
   scoutingSessionId: ScoutingSessionId,
+  phase: Phase,
   startingMode: Mode,
   plucked: boolean,
 ) {
@@ -17,7 +19,7 @@ export function removeAlgae(
       plucked,
   );
 
-  addEvent(scoutingSessionId, 'remove-algae');
+  addEvent(scoutingSessionId, phase, 'remove-algae');
 
   let nextMode = startingMode;
 
@@ -29,7 +31,12 @@ export function removeAlgae(
   }
 
   if (plucked) {
-    nextMode = pickupAlgae(scoutingSessionId, startingMode, AlgaeLocation.reef);
+    nextMode = pickupAlgae(
+      scoutingSessionId,
+      phase,
+      startingMode,
+      AlgaeLocation.reef,
+    );
   }
 
   return nextMode;

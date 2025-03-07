@@ -18,7 +18,9 @@ function ScoreReefL3(props: PropTypes) {
   return (
     <button
       onClick={() => {
-        navigate(scoreReef(scoutingSessionId, mode, 3).url);
+        navigate(
+          scoreReef(scoutingSessionId, gamestate.currentPhase, mode, 3).url,
+        );
         saveGamestate({ ...gamestate, holdingCoral: false });
       }}
     >

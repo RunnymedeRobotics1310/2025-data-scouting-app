@@ -2,6 +2,7 @@ import { ScoutingSessionId } from '../types/ScoutingSessionId.ts';
 import { GameEvent } from '../types/GameEvent.ts';
 import { GameEvents } from '../types/GameEvents.ts';
 import { Tournament } from '../types/Tournament.ts';
+import { Phase } from '../common/phase.ts';
 
 export function parseKey(keyString: string): ScoutingSessionId {
   const arr = keyString.split('|');
@@ -34,6 +35,7 @@ export function stringifyKey(obj: ScoutingSessionId): string {
 
 export function addEvent(
   scoutingSessionId: ScoutingSessionId,
+  phase: Phase,
   eventType: string,
   note: string = '',
 ) {
@@ -60,7 +62,7 @@ export function addEvent(
     matchId: scoutingSessionId.matchId,
     alliance: scoutingSessionId.alliance,
     teamNumber: scoutingSessionId.teamNumber,
-    eventType: eventType,
+    eventType: phase + '-' + eventType,
     note: note,
     synchronized: false,
   };

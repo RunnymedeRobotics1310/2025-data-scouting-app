@@ -2,9 +2,11 @@ import { Mode } from '../common/mode.ts';
 import { match_select } from '../modes/match_select.ts';
 import { ScoutingSessionId } from '../types/ScoutingSessionId.ts';
 import { addEvent } from '../storage/util.ts';
+import { Phase } from '../common/phase.ts';
 
 export function saveFeedback(
   scoutingSessionId: ScoutingSessionId,
+  phase: Phase,
   comment: string,
   autoRP: boolean,
   coralRP: boolean,
@@ -24,18 +26,18 @@ export function saveFeedback(
       stars,
   );
 
-  addEvent(scoutingSessionId, 'comment', comment);
+  addEvent(scoutingSessionId, phase, 'comment', comment);
 
   if (autoRP) {
-    addEvent(scoutingSessionId, 'auto-rp');
+    addEvent(scoutingSessionId, phase, 'auto-rp');
   }
   if (coralRP) {
-    addEvent(scoutingSessionId, 'coral-rp');
+    addEvent(scoutingSessionId, phase, 'coral-rp');
   }
   if (bargeRP) {
-    addEvent(scoutingSessionId, 'barge-rp');
+    addEvent(scoutingSessionId, phase, 'barge-rp');
   }
-  addEvent(scoutingSessionId, 'star-rating-' + stars);
+  addEvent(scoutingSessionId, phase, 'star-rating-' + stars);
 
   return match_select;
 }

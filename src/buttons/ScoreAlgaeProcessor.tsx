@@ -19,7 +19,10 @@ function ScoreAlgaeProcessor(props: PropTypes) {
   return (
     <button
       onClick={() => {
-        navigate(scoreAlgaeProcessor(scoutingSessionId, mode).url);
+        navigate(
+          scoreAlgaeProcessor(scoutingSessionId, gamestate.currentPhase, mode)
+            .url,
+        );
         saveGamestate({ ...gamestate, holdingAlgae: false });
       }}
     >

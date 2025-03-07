@@ -29,6 +29,7 @@ function Penalties() {
               navigate(
                 logPenalty(
                   scoutingSessionId,
+                  currentPhase,
                   Penalty.offLimitContact,
                   modeBeforePenaltyObj,
                 ).url,
@@ -44,6 +45,7 @@ function Penalties() {
               navigate(
                 logPenalty(
                   scoutingSessionId,
+                  currentPhase,
                   Penalty.fieldDamage,
                   modeBeforePenaltyObj,
                 ).url,
@@ -59,6 +61,7 @@ function Penalties() {
               navigate(
                 logPenalty(
                   scoutingSessionId,
+                  currentPhase,
                   Penalty.tooManyGamePieces,
                   modeBeforePenaltyObj,
                 ).url,
@@ -74,6 +77,7 @@ function Penalties() {
               navigate(
                 logPenalty(
                   scoutingSessionId,
+                  currentPhase,
                   Penalty.other,
                   modeBeforePenaltyObj,
                 ).url,
@@ -98,6 +102,7 @@ function Penalties() {
             navigate(
               logPenalty(
                 scoutingSessionId,
+                currentPhase,
                 Penalty.opponentContact,
                 modeBeforePenaltyObj,
               ).url,
@@ -111,6 +116,7 @@ function Penalties() {
             navigate(
               logPenalty(
                 scoutingSessionId,
+                currentPhase,
                 Penalty.throwingAlgae,
                 modeBeforePenaltyObj,
               ).url,
@@ -129,8 +135,12 @@ function Penalties() {
         <button
           onClick={() => {
             navigate(
-              logPenalty(scoutingSessionId, Penalty.pin, modeBeforePenaltyObj)
-                .url,
+              logPenalty(
+                scoutingSessionId,
+                currentPhase,
+                Penalty.pin,
+                modeBeforePenaltyObj,
+              ).url,
             );
           }}
         >
@@ -141,6 +151,7 @@ function Penalties() {
             navigate(
               logPenalty(
                 scoutingSessionId,
+                currentPhase,
                 Penalty.zoneViolation,
                 modeBeforePenaltyObj,
               ).url,

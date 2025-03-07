@@ -2,9 +2,11 @@ import { human_feedback } from '../modes/human_feedback.ts';
 import { Mode } from '../common/mode.ts';
 import { ScoutingSessionId } from '../types/ScoutingSessionId.ts';
 import { addEvent } from '../storage/util.ts';
+import { Phase } from '../common/phase.ts';
 
 export function saveChecklist(
   scoutingSessionId: ScoutingSessionId,
+  phase: Phase,
   fall: boolean,
   recover: boolean,
   shutDown: boolean,
@@ -29,31 +31,31 @@ export function saveChecklist(
   );
 
   if (fall) {
-    addEvent(scoutingSessionId, 'feedback-fell-over');
+    addEvent(scoutingSessionId, phase, 'feedback-fell-over');
   }
   if (recover) {
-    addEvent(scoutingSessionId, 'feedback-recover');
+    addEvent(scoutingSessionId, phase, 'feedback-recover');
   }
   if (shutDown) {
-    addEvent(scoutingSessionId, 'feedback-shut-down');
+    addEvent(scoutingSessionId, phase, 'feedback-shut-down');
   }
   if (defence) {
-    addEvent(scoutingSessionId, 'feedback-play-defence');
+    addEvent(scoutingSessionId, phase, 'feedback-play-defence');
   }
   if (effectively) {
-    addEvent(scoutingSessionId, 'feedback-effective-defence');
+    addEvent(scoutingSessionId, phase, 'feedback-effective-defence');
   }
   if (collector) {
-    addEvent(scoutingSessionId, 'feedback-play-collector');
+    addEvent(scoutingSessionId, phase, 'feedback-play-collector');
   }
   if (foul) {
-    addEvent(scoutingSessionId, 'feedback-foul-often');
+    addEvent(scoutingSessionId, phase, 'feedback-foul-often');
   }
   if (score) {
-    addEvent(scoutingSessionId, 'feedback-score-consistently');
+    addEvent(scoutingSessionId, phase, 'feedback-score-consistently');
   }
   if (fast) {
-    addEvent(scoutingSessionId, 'feedback-drove-fast');
+    addEvent(scoutingSessionId, phase, 'feedback-drove-fast');
   }
 
   return human_feedback;

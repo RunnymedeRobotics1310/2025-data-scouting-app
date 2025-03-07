@@ -5,6 +5,7 @@ import { holding_algae } from '../modes/holding_algae.ts';
 import { holding_both } from '../modes/holding_both.ts';
 import { ScoutingSessionId } from '../types/ScoutingSessionId.ts';
 import { addEvent } from '../storage/util.ts';
+import { Phase } from '../common/phase.ts';
 
 export enum CoralLocation {
   ground = 'floor',
@@ -17,6 +18,7 @@ export enum CoralLocation {
 
 export function pickupCoral(
   scoutingSessionId: ScoutingSessionId,
+  phase: Phase,
   startingMode: Mode,
   location: CoralLocation,
 ): Mode {
@@ -24,7 +26,7 @@ export function pickupCoral(
     'Picking up coral from ' + location + ' from ' + startingMode.label,
   );
 
-  addEvent(scoutingSessionId, 'pickup-coral-' + location);
+  addEvent(scoutingSessionId, phase, 'pickup-coral-' + location);
 
   if (startingMode == holding_nothing) {
     return holding_coral;

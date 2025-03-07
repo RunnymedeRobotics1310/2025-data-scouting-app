@@ -20,7 +20,9 @@ function DropAlgae(props: PropTypes) {
   return (
     <button
       onClick={() => {
-        navigate(dropAlgae(scoutingSessionId, mode).url);
+        navigate(
+          dropAlgae(scoutingSessionId, gamestate.currentPhase, mode).url,
+        );
         saveGamestate({ ...gamestate, holdingAlgae: false });
       }}
     >

@@ -20,7 +20,7 @@ function HumanFeedback() {
   const [coral, setCoral] = useState(false);
   const [barge, setBarge] = useState(false);
   const [stars, setStars] = useState(0);
-  const { saveGamestate } = useContext(GameContext);
+  const { gamestate, saveGamestate } = useContext(GameContext);
   const scoutingSessionId = getScoutingSessionId();
   if (!scoutingSessionId) return <NotFound />;
   const isRed = scoutingSessionId.alliance == 'red';
@@ -35,6 +35,7 @@ function HumanFeedback() {
     if (!scoutingSessionId) return null;
     const target = saveFeedback(
       scoutingSessionId,
+      gamestate.currentPhase,
       comment,
       auto,
       coral,

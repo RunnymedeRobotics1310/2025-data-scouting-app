@@ -92,7 +92,9 @@ function MatchConfig() {
                 holdingCoral: isPreloaded,
               } as GS
             }
-            callback={() => autoConfig(scoutingSessionId, preloaded, position)}
+            callback={() =>
+              autoConfig(scoutingSessionId, Phase.auto, preloaded, position)
+            }
           />
         </label>
       </div>

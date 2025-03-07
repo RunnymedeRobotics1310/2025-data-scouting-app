@@ -22,7 +22,7 @@ function ScoreReefMiss(props: PropTypes) {
     if (!scoutingSessionId) return <Loading />;
     console.log('Missed coral from ' + mode.label);
 
-    addEvent(scoutingSessionId, 'score-reef-miss');
+    addEvent(scoutingSessionId, gamestate.currentPhase, 'score-reef-miss');
     navigate((mode == holding_both ? holding_algae : holding_nothing).url);
     saveGamestate({ ...gamestate, holdingCoral: false });
   }

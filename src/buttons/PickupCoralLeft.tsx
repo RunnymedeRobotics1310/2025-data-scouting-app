@@ -18,7 +18,14 @@ function PickupCoralLeft(props: PropTypes) {
   return (
     <button
       onClick={() => {
-        navigate(pickupCoral(scoutingSessionId, mode, CoralLocation.left).url);
+        navigate(
+          pickupCoral(
+            scoutingSessionId,
+            gamestate.currentPhase,
+            mode,
+            CoralLocation.left,
+          ).url,
+        );
         saveGamestate({ ...gamestate, holdingCoral: true });
       }}
     >

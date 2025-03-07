@@ -19,7 +19,9 @@ function DropCoral(props: PropTypes) {
   return (
     <button
       onClick={() => {
-        navigate(dropCoral(scoutingSessionId, mode).url);
+        navigate(
+          dropCoral(scoutingSessionId, gamestate.currentPhase, mode).url,
+        );
         saveGamestate({ ...gamestate, holdingCoral: false });
       }}
     >

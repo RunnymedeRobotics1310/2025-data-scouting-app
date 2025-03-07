@@ -5,14 +5,16 @@ import { holding_both } from '../modes/holding_both.ts';
 import { holding_coral } from '../modes/holding_coral.ts';
 import { ScoutingSessionId } from '../types/ScoutingSessionId.ts';
 import { addEvent } from '../storage/util.ts';
+import { Phase } from '../common/phase.ts';
 
 export function scoreAlgaeNet(
   scoutingSessionId: ScoutingSessionId,
+  phase: Phase,
   startingMode: Mode,
 ): Mode {
   console.log('Score algae in net from ' + startingMode.label);
 
-  addEvent(scoutingSessionId, 'score-algae-net');
+  addEvent(scoutingSessionId, phase, 'score-algae-net');
 
   if (startingMode === holding_algae) {
     return holding_nothing;

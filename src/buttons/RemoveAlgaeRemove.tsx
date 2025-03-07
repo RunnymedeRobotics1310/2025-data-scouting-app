@@ -2,7 +2,8 @@ import { Mode } from '../common/mode.ts';
 import { removeAlgae } from '../functions/removeAlgae.ts';
 import { getScoutingSessionId } from '../storage/util.ts';
 import Loading from '../common/Loading.tsx';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import GameContext from '../context/GameContext.tsx';
 
 type PropTypes = {
   mode: Mode;
@@ -12,6 +13,7 @@ function RemoveAlgaeRemove(props: PropTypes) {
   const mode = props.mode;
   const cb = props.clearCallback;
   const scoutingSessionId = getScoutingSessionId();
+  const { gamestate } = useContext(GameContext);
   const [showRemoved, setShowRemoved] = useState(false);
 
   useEffect(() => {
@@ -29,7 +31,7 @@ function RemoveAlgaeRemove(props: PropTypes) {
     <button
       onClick={() => {
         if (cb) cb();
-        removeAlgae(scoutingSessionId, mode, false);
+        removeAlgae(scoutingSessionId, gamestate.currentPhase, mode, false);
         setShowRemoved(true);
       }}
     >

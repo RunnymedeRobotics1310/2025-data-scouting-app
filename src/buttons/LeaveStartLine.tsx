@@ -15,7 +15,13 @@ function LeaveStartLine() {
     <button
       onClick={() => {
         saveGamestate({ ...gamestate, left: true });
-        navigate(leaveStartingLine(scoutingSessionId, preloaded).url);
+        navigate(
+          leaveStartingLine(
+            scoutingSessionId,
+            gamestate.currentPhase,
+            preloaded,
+          ).url,
+        );
       }}
     >
       Leave Starting Line

@@ -5,6 +5,7 @@ import { holding_algae } from '../modes/holding_algae.ts';
 import { holding_coral } from '../modes/holding_coral.ts';
 import { ScoutingSessionId } from '../types/ScoutingSessionId.ts';
 import { addEvent } from '../storage/util.ts';
+import { Phase } from '../common/phase.ts';
 
 /**
  * Score on the reef
@@ -14,6 +15,7 @@ import { addEvent } from '../storage/util.ts';
  */
 export function scoreReef(
   scoutingSessionId: ScoutingSessionId,
+  phase: Phase,
   startingMode: Mode,
   level: number,
 ): Mode {
@@ -21,7 +23,7 @@ export function scoreReef(
   // do fancy logic like storing info etc.
   // return the next mode
 
-  addEvent(scoutingSessionId, 'score-reef-l' + level);
+  addEvent(scoutingSessionId, phase, 'score-reef-l' + level);
 
   if (startingMode === holding_both) {
     return holding_algae;

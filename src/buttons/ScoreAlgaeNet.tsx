@@ -19,7 +19,9 @@ function ScoreAlgaeNet(props: PropTypes) {
   return (
     <button
       onClick={() => {
-        navigate(scoreAlgaeNet(scoutingSessionId, mode).url);
+        navigate(
+          scoreAlgaeNet(scoutingSessionId, gamestate.currentPhase, mode).url,
+        );
         saveGamestate({ ...gamestate, holdingAlgae: false });
       }}
     >

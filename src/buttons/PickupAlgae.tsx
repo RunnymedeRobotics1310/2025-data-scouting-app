@@ -20,7 +20,12 @@ function PickupAlgae(props: PropTypes) {
     <button
       onClick={() => {
         navigate(
-          pickupAlgae(scoutingSessionId, mode, AlgaeLocation.ground).url,
+          pickupAlgae(
+            scoutingSessionId,
+            gamestate.currentPhase,
+            mode,
+            AlgaeLocation.ground,
+          ).url,
         );
         saveGamestate({ ...gamestate, holdingAlgae: true });
       }}

@@ -50,6 +50,7 @@ export type SetPhaseButtonType = {
 
 export function SetPhaseButton(props: SetPhaseButtonType) {
   const { gamestate, saveGamestate } = useContext(GameContext);
+  const previousPhase = gamestate.currentPhase;
   const scoutingSessionId = getScoutingSessionId();
   const navigate = useNavigate();
   let state = gamestate;
@@ -63,7 +64,11 @@ export function SetPhaseButton(props: SetPhaseButtonType) {
       label={props.label}
       callback={() => {
         saveGamestate({ ...state, currentPhase: props.desiredPhase });
-        addEvent(scoutingSessionId, 'set-phase-' + props.desiredPhase);
+        addEvent(
+          scoutingSessionId,
+          previousPhase,
+          'set-phase-' + props.desiredPhase,
+        );
         if (props.callback) {
           props.callback();
         }

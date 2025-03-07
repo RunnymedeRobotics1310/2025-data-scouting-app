@@ -2,6 +2,7 @@ import { Mode } from '../common/mode.ts';
 import { start_line } from '../modes/start_line.ts';
 import { addEvent } from '../storage/util.ts';
 import { ScoutingSessionId } from '../types/ScoutingSessionId.ts';
+import { Phase } from '../common/phase.ts';
 
 export enum RobotPosition {
   left = 'left',
@@ -11,6 +12,7 @@ export enum RobotPosition {
 
 export function autoConfig(
   scoutingSessionId: ScoutingSessionId,
+  phase: Phase,
   preloaded: boolean,
   position: RobotPosition,
 ): Mode {
@@ -18,12 +20,12 @@ export function autoConfig(
     'Configuring auto. Position = ' + position + ' Preloaded = ' + preloaded,
   );
 
-  addEvent(scoutingSessionId, 'auto-start-' + position);
+  addEvent(scoutingSessionId, phase, 'auto-start-' + position);
 
   if (preloaded) {
-    addEvent(scoutingSessionId, 'preloaded-coral');
+    addEvent(scoutingSessionId, phase, 'preloaded-coral');
   } else {
-    addEvent(scoutingSessionId, 'preloaded-nothing');
+    addEvent(scoutingSessionId, phase, 'preloaded-nothing');
   }
 
   return start_line;

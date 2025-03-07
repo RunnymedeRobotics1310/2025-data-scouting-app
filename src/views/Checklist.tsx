@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { saveChecklist } from '../functions/saveChecklist.ts';
 import { getScoutingSessionId } from '../storage/util.ts';
 import NotFound from './NotFound.tsx';
+import GameContext from '../context/GameContext.tsx';
 
 function Checklist() {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ function Checklist() {
   const [score, setScore] = useState(false);
   const [fast, setFast] = useState(false);
   const scoutingSessionId = getScoutingSessionId();
+  const { gamestate } = useContext(GameContext);
   if (!scoutingSessionId) return <NotFound />;
   const isRed = scoutingSessionId.alliance == 'red';
 
@@ -144,6 +146,7 @@ function Checklist() {
               navigate(
                 saveChecklist(
                   scoutingSessionId,
+                  gamestate.currentPhase,
                   fall,
                   recover,
                   shutDown,

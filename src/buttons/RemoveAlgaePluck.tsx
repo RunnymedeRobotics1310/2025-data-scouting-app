@@ -18,7 +18,10 @@ function RemoveAlgaePluck(props: PropTypes) {
   return (
     <button
       onClick={() => {
-        navigate(removeAlgae(scoutingSessionId, mode, true).url);
+        navigate(
+          removeAlgae(scoutingSessionId, gamestate.currentPhase, mode, true)
+            .url,
+        );
         saveGamestate({ ...gamestate, holdingAlgae: true });
       }}
     >

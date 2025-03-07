@@ -1,15 +1,18 @@
 import { EndgameStatus, endgameStatus } from '../functions/endgameStatus.ts';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { SetPhaseButton } from '../functions/setPhase.tsx';
 import { endgame } from '../modes/endgame.ts';
 import { Phase } from '../common/phase.ts';
 import logoUrl from '/src/assets/images/logo.png';
 import { getScoutingSessionId } from '../storage/util.ts';
 import NotFound from './NotFound.tsx';
+import GameContext from '../context/GameContext.tsx';
 
 function Endgame() {
   const [climbed, setClimbed] = useState(EndgameStatus.none);
   const scoutingSessionId = getScoutingSessionId();
+  const { gamestate } = useContext(GameContext);
+
   if (!scoutingSessionId) return <NotFound />;
   return (
     <div className={'endgame'}>
@@ -58,7 +61,9 @@ function Endgame() {
         currentMode={endgame}
         desiredPhase={Phase.comments}
         label={'Next --->'}
-        callback={() => endgameStatus(scoutingSessionId, climbed)}
+        callback={() =>
+          endgameStatus(scoutingSessionId, gamestate.currentPhase, climbed)
+        }
       />
     </div>
   );
