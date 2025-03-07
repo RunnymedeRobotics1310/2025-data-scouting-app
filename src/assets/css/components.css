@@ -120,6 +120,10 @@ button {
     border: none;
 }
 
+.disabled-button {
+    background: var(--alliance-red);
+}
+
 .starButton {
     padding: 0;
     max-width: 3rem;

@@ -111,7 +111,7 @@ main {
         grid-template-areas:
         "left barge-left barge barge-right right"
         "left start-zone start-zone start-zone right"
-        "left . behind-reef . right"
+        "left behind-reef behind-reef behind-reef right"
         "left reef-left reef reef-right right"
         "left reef-front-left reef-front reef-front-right right"
         "left left-station driver-station right-station right";

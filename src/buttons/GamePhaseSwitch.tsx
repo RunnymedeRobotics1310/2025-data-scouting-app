@@ -18,13 +18,16 @@ function GamePhaseSwitch() {
   const { gamestate, saveGamestate } = useContext(GameContext);
   const { currentPhase, left, holdingCoral, holdingAlgae } = gamestate;
   if (!saveGamestate) return <Loading />;
+  const autoSelected = currentPhase == Phase.auto;
+  const teleopSelected = currentPhase == Phase.teleop;
+  const endgameSelected = currentPhase == Phase.endgame;
 
   return (
     <div className={'phase-selector-switch'}>
       <div className={'phase-grid'}>
         <button
           id={'auto'}
-          className={'camoButton'}
+          className={'camoButton' + (autoSelected ? ' disabled-button' : '')}
           onClick={() => {
             saveGamestate({ ...gamestate, currentPhase: Phase.auto });
             if (!left) {
@@ -37,7 +40,7 @@ function GamePhaseSwitch() {
         </button>
         <button
           id={'teleop'}
-          className={'camoButton'}
+          className={'camoButton' + (teleopSelected ? ' disabled-button' : '')}
           onClick={() => {
             saveGamestate({ ...gamestate, currentPhase: Phase.teleop });
             let nextMode;
@@ -58,7 +61,7 @@ function GamePhaseSwitch() {
         </button>
         <button
           id={'endgame'}
-          className={'camoButton'}
+          className={'camoButton' + (endgameSelected ? ' disabled-button' : '')}
           onClick={() => {
             saveGamestate({ ...gamestate, currentPhase: Phase.endgame });
             navigate(endgame.url);
