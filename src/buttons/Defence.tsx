@@ -1,4 +1,4 @@
-import { toggleDefence } from '../functions/toggleDefence.ts';
+import { startDefence, stopDefence } from '../functions/toggleDefence.ts';
 import { getScoutingSessionId } from '../storage/util.ts';
 import Loading from '../common/Loading.tsx';
 import { useEffect, useState } from 'react';
@@ -30,11 +30,12 @@ function Defence() {
   function toggle(scoutingSessionId: ScoutingSessionId): void {
     if (!startTime) {
       setStartTime(new Date());
+      startDefence(scoutingSessionId);
     } else {
       setStartTime(null);
       setDisplaySeconds(0);
+      stopDefence(scoutingSessionId, displaySeconds);
     }
-    toggleDefence(scoutingSessionId);
   }
 
   return startTime ? (
