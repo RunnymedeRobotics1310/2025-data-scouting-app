@@ -31,8 +31,13 @@ import automapBlueUrl from '/src/assets/requirements/fields/automap-blue.png';
 import automapRedUrl from '/src/assets/requirements/fields/automap-red.png';
 import reefscapeBlueUrl from '/src/assets/requirements/fields/reefscape-blue.png';
 import reefscapeRedUrl from '/src/assets/requirements/fields/reefscape-red.png';
+import Sync from './views/Sync.tsx';
 
 export const myBasename = '/2025-data-scouting-app'; // todo: fixme: make this dynamic
+export const GOOGLE_CLIENT_ID =
+  '139207708944-87j550c491r7od4qj9fmvn85hvoc3n0u.apps.googleusercontent.com';
+export const TOURNAMENT_SPREADSHEET_ID =
+  '1XjOA98tsxwQru0tBYl8qbtxnxq9Dr8IvIyELxsKNnAU';
 
 function App() {
   const [gamestate, setGamestate] = useState<GS>(DEFAULT_GAME_STATE);
@@ -61,6 +66,7 @@ function App() {
     createRoutesFromElements(
       <Route path="/" element={<AppLayout />}>
         <Route index element={<Home />} />
+        <Route path="/sync" element={<Sync />} />
         <Route path="dev" element={<DevResources />} />
         <Route path="game/" element={<FieldLayout />}>
           <Route path="start-line" element={<start_line.view />} />

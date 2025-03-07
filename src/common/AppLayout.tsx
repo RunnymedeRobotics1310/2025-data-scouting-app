@@ -1,4 +1,4 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import Sync from '../icons/Sync.tsx';
 import logoUrl from '/src/assets/images/logo.png';
 import titleUrl from '/src/assets/images/title.png';
@@ -6,8 +6,9 @@ import { isDevelopment } from '../dev/util.ts';
 import VersionDisplay from './VersionDisplay.tsx';
 
 function AppLayout() {
+  const navigate = useNavigate();
   function sync() {
-    console.log("Help me, I'm syncing!");
+    navigate('/sync');
   }
   return (
     <section id="layout">

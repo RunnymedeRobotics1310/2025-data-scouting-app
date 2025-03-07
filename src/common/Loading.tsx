@@ -1,4 +1,11 @@
+import Spinner from './Spinner.tsx';
+
 function Loading() {
-  return <p>Loading...</p>;
+  return (
+    <p>
+      <Spinner />
+      Loading...
+    </p>
+  );
 }
 export default Loading;
