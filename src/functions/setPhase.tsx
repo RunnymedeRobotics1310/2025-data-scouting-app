@@ -63,12 +63,12 @@ export function SetPhaseButton(props: SetPhaseButtonType) {
     <Button
       label={props.label}
       callback={() => {
-        saveGamestate({ ...state, currentPhase: props.desiredPhase });
         addEvent(
           scoutingSessionId,
           previousPhase,
           'set-phase-' + props.desiredPhase,
         );
+        saveGamestate({ ...state, currentPhase: props.desiredPhase });
         if (props.callback) {
           props.callback();
         }

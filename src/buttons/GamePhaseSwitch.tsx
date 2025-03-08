@@ -12,11 +12,14 @@ import { holding_nothing } from '../modes/holding_nothing.ts';
 import { start_line } from '../modes/start_line.ts';
 import { holding_both } from '../modes/holding_both.ts';
 import { holding_algae } from '../modes/holding_algae.ts';
+import { addEvent, getScoutingSessionId } from '../storage/util.ts';
 
 function GamePhaseSwitch() {
   const navigate = useNavigate();
   const { gamestate, saveGamestate } = useContext(GameContext);
   const { currentPhase, left, holdingCoral, holdingAlgae } = gamestate;
+  const scoutingSessionId = getScoutingSessionId();
+  if (!scoutingSessionId) return <Loading />;
   if (!saveGamestate) return <Loading />;
   const autoSelected = currentPhase == Phase.auto;
   const teleopSelected = currentPhase == Phase.teleop;
@@ -29,6 +32,11 @@ function GamePhaseSwitch() {
           id={'auto'}
           className={'camoButton' + (autoSelected ? ' disabled-button' : '')}
           onClick={() => {
+            addEvent(
+              scoutingSessionId,
+              currentPhase,
+              'set-phase-' + Phase.auto,
+            );
             saveGamestate({ ...gamestate, currentPhase: Phase.auto });
             if (!left) {
               navigate(start_line.url);
@@ -42,6 +50,11 @@ function GamePhaseSwitch() {
           id={'teleop'}
           className={'camoButton' + (teleopSelected ? ' disabled-button' : '')}
           onClick={() => {
+            addEvent(
+              scoutingSessionId,
+              currentPhase,
+              'set-phase-' + Phase.teleop,
+            );
             saveGamestate({ ...gamestate, currentPhase: Phase.teleop });
             let nextMode;
             if (holdingCoral && holdingAlgae) {
@@ -63,6 +76,11 @@ function GamePhaseSwitch() {
           id={'endgame'}
           className={'camoButton' + (endgameSelected ? ' disabled-button' : '')}
           onClick={() => {
+            addEvent(
+              scoutingSessionId,
+              currentPhase,
+              'set-phase-' + Phase.endgame,
+            );
             saveGamestate({ ...gamestate, currentPhase: Phase.endgame });
             navigate(endgame.url);
           }}
