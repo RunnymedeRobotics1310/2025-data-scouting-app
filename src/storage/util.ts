@@ -17,7 +17,7 @@ export function parseKey(keyString: string): ScoutingSessionId {
 }
 
 export function stringifyKey(obj: ScoutingSessionId): string {
-  console.log('Stringifying: ', obj);
+  // console.log('Stringifying: ', obj);
 
   return (
     '' +
