@@ -1,5 +1,5 @@
 import { ScoutingSessionId } from '../types/ScoutingSessionId.ts';
-import { GameEvent } from '../types/GameEvent.ts';
+import { equalsIgnoreSync, GameEvent } from '../types/GameEvent.ts';
 import { GameEvents } from '../types/GameEvents.ts';
 import { Tournament } from '../types/Tournament.ts';
 import { Phase } from '../common/phase.ts';
@@ -52,7 +52,7 @@ export function addEvent(
       events: [],
     };
   } else {
-    gameEvents = JSON.parse(stringifiedEventsListing);
+    gameEvents = parseStringifiedEvents(stringifiedEventsListing);
   }
 
   const event: GameEvent = {
@@ -74,15 +74,49 @@ export function addEvent(
   localStorage.setItem(storageKey, stringifiedEventsListing);
 }
 
+export function updateEventSyncStatus(event: GameEvent) {
+  const scoutingSessionId: ScoutingSessionId = {
+    tournamentId: event.tournamentId,
+    scoutName: event.scoutName,
+    matchId: event.matchId,
+    alliance: event.alliance,
+    teamNumber: event.teamNumber,
+  };
+
+  const scoutingSessionKeyStr = stringifyKey(scoutingSessionId);
+
+  const storageKey = 'rrEvents-' + scoutingSessionKeyStr;
+  const stringifiedEventsListing = localStorage.getItem(storageKey);
+  if (stringifiedEventsListing == null) {
+    console.error('Failed to load event listing', storageKey);
+    return;
+  }
+  const gameEvents: GameEvents = parseStringifiedEvents(
+    stringifiedEventsListing,
+  );
+  let changed = false;
+  for (const e of gameEvents.events) {
+    if (equalsIgnoreSync(e, event)) {
+      e.synchronized = event.synchronized;
+      changed = true;
+    }
+  }
+
+  if (changed) {
+    const s = JSON.stringify(gameEvents);
+    // console.log('Saving with new sync value', s);
+    localStorage.setItem(storageKey, s);
+  }
+}
+
 export function getAllTournaments() {
-  const eventListString = localStorage.getItem('rrAllTournaments');
-  if (!eventListString) {
+  const str = localStorage.getItem('rrAllTournaments');
+  if (!str) {
     return null;
   }
 
-  const eventList: Tournament[] = JSON.parse(eventListString);
-
-  return eventList;
+  const list: Tournament[] = JSON.parse(str);
+  return list;
 }
 
 export function setCurrentTournament(tournamentId: string) {
@@ -168,4 +202,82 @@ export function getScoutingSessionId() {
   if (sessionIdString) sessionId = parseKey(sessionIdString);
 
   return sessionId;
+}
+
+/**
+ * Fix bad deserialization
+ * @param stringifiedGameEvents
+ */
+function parseStringifiedEvents(stringifiedGameEvents: string): GameEvents {
+  const events = JSON.parse(stringifiedGameEvents) as GameEvents;
+  for (const e of events.events) {
+    if (!(e.timestamp instanceof Date)) {
+      e.timestamp = new Date(e.timestamp);
+    }
+  }
+  return events;
+}
+export function getScoutedTournaments() {
+  const scoutedSessionsString = localStorage.getItem('rrScoutedSessions');
+  const tourns: Tournament[] = [];
+  if (!scoutedSessionsString) {
+    console.warn('No scouted sessions found');
+  } else {
+    const sessions = JSON.parse(scoutedSessionsString) as ScoutingSessionId[];
+    const tournIds = new Set(sessions.map(s => s.tournamentId));
+    tournIds.forEach(id => {
+      const t = getTournamentForId(id);
+      if (t) {
+        tourns.push(t);
+      } else {
+        console.warn('No tournament found for id ', id);
+      }
+    });
+  }
+  return tourns;
+}
+
+export function getScoutedSessionsForTournament(tournament: Tournament) {
+  const sessions: ScoutingSessionId[] = [];
+  const scoutedSessionsString = localStorage.getItem('rrScoutedSessions');
+  if (!scoutedSessionsString) {
+    console.warn('No scouted sessions found');
+  } else {
+    const allScoutedSessions = JSON.parse(
+      scoutedSessionsString,
+    ) as ScoutingSessionId[];
+    allScoutedSessions.forEach(s => {
+      if (s.tournamentId === tournament.id) {
+        sessions.push(s);
+      }
+    });
+  }
+  return sessions;
+}
+
+export function getUnsynchronizedEventsForSession(session: ScoutingSessionId) {
+  const events: GameEvent[] = [];
+  const sessionString = stringifyKey(session);
+  const key = 'rrEvents-' + sessionString;
+  const stringifiedLog = localStorage.getItem(key);
+  if (!stringifiedLog) {
+    console.error(
+      'Could not find scouting data for ' +
+        session.tournamentId +
+        ' match ' +
+        session.matchId +
+        ' team ' +
+        session.teamNumber,
+    );
+  } else {
+    const allEvents = parseStringifiedEvents(stringifiedLog);
+    allEvents.events.forEach(e => {
+      if (e.synchronized) {
+        // Data is already synchronized - yay! Ignore.
+      } else {
+        events.push({ ...e, timestamp: new Date(e.timestamp) });
+      }
+    });
+  }
+  return events;
 }

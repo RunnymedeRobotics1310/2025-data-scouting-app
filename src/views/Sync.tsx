@@ -3,10 +3,15 @@ import { GOOGLE_CLIENT_ID, TOURNAMENT_SPREADSHEET_ID } from '../App.tsx';
 import { Tournament } from '../types/Tournament.ts';
 import { ScheduleItem } from '../types/ScheduleItem.ts';
 import { Schedule } from '../types/Schedule.ts';
-import { ScoutingSessionId } from '../types/ScoutingSessionId.ts';
-import { getTournamentForId, stringifyKey } from '../storage/util.ts';
-import { GameEvents } from '../types/GameEvents.ts';
+import {
+  getScoutedSessionsForTournament,
+  getScoutedTournaments,
+  getUnsynchronizedEventsForSession,
+  stringifyKey,
+  updateEventSyncStatus,
+} from '../storage/util.ts';
 import { useNavigate } from 'react-router-dom';
+import { asMap, GameEvent } from '../types/GameEvent.ts';
 
 export default function Sync() {
   const navigate = useNavigate();
@@ -274,47 +279,16 @@ export default function Sync() {
     console.log('Loaded schedule', schedule);
   }
 
-  function saveEventLog() {
+  async function saveEventLog() {
     console.log('Syncing events');
-    setContent('');
-    const scoutedSessionsString = localStorage.getItem('rrScoutedSessions');
-    if (!scoutedSessionsString) {
-      setContent('No scouted sessions found');
-      return;
-    }
-    const scoutedSessions = JSON.parse(
-      scoutedSessionsString,
-    ) as ScoutingSessionId[];
-    let errorLog = '';
-    scoutedSessions.forEach(async session => {
-      // todo: fixme: low priority: add a "dirty" flag on tournament so that we can know NOW if we need to sync any records in it or not
-      const tournament = getTournamentForId(session.tournamentId);
-      if (!tournament) {
-        errorLog += 'No tournament found for ' + session.tournamentId + '\n';
-        return;
-      }
 
-      const sessionString = stringifyKey(session);
-      const key = 'rrEvents-' + sessionString;
-      console.log('Reading storage key', key);
-      const stringifiedLog = localStorage.getItem(key);
-      if (!stringifiedLog) {
-        errorLog +=
-          'Could not find scouting data for ' +
-          session.tournamentId +
-          ' match ' +
-          session.matchId +
-          ' team ' +
-          session.teamNumber +
-          '\n';
-      } else {
-        const events = JSON.parse(stringifiedLog) as GameEvents;
-        console.log('Loaded game events', events);
-        const values = events.events.map(event => {
-          if (event.synchronized) {
-            // data is synchronized - yay! Ignore.
-            return null;
-          } else {
+    const tournaments = getScoutedTournaments();
+    tournaments.forEach(tournament => {
+      const sessions = getScoutedSessionsForTournament(tournament);
+      sessions.forEach(session => {
+        const events: GameEvent[] = getUnsynchronizedEventsForSession(session);
+        if (events.length > 0) {
+          const rows = events.map(event => {
             return [
               event.timestamp,
               event.scoutName,
@@ -325,24 +299,61 @@ export default function Sync() {
               event.eventType,
               event.note,
             ];
-          }
-        });
-        if (values.length > 0) {
-          const body = {
-            values: values,
-          };
+          });
+          console.log('Saving ' + rows.length + ' rows to google ', {
+            session,
+            rows,
+          });
+
           try {
+            const body = {
+              values: rows,
+            };
+
             // @ts-ignore
-            await window.gapi.client.sheets.spreadsheets.values.append({
-              spreadsheetId: tournament.eventLogGoogleSheetId,
-              range: 'A2:H',
-              valueInputOption: 'RAW',
-              resource: body,
-            });
+            window.gapi.client.sheets.spreadsheets.values
+              .append({
+                spreadsheetId: tournament.eventLogGoogleSheetId,
+                range: 'A2:H',
+                valueInputOption: 'RAW',
+                resource: body,
+                includeValuesInResponse: true,
+              })
+
+              .then(response => {
+                const eventsMap = asMap(events);
+                readEventLog(tournament.eventLogGoogleSheetId).then(
+                  eventsReadFromGoogle => {
+                    const googleMap = asMap(eventsReadFromGoogle);
+                    const successfullySaved: GameEvent[] = [];
+                    for (const emk of eventsMap.keys()) {
+                      const gme = googleMap.get(emk);
+                      const em = eventsMap.get(emk);
+                      if (em === undefined) {
+                        console.warn(
+                          'Unexpectedly found no mapped value for key ',
+                          emk,
+                        );
+                      } else if (gme) {
+                        successfullySaved.push(em);
+                      }
+                    }
+                    console.log(
+                      'Marking ' +
+                        successfullySaved.length +
+                        ' events as synchronized',
+                    );
+                    for (const e of successfullySaved) {
+                      e.synchronized = true;
+                      updateEventSyncStatus(e);
+                    }
+                  },
+                );
+              });
           } catch (err) {
             console.error(
               'Error synchronizing data for session',
-              sessionString,
+              stringifyKey(session),
               err,
             );
             // @ts-ignore
@@ -359,12 +370,43 @@ export default function Sync() {
               session.teamNumber,
           );
         }
-      }
+      });
     });
-    setContent(errorLog);
-    console.error('saveEventLog errors (should be empty):', errorLog);
   }
 
+  async function readEventLog(
+    eventLogSpreadsheetId: string,
+  ): Promise<GameEvent[]> {
+    // Fetch first 10 files
+    // @ts-ignore
+    const response = await window.gapi.client.sheets.spreadsheets.values.get({
+      spreadsheetId: eventLogSpreadsheetId,
+      range: 'A3:H',
+    });
+    const range = response.result;
+    if (!range || !range.values || range.values.length == 0) {
+      throw Error(
+        'No event log found for spreadsheet ' + eventLogSpreadsheetId,
+      );
+    }
+    const items: GameEvent[] = [];
+    // @ts-ignore
+    range.values.forEach(row => {
+      items.push({
+        timestamp: new Date(row[0]),
+        scoutName: row[1],
+        tournamentId: row[2],
+        matchId: row[3],
+        alliance: row[4],
+        teamNumber: row[5],
+        eventType: row[6],
+        note: row[7],
+        synchronized: true,
+      } as GameEvent);
+    });
+    console.log('Loaded ' + items.length + ' game events from Google');
+    return items;
+  }
   /*
    * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
    *
