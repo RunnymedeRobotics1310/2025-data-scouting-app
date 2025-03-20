@@ -326,7 +326,7 @@ export default function Sync() {
                 includeValuesInResponse: true,
               })
 
-              .then(response => {
+              .then(() => {
                 const eventsMap = asMap(events);
                 readEventLog(tournament.eventLogGoogleSheetId).then(
                   eventsReadFromGoogle => {
