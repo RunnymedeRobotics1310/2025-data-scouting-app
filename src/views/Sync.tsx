@@ -28,7 +28,7 @@ export default function Sync() {
   const [changed, setChanged] = useState(false);
   const [syncing, setSyncing] = useState(false);
 
-  // TODO(developer): Set to client ID and API key from the Developer Console
+  // TODO(developer): Set to client ID and API key from the Developer Console.
 
   // Authorization scopes required by the API; multiple scopes can be
   // included, separated by spaces.
