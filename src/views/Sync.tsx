@@ -287,6 +287,7 @@ export default function Sync() {
     ) as ScoutingSessionId[];
     let errorLog = '';
     scoutedSessions.forEach(async session => {
+      // todo: fixme: low priority: add a "dirty" flag on tournament so that we can know NOW if we need to sync any records in it or not
       const tournament = getTournamentForId(session.tournamentId);
       if (!tournament) {
         errorLog += 'No tournament found for ' + session.tournamentId + '\n';
@@ -310,36 +311,58 @@ export default function Sync() {
         const events = JSON.parse(stringifiedLog) as GameEvents;
         console.log('Loaded game events', events);
         const values = events.events.map(event => {
-          return [
-            event.timestamp,
-            event.scoutName,
-            event.tournamentId,
-            event.matchId,
-            event.alliance,
-            event.teamNumber,
-            event.eventType,
-            event.note,
-          ];
+          if (event.synchronized) {
+            // data is synchronized - yay! Ignore.
+            return null;
+          } else {
+            return [
+              event.timestamp,
+              event.scoutName,
+              event.tournamentId,
+              event.matchId,
+              event.alliance,
+              event.teamNumber,
+              event.eventType,
+              event.note,
+            ];
+          }
         });
-        const body = {
-          values: values,
-        };
-        try {
-          // @ts-ignore
-          await window.gapi.client.sheets.spreadsheets.values.append({
-            spreadsheetId: tournament.eventLogGoogleSheetId,
-            range: 'A2:H',
-            valueInputOption: 'RAW',
-            resource: body,
-          });
-        } catch (err) {
-          // @ts-ignore
-          setContent(err.message);
-          return;
+        if (values.length > 0) {
+          const body = {
+            values: values,
+          };
+          try {
+            // @ts-ignore
+            await window.gapi.client.sheets.spreadsheets.values.append({
+              spreadsheetId: tournament.eventLogGoogleSheetId,
+              range: 'A2:H',
+              valueInputOption: 'RAW',
+              resource: body,
+            });
+          } catch (err) {
+            console.error(
+              'Error synchronizing data for session',
+              sessionString,
+              err,
+            );
+            // @ts-ignore
+            setContent(err.message);
+            return;
+          }
+        } else {
+          console.info(
+            'No events need synchronization for event ' +
+              session.tournamentId +
+              ' match ' +
+              session.matchId +
+              ' team ' +
+              session.teamNumber,
+          );
         }
       }
     });
     setContent(errorLog);
+    console.error('saveEventLog errors (should be empty):', errorLog);
   }
 
   /*
