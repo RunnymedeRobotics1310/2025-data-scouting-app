@@ -23,49 +23,51 @@ export default function Home() {
       <h1>Welcome!</h1>
 
       <table className={'tools'}>
-        <tr>
-          <td>
-            <button className={''} onClick={() => handleSelectMatch()}>
-              Select Match
-            </button>
-          </td>
-          <td>
-            <p>Start scouting a new match. </p>
-          </td>
-        </tr>
-
-        {id && gamestate && id.matchId > 0 && (
+        <tbody>
           <tr>
             <td>
-              <button
-                className={'resume-button'}
-                onClick={() => {
-                  saveGamestate(gamestate);
-                  navigate(getResumedMode(gamestate).url);
-                }}
-              >
-                Resume Match
+              <button className={''} onClick={() => handleSelectMatch()}>
+                Select Match
               </button>
             </td>
             <td>
-              <p>
-                Resume a match that is already underway. You can continue to
-                record events, but once recorded, an event can't be removed.
-              </p>
+              <p>Start scouting a new match. </p>
             </td>
           </tr>
-        )}
 
-        <tr>
-          <td>
-            <button className={''} onClick={() => navigate('/sync')}>
-              Sync
-            </button>
-          </td>
-          <td>
-            <p>Synchronize Match and Scouting Data</p>
-          </td>
-        </tr>
+          {id && gamestate && id.matchId > 0 && (
+            <tr>
+              <td>
+                <button
+                  className={'resume-button'}
+                  onClick={() => {
+                    saveGamestate(gamestate);
+                    navigate(getResumedMode(gamestate).url);
+                  }}
+                >
+                  Resume Match
+                </button>
+              </td>
+              <td>
+                <p>
+                  Resume a match that is already underway. You can continue to
+                  record events, but once recorded, an event can't be removed.
+                </p>
+              </td>
+            </tr>
+          )}
+
+          <tr>
+            <td>
+              <button className={''} onClick={() => navigate('/sync')}>
+                Sync
+              </button>
+            </td>
+            <td>
+              <p>Synchronize Match and Scouting Data</p>
+            </td>
+          </tr>
+        </tbody>
       </table>
     </>
   );

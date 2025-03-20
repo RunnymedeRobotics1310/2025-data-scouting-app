@@ -8,7 +8,7 @@ function ScoutSelect() {
   const [selectedTournament, setSelectedTournament] = useState('');
   const navigate = useNavigate();
   const tournaments = getAllTournaments();
-  if (!tournaments) return <Loading />;
+  if (tournaments.length === 0) return <Loading />;
 
   return (
     <div className={'general-layout'}>

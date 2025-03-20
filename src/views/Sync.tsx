@@ -4,6 +4,7 @@ import { Tournament } from '../types/Tournament.ts';
 import { ScheduleItem } from '../types/ScheduleItem.ts';
 import { Schedule } from '../types/Schedule.ts';
 import {
+  getAllTournaments,
   getScoutedSessionsForTournament,
   getScoutedTournaments,
   getUnsynchronizedEventsForSession,
@@ -12,6 +13,7 @@ import {
 } from '../storage/util.ts';
 import { useNavigate } from 'react-router-dom';
 import { asMap, GameEvent } from '../types/GameEvent.ts';
+import Loading from '../common/Loading.tsx';
 
 export default function Sync() {
   const navigate = useNavigate();
@@ -22,6 +24,9 @@ export default function Sync() {
   const [gapiInited, setGapiInited] = useState(false);
   const [gisInited, setGisInited] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
+  const [unsyncCount, setUnsyncCount] = useState(0);
+  const [changed, setChanged] = useState(false);
+  const [syncing, setSyncing] = useState(false);
 
   // TODO(developer): Set to client ID and API key from the Developer Console
 
@@ -33,7 +38,7 @@ export default function Sync() {
   const apiKey = localStorage.getItem('rrGoogleApiKey');
   useEffect(() => {
     if (!isGapiLoaded) {
-      console.log('Loading gapi');
+      // console.log('Loading gapi');
       const script = document.createElement('script');
       script.src = 'https://apis.google.com/js/api.js';
       script.async = true;
@@ -47,7 +52,7 @@ export default function Sync() {
 
   useEffect(() => {
     if (!isGisLoaded) {
-      console.log('Loading gis');
+      // console.log('Loading gis');
       const script = document.createElement('script');
       script.src = 'https://accounts.google.com/gsi/client';
       script.async = true;
@@ -62,7 +67,7 @@ export default function Sync() {
    * Callback after api.js is loaded.
    */
   function gapiLoaded() {
-    console.log('gapiLoaded');
+    // console.log('gapiLoaded');
     // @ts-ignore
     window.gapi.load('client', initializeGapiClient);
   }
@@ -79,7 +84,7 @@ export default function Sync() {
         'https://sheets.googleapis.com/$discovery/rest?version=v4',
       ],
     });
-    console.log('gapi client initialized');
+    // console.log('gapi client initialized');
     setGapiInited(true);
     if (gapiInited && gisInited) {
       setAuthenticated(true);
@@ -90,14 +95,14 @@ export default function Sync() {
    * Callback after Google Identity Services are loaded.
    */
   function gisLoaded() {
-    console.log('gisLoaded');
+    // console.log('gisLoaded');
     // @ts-ignore
     const client = window.google.accounts.oauth2.initTokenClient({
       client_id: GOOGLE_CLIENT_ID,
       scope: SCOPES,
       callback: '', // defined later
     });
-    console.log('token client initialized');
+    // console.log('token client initialized');
     setTokenClient(client);
     setGisInited(true);
     if (gapiInited && gisInited) {
@@ -220,7 +225,7 @@ export default function Sync() {
         eventLogGoogleSheetId: row[4],
       });
     });
-    console.log('Loaded tournaments', tournaments);
+    // console.log('Loaded tournaments', tournaments);
     localStorage.setItem('rrAllTournaments', JSON.stringify(tournaments));
 
     tournaments.forEach(tournament => {
@@ -276,11 +281,12 @@ export default function Sync() {
       JSON.stringify(schedule),
     );
 
-    console.log('Loaded schedule', schedule);
+    // console.log('Loaded schedule', schedule);
   }
 
   async function saveEventLog() {
     console.log('Syncing events');
+    setSyncing(true);
 
     const tournaments = getScoutedTournaments();
     tournaments.forEach(tournament => {
@@ -347,8 +353,12 @@ export default function Sync() {
                       e.synchronized = true;
                       updateEventSyncStatus(e);
                     }
+                    setChanged(true);
                   },
                 );
+              })
+              .finally(() => {
+                setSyncing(false);
               });
           } catch (err) {
             console.error(
@@ -407,6 +417,17 @@ export default function Sync() {
     console.log('Loaded ' + items.length + ' game events from Google');
     return items;
   }
+
+  useEffect(() => {
+    let unsyncSession = 0;
+    getAllTournaments().forEach(tournament => {
+      getScoutedSessionsForTournament(tournament).forEach(session => {
+        unsyncSession += getUnsynchronizedEventsForSession(session).length;
+      });
+    });
+    setUnsyncCount(unsyncSession);
+  }, [changed]);
+
   /*
    * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
    *
@@ -421,6 +442,11 @@ export default function Sync() {
     return (
       <>
         <h2>Tournament & Schedule Data</h2>
+
+        <p>
+          You have <strong>{unsyncCount}</strong> items to sync.{' '}
+          {syncing && <Loading />}
+        </p>
 
         <p>
           Download tournament and schedule data before scouting matches. This
@@ -453,6 +479,10 @@ export default function Sync() {
     return (
       <>
         <h1>Synchronize Data</h1>
+        <p>
+          You have <strong>{unsyncCount}</strong> items to sync.{' '}
+          {syncing && <Loading />}
+        </p>
         <p>
           You must sign in and grant access to google sheets that are shared
           with you to be able to synchronize data.

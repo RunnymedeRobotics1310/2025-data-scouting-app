@@ -109,10 +109,10 @@ export function updateEventSyncStatus(event: GameEvent) {
   }
 }
 
-export function getAllTournaments() {
+export function getAllTournaments(): Tournament[] {
   const str = localStorage.getItem('rrAllTournaments');
   if (!str) {
-    return null;
+    return [];
   }
 
   const list: Tournament[] = JSON.parse(str);
@@ -261,14 +261,16 @@ export function getUnsynchronizedEventsForSession(session: ScoutingSessionId) {
   const key = 'rrEvents-' + sessionString;
   const stringifiedLog = localStorage.getItem(key);
   if (!stringifiedLog) {
-    console.error(
-      'Could not find scouting data for ' +
-        session.tournamentId +
-        ' match ' +
-        session.matchId +
-        ' team ' +
-        session.teamNumber,
-    );
+    if (session.teamNumber !== -1310) {
+      console.warn(
+        'Could not find scouting data for ' +
+          session.tournamentId +
+          ' match ' +
+          session.matchId +
+          ' team ' +
+          session.teamNumber,
+      );
+    }
   } else {
     const allEvents = parseStringifiedEvents(stringifiedLog);
     allEvents.events.forEach(e => {
