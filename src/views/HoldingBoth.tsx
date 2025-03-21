@@ -39,7 +39,7 @@ function HoldingBoth() {
         {showScoreAlgaeOptions ? (
           <AlgaeScoreOptions mode={holding_both} />
         ) : (
-          <Zone zone="start-zone">
+          <Zone zone="barge">
             <ScoreAlgae callback={() => setShowScoreAlgaeOptions(true)} />
           </Zone>
         )}
