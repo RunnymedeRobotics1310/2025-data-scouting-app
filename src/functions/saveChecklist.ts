@@ -12,7 +12,7 @@ export function saveChecklist(
   shutDown: boolean,
   defence: boolean,
   effectively: boolean,
-  collector: boolean,
+  beached: boolean,
   foul: boolean,
   score: boolean,
   fast: boolean,
@@ -24,7 +24,7 @@ export function saveChecklist(
       shutDown +
       defence +
       effectively +
-      collector +
+      beached +
       foul +
       score +
       fast,
@@ -45,8 +45,8 @@ export function saveChecklist(
   if (effectively) {
     addEvent(scoutingSessionId, phase, 'feedback-effective-defence');
   }
-  if (collector) {
-    addEvent(scoutingSessionId, phase, 'feedback-play-collector');
+  if (beached) {
+    addEvent(scoutingSessionId, phase, 'feedback-beached');
   }
   if (foul) {
     addEvent(scoutingSessionId, phase, 'feedback-foul-often');
