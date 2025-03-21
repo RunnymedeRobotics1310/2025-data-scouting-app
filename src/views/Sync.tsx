@@ -286,7 +286,7 @@ export default function Sync() {
 
   async function saveEventLog() {
     console.log('Syncing events');
-    setSyncing(true);
+    setContent("Uploading data. When the spinner goes away you're all done.");
 
     const tournaments = getScoutedTournaments();
     tournaments.forEach(tournament => {
@@ -327,6 +327,7 @@ export default function Sync() {
               })
 
               .then(() => {
+                setSyncing(true);
                 const eventsMap = asMap(events);
                 readEventLog(tournament.eventLogGoogleSheetId).then(
                   eventsReadFromGoogle => {
