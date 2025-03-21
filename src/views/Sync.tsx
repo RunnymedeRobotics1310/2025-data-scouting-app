@@ -14,6 +14,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { asMap, GameEvent } from '../types/GameEvent.ts';
 import Loading from '../common/Loading.tsx';
+import { useUnsynchronizedItemCount } from '../storage/useUnsynchronizedItemCount.ts';
 
 export default function Sync() {
   const navigate = useNavigate();
@@ -24,10 +25,10 @@ export default function Sync() {
   const [gapiInited, setGapiInited] = useState(false);
   const [gisInited, setGisInited] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
-  const [unsyncCount, setUnsyncCount] = useState(0);
   const [changed, setChanged] = useState(false);
   const [syncing, setSyncing] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
+  const unsyncCount = useUnsynchronizedItemCount();
 
   // TODO(developer): Set to client ID and API key from the Developer Console.
 
@@ -418,16 +419,6 @@ export default function Sync() {
     console.log('Loaded ' + items.length + ' game events from Google');
     return items;
   }
-
-  useEffect(() => {
-    let unsyncSession = 0;
-    getAllTournaments().forEach(tournament => {
-      getScoutedSessionsForTournament(tournament).forEach(session => {
-        unsyncSession += getUnsynchronizedEventsForSession(session).length;
-      });
-    });
-    setUnsyncCount(unsyncSession);
-  }, [changed]);
 
   /*
    * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

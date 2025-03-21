@@ -54,3 +54,9 @@ a:active {
         }
     }
 }
+.syncRed {
+    color: red;
+}
+.syncGreen {
+    color: green;
+}
