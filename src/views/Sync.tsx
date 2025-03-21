@@ -4,7 +4,6 @@ import { Tournament } from '../types/Tournament.ts';
 import { ScheduleItem } from '../types/ScheduleItem.ts';
 import { Schedule } from '../types/Schedule.ts';
 import {
-  getAllTournaments,
   getScoutedSessionsForTournament,
   getScoutedTournaments,
   getUnsynchronizedEventsForSession,
@@ -25,7 +24,6 @@ export default function Sync() {
   const [gapiInited, setGapiInited] = useState(false);
   const [gisInited, setGisInited] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
-  const [changed, setChanged] = useState(false);
   const [syncing, setSyncing] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   const unsyncCount = useUnsynchronizedItemCount();
@@ -355,7 +353,6 @@ export default function Sync() {
                       e.synchronized = true;
                       updateEventSyncStatus(e);
                     }
-                    setChanged(true);
                   },
                 );
               })
