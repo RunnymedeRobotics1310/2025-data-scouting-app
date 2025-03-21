@@ -12,7 +12,7 @@ function Checklist() {
   const [shutDown, setShutDown] = useState(false);
   const [defence, setDefence] = useState(false);
   const [effectively, setEffectively] = useState(false);
-  const [collector, setCollector] = useState(false);
+  const [beached, setBeached] = useState(false);
   const [foul, setFoul] = useState(false);
   const [score, setScore] = useState(false);
   const [fast, setFast] = useState(false);
@@ -95,11 +95,11 @@ function Checklist() {
             <label className={'checkbox-and-label '}>
               <input
                 type={'checkbox'}
-                checked={collector}
+                checked={beached}
                 id={'collector'}
-                onChange={() => setCollector(!collector)}
+                onChange={() => setBeached(!beached)}
               />
-              <span>Play collector</span>
+              <span>Get Beached</span>
             </label>
           </section>
 
@@ -152,7 +152,7 @@ function Checklist() {
                   shutDown,
                   defence,
                   effectively,
-                  collector,
+                  beached,
                   foul,
                   score,
                   fast,

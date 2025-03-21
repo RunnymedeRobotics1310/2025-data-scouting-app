@@ -44,7 +44,7 @@ function HoldingAlgae() {
         {showScoreAlgaeOptions ? (
           <AlgaeScoreOptions mode={holding_algae} />
         ) : (
-          <Zone zone="start-zone" classes={'top'}>
+          <Zone zone="barge">
             <ScoreAlgae callback={() => setShowScoreAlgaeOptions(true)} />
           </Zone>
         )}
@@ -74,7 +74,7 @@ function HoldingAlgae() {
       }
       {currentPhase === Phase.teleop && (
         <>
-          <Zone zone="start-zone" classes={'top left'}>
+          <Zone zone="barge-right" classes={'right'}>
             <Defence />
           </Zone>
         </>

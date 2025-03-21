@@ -86,7 +86,7 @@ function HoldingCoral() {
           <Zone zone="reef-front-right" classes={'top left'}>
             <PickupAlgae mode={holding_coral} />
           </Zone>
-          <Zone zone="start-zone" classes={'top left'}>
+          <Zone zone="barge-right" classes={'right'}>
             <Defence />
           </Zone>
         </>
