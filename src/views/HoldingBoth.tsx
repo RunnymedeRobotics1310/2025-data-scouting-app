@@ -71,7 +71,7 @@ function HoldingBoth() {
       }
       {currentPhase === Phase.teleop && (
         <>
-          <Zone zone="start-zone" classes={'top left'}>
+          <Zone zone="barge-right" classes={'right'}>
             <Defence />
           </Zone>
         </>

@@ -88,7 +88,7 @@ function HoldingNothing() {
           <Zone zone="reef-front-right">
             <PickupAlgae mode={holding_nothing} />
           </Zone>
-          <Zone zone="start-zone" classes={'left'}>
+          <Zone zone="barge-right" classes={'right'}>
             <Defence />
           </Zone>
         </>
