@@ -418,6 +418,7 @@ export default function Sync() {
     return items;
   }
 
+  const syncCountMessage = unsyncCount < 0 ? '(CALCULATING...)' : unsyncCount;
   /*
    * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
    *
@@ -496,7 +497,7 @@ export default function Sync() {
         <h2>Tournament & Schedule Data</h2>
 
         <p>
-          You have <strong>{unsyncCount}</strong> items to sync.{' '}
+          You have <strong>{syncCountMessage}</strong> items to sync.{' '}
           {syncing && <Loading />}
         </p>
 
@@ -532,7 +533,7 @@ export default function Sync() {
       <>
         <h1>Synchronize Data</h1>
         <p>
-          You have <strong>{unsyncCount}</strong> items to sync.{' '}
+          You have <strong>{syncCountMessage}</strong> items to sync.{' '}
           {syncing && <Loading />}
         </p>
         <p>

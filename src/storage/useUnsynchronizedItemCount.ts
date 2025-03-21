@@ -6,7 +6,7 @@ import {
 } from './util.ts';
 
 export function useUnsynchronizedItemCount() {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(-1);
 
   useEffect(() => {
     const interval = setInterval(() => {
