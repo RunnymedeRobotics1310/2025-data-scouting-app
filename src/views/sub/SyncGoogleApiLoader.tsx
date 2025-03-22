@@ -95,10 +95,24 @@ export function SyncGoogleApiLoader() {
         <h1>Sync</h1>
         <p>Initializing client libraries. Status:</p>
         <ul>
-          <li>gapi loaded: {isGapiLoaded ? 'YES' : 'NO'}</li>
-          <li>gis loaded: {isGisLoaded ? 'YES' : 'NO'}</li>
-          <li>gapi inited: {gapiInited ? 'YES' : 'NO'}</li>
-          <li>gis inited: {gisInited ? 'YES' : 'NO'}</li>
+          <li>
+            gapi loaded:{' '}
+            {isGapiLoaded ? 'YES' : 'NO - check your internet access'}
+          </li>
+          <li>
+            gis loaded:{' '}
+            {isGisLoaded ? 'YES' : 'NO - check your internet access'}
+          </li>
+          <li>
+            gapi inited:{' '}
+            {gapiInited
+              ? 'YES'
+              : 'NO - check your access key or try restarting your device'}
+          </li>
+          <li>
+            gis inited:{' '}
+            {gisInited ? 'YES' : 'NO - please tell the development team'}
+          </li>
         </ul>
         <p>Please wait while these finish loading.</p>
         <Spinner />
