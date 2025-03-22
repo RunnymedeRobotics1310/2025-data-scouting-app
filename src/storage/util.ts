@@ -33,10 +33,42 @@ export function stringifyKey(obj: ScoutingSessionId): string {
   );
 }
 
+export function addDefenceEndedEvent(
+  scoutingSessionId: ScoutingSessionId,
+  phase: Phase,
+  note: string = '',
+) {
+  const endMillis = new Date().getTime();
+  const start = readLatestEvent(scoutingSessionId, phase, 'defence-started');
+  console.log('Found starting session', start);
+  if (start) {
+    const startMillis = start.timestamp.getTime();
+    const elapsedSeconds = (endMillis - startMillis) / 1000;
+    addEventWithAmount(
+      scoutingSessionId,
+      phase,
+      'defence-stopped',
+      elapsedSeconds,
+      note,
+    );
+  } else {
+    addEvent(scoutingSessionId, phase, 'defence-stopped', note);
+  }
+}
+
 export function addEvent(
   scoutingSessionId: ScoutingSessionId,
   phase: Phase,
   eventType: string,
+  note: string = '',
+) {
+  addEventWithAmount(scoutingSessionId, phase, eventType, 0, note);
+}
+export function addEventWithAmount(
+  scoutingSessionId: ScoutingSessionId,
+  phase: Phase,
+  eventType: string,
+  amount: number,
   note: string = '',
 ) {
   const scoutingSessionKeyStr = stringifyKey(scoutingSessionId);
@@ -63,6 +95,7 @@ export function addEvent(
     alliance: scoutingSessionId.alliance,
     teamNumber: scoutingSessionId.teamNumber,
     eventType: phase + '-' + eventType,
+    amount: amount,
     note: note,
     synchronized: false,
   };
@@ -74,6 +107,34 @@ export function addEvent(
   localStorage.setItem(storageKey, stringifiedEventsListing);
 }
 
+export function readLatestEvent(
+  scoutingSessionId: ScoutingSessionId,
+  phase: string,
+  eventType: string,
+) {
+  const scoutingSessionKeyStr = stringifyKey(scoutingSessionId);
+
+  const storageKey = 'rrEvents-' + scoutingSessionKeyStr;
+  const stringifiedEventsListing = localStorage.getItem(storageKey);
+  let gameEvents: GameEvents;
+  if (!stringifiedEventsListing) {
+    console.log('Did not find starting event for ', stringifiedEventsListing);
+    return null;
+  } else {
+    console.log('Found starting events!!');
+    gameEvents = parseStringifiedEvents(stringifiedEventsListing);
+    let event = null;
+    const etype = phase + '-' + eventType;
+    for (const e of gameEvents.events) {
+      console.log('Checking event', e);
+      if (e.eventType == etype) {
+        console.log('Found matching event', e);
+        event = e;
+      }
+    }
+    return event;
+  }
+}
 export function updateEventSyncStatus(event: GameEvent) {
   const scoutingSessionId: ScoutingSessionId = {
     tournamentId: event.tournamentId,
@@ -211,6 +272,9 @@ export function getScoutingSessionId() {
 function parseStringifiedEvents(stringifiedGameEvents: string): GameEvents {
   const events = JSON.parse(stringifiedGameEvents) as GameEvents;
   for (const e of events.events) {
+    if (e.amount === undefined) {
+      e.amount = 0;
+    }
     if (!(e.timestamp instanceof Date)) {
       e.timestamp = new Date(e.timestamp);
     }

@@ -1,5 +1,5 @@
 import { ScoutingSessionId } from '../types/ScoutingSessionId.ts';
-import { addEvent } from '../storage/util.ts';
+import { addDefenceEndedEvent, addEvent } from '../storage/util.ts';
 import { Phase } from '../common/phase.ts';
 
 export function startDefence(scoutingSessionId: ScoutingSessionId) {
@@ -13,6 +13,6 @@ export function stopDefence(
   time: number,
 ) {
   console.log('Defence stopped');
-  addEvent(scoutingSessionId, Phase.teleop, 'defence-stopped', time + 's');
+  addDefenceEndedEvent(scoutingSessionId, Phase.teleop, time + 's');
   return;
 }

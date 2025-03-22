@@ -303,6 +303,7 @@ export default function Sync() {
               event.alliance,
               event.teamNumber,
               event.eventType,
+              event.amount,
               event.note,
             ];
           });
@@ -320,7 +321,7 @@ export default function Sync() {
             window.gapi.client.sheets.spreadsheets.values
               .append({
                 spreadsheetId: tournament.eventLogGoogleSheetId,
-                range: 'A2:H',
+                range: 'A2:I',
                 valueInputOption: 'RAW',
                 resource: body,
                 includeValuesInResponse: true,
@@ -410,7 +411,8 @@ export default function Sync() {
         alliance: row[4],
         teamNumber: row[5],
         eventType: row[6],
-        note: row[7],
+        amount: row[7],
+        note: row[8],
         synchronized: true,
       } as GameEvent);
     });

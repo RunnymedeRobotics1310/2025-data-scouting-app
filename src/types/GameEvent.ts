@@ -6,6 +6,7 @@ export type GameEvent = {
   alliance: string;
   teamNumber: number;
   eventType: string;
+  amount: number;
   note: string | undefined;
   synchronized: boolean;
 };
@@ -19,6 +20,7 @@ export function equalsIgnoreSync(event: GameEvent, e: GameEvent) {
     event.alliance == e.alliance &&
     event.teamNumber == e.teamNumber &&
     event.eventType == e.eventType &&
+    event.amount == e.amount &&
     event.note == e.note
   );
 }
