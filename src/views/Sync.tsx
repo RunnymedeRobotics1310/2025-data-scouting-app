@@ -28,8 +28,6 @@ export default function Sync() {
   const [showHelp, setShowHelp] = useState(false);
   const unsyncCount = useUnsynchronizedItemCount();
 
-  // TODO(developer): Set to client ID and API key from the Developer Console.
-
   // Authorization scopes required by the API; multiple scopes can be
   // included, separated by spaces.
   const SCOPES =
@@ -63,6 +61,15 @@ export default function Sync() {
       document.body.append(script);
     }
   }, []);
+
+  function reportError(message: string) {
+    let msg = message;
+    if (content && content.length > 2) {
+      msg = content + '  \n' + message;
+    }
+    console.error(message);
+    setContent(msg);
+  }
   /**
    * Callback after api.js is loaded.
    */
@@ -139,7 +146,7 @@ export default function Sync() {
         throw resp;
       }
       setAuthenticated(true);
-      loadData();
+      loadTournamentAndSchedule();
     };
 
     // @ts-ignore
@@ -194,7 +201,7 @@ export default function Sync() {
     }
   }
 
-  async function loadData() {
+  async function loadTournamentAndSchedule() {
     let response;
     try {
       // Fetch first 10 files
@@ -205,12 +212,12 @@ export default function Sync() {
       });
     } catch (err) {
       // @ts-ignore
-      setContent(err.message);
+      reportError('Error loading tournament schedule: ' + err.message);
       return;
     }
     const range = response.result;
     if (!range || !range.values || range.values.length == 0) {
-      setContent('No tournament data found.');
+      reportError('No tournament data found.');
       return;
     }
     // Flatten to string to display
@@ -246,7 +253,7 @@ export default function Sync() {
       });
     } catch (err) {
       // @ts-ignore
-      setContent(err.message + '. ');
+      reportError('Error loading schedule data ' + err.message);
       return;
     }
     const range = response.result;
@@ -285,7 +292,7 @@ export default function Sync() {
   }
 
   async function saveEventLog() {
-    console.log('Syncing events');
+    console.log('Saving event log');
     setContent("Uploading data. When the spinner goes away you're all done.");
 
     const tournaments = getScoutedTournaments();
@@ -362,13 +369,12 @@ export default function Sync() {
                 setSyncing(false);
               });
           } catch (err) {
-            console.error(
-              'Error synchronizing data for session',
-              stringifyKey(session),
-              err,
+            reportError(
+              'Error saving events for session ' +
+                stringifyKey(session) +
+                ' ' +
+                err.message,
             );
-            // @ts-ignore
-            setContent(err.message);
             return;
           }
         } else {
