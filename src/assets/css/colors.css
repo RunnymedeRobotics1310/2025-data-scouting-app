@@ -54,11 +54,15 @@ a:active {
         }
     }
 }
+.syncLoading {
+}
 .syncRed {
     color: red;
+    fill: red;
 }
 .syncGreen {
     color: green;
+    fill: green;
 }
 .match-select .team-select button:disabled {
     color:gray;
