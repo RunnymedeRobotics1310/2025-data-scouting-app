@@ -2,10 +2,10 @@ import Spinner from './Spinner.tsx';
 
 function Loading() {
   return (
-    <p>
+    <div>
       <Spinner />
       Loading...
-    </p>
+    </div>
   );
 }
 export default Loading;
