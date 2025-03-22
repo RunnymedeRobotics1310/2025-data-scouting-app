@@ -40,7 +40,6 @@ export function addDefenceEndedEvent(
 ) {
   const endMillis = new Date().getTime();
   const start = readLatestEvent(scoutingSessionId, phase, 'defence-started');
-  console.log('Found starting session', start);
   if (start) {
     const startMillis = start.timestamp.getTime();
     const elapsedSeconds = (endMillis - startMillis) / 1000;
@@ -118,17 +117,13 @@ export function readLatestEvent(
   const stringifiedEventsListing = localStorage.getItem(storageKey);
   let gameEvents: GameEvents;
   if (!stringifiedEventsListing) {
-    console.log('Did not find starting event for ', stringifiedEventsListing);
     return null;
   } else {
-    console.log('Found starting events!!');
     gameEvents = parseStringifiedEvents(stringifiedEventsListing);
     let event = null;
     const etype = phase + '-' + eventType;
     for (const e of gameEvents.events) {
-      console.log('Checking event', e);
       if (e.eventType == etype) {
-        console.log('Found matching event', e);
         event = e;
       }
     }
