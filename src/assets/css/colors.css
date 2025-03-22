@@ -60,3 +60,7 @@ a:active {
 .syncGreen {
     color: green;
 }
+.match-select .team-select button:disabled {
+    color:gray;
+    background-color: darkgray
+}
