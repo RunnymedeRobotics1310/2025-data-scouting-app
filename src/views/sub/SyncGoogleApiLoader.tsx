@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { GOOGLE_CLIENT_ID } from '../../App.tsx';
 import SyncMain from './SyncMain.tsx';
-import Loading from '../../common/Loading.tsx';
 import { useNavigate } from 'react-router-dom';
+import Spinner from '../../common/Spinner.tsx';
 
 export function SyncGoogleApiLoader() {
   const navigate = useNavigate();
@@ -93,9 +93,15 @@ export function SyncGoogleApiLoader() {
     return (
       <section>
         <h1>Sync</h1>
-        <p>Initializing sync libraries - you must be connected to proceed.</p>
-        <Loading />
-        <p>&nbsp;</p>
+        <p>Initializing client libraries. Status:</p>
+        <ul>
+          <li>gapi loaded: {isGapiLoaded ? 'YES' : 'NO'}</li>
+          <li>gis loaded: {isGisLoaded ? 'YES' : 'NO'}</li>
+          <li>gapi inited: {gapiInited ? 'YES' : 'NO'}</li>
+          <li>gis inited: {gisInited ? 'YES' : 'NO'}</li>
+        </ul>
+        <p>Please wait while these finish loading.</p>
+        <Spinner />
         <button onClick={() => navigate('/')}>Return Home</button>
       </section>
     );
