@@ -8,6 +8,10 @@ function Field(props: any) {
   return (
     <section className={isRed ? 'red-field-container' : 'blue-field-container'}>
       {props.children}
+      &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+      &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+      &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+      &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
     </section>
   );
 }
