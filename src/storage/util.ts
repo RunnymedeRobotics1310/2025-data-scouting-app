@@ -54,7 +54,12 @@ export function addDefenceEndedEvent(
     addEvent(scoutingSessionId, phase, 'defence-stopped', note);
   }
 }
-
+export function saveScoutName(name: string) {
+  localStorage.setItem('rrScoutName', name);
+}
+export function getScoutName() {
+  return localStorage.getItem('rrScoutName');
+}
 export function addEvent(
   scoutingSessionId: ScoutingSessionId,
   phase: Phase,

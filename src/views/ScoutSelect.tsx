@@ -1,12 +1,23 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { tournament_select } from '../modes/tournament_select.ts';
-import { setScout } from '../storage/util.ts';
+import { getScoutName, saveScoutName, setScout } from '../storage/util.ts';
 
 function ScoutSelect() {
   const [name, setName] = useState('');
   const navigate = useNavigate();
   const [hasApiKey, setHasApiKey] = useState(false);
+
+  const nameSet = name && name != '';
+
+  useEffect(() => {
+    if (name == '') {
+      const loadedName = getScoutName();
+      if (loadedName && loadedName != '') {
+        setName(loadedName);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (!hasApiKey) {
@@ -50,30 +61,51 @@ function ScoutSelect() {
       );
     }
   }
-  return (
-    <div className={'general-layout'}>
-      <div className={'scout-select'}>
+  function renderNameForm() {
+    if (nameSet) {
+      return (
         <div>
-          <h3>Welcome back Scout!</h3>
-          <p>
-            Please enter your name, and provide the access key if you haven't
-            entered it already.
-          </p>
+          <button
+            onClick={() => {
+              saveScoutName('');
+              setName('');
+            }}
+          >
+            Change Name from {name}
+          </button>
         </div>
-
+      );
+    } else {
+      return (
         <label>
           <input
             className={'center'}
             type={'text'}
             id={'name'}
             placeholder={'Name'}
-            onChange={e => {
+            onBlur={e => {
               setName(e.target.value);
+              saveScoutName(e.target.value);
             }}
           />
         </label>
+      );
+    }
+  }
+  return (
+    <div className={'general-layout'}>
+      <div className={'scout-select'}>
+        <div>
+          <h3>Welcome back {nameSet ? name : 'Scout'}!</h3>
+          <p>
+            Please enter your name, and provide the access key if you haven't
+            entered it already.
+          </p>
+        </div>
 
+        {renderNameForm()}
         {renderApiKey()}
+
         <label className={'next-button'}>
           <button
             className={'right'}
