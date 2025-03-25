@@ -60,6 +60,12 @@ export function saveScoutName(name: string) {
 export function getScoutName() {
   return localStorage.getItem('rrScoutName');
 }
+export function saveJwt(jwt: string) {
+  localStorage.setItem('rrJwt', jwt);
+}
+export function getJwt() {
+  return localStorage.getItem('rrJwt');
+}
 export function addEvent(
   scoutingSessionId: ScoutingSessionId,
   phase: Phase,

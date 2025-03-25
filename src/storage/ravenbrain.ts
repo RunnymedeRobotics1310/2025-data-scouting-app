@@ -1,4 +1,4 @@
-import { getScoutName } from './util.ts';
+import { getJwt, getScoutName } from './util.ts';
 
 const HOST = 'http://localhost:8080';
 const KEY = 'abc123';
@@ -11,7 +11,7 @@ export async function rbfetch(
     ...options,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${KEY}`,
+      Authorization: `Bearer ${getJwt()}`,
     },
   };
   o2.mode = 'cors';
@@ -35,5 +35,14 @@ export async function authenticate() {
       password: KEY,
     }),
   };
-  return fetch(HOST + `/api/auth`, options);
+  // return fetch(HOST + `/api/auth`, options);
+  return fetch(HOST + `/login`, options).then(response => {
+    if (response.ok) {
+      return response.json();
+    } else if (response.status === 401) {
+      throw new Error('Not authorized (401)');
+    } else {
+      throw new Error('Unhandled server error (' + response.status + ')');
+    }
+  });
 }
