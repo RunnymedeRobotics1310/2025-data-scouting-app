@@ -3,22 +3,6 @@ import { getJwt, getScoutName } from './util.ts';
 const HOST = 'http://localhost:8080';
 const KEY = 'abc123';
 
-export async function rbfetch(
-  urlpath: string,
-  options: RequestInit,
-): Promise<Response> {
-  const o2: Record<string, unknown> = {
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${getJwt()}`,
-    },
-  };
-  o2.mode = 'cors';
-
-  return fetch(HOST + urlpath, o2);
-}
-
 export async function authenticate() {
   const scoutName = getScoutName();
   if (scoutName === null) {
@@ -35,7 +19,6 @@ export async function authenticate() {
       password: KEY,
     }),
   };
-  // return fetch(HOST + `/api/auth`, options);
   return fetch(HOST + `/login`, options).then(response => {
     if (response.ok) {
       return response.json();
@@ -44,5 +27,38 @@ export async function authenticate() {
     } else {
       throw new Error('Unhandled server error (' + response.status + ')');
     }
+  });
+}
+
+export async function ping(): Promise<boolean> {
+  return fetch(HOST + '/api/ping', {}).then(resp => {
+    return resp.ok;
+  });
+}
+
+/**
+ * Fetch with Raven Brain authentication
+ * @param urlpath
+ * @param options
+ */
+async function rbfetch(
+  urlpath: string,
+  options: RequestInit,
+): Promise<Response> {
+  const o2: Record<string, unknown> = {
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${getJwt()}`,
+    },
+  };
+  o2.mode = 'cors';
+
+  return fetch(HOST + urlpath, o2);
+}
+
+export async function validate(): Promise<boolean> {
+  return rbfetch('/api/validate', {}).then(resp => {
+    return resp.ok;
   });
 }

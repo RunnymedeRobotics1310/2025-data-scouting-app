@@ -1,6 +1,8 @@
 import { SyncGoogleApiLoader } from './sub/SyncGoogleApiLoader.tsx';
 import RavenBrainSyncConnection from './sub/RavenBrainSyncConnection.tsx';
 import { isDevelopment } from '../dev/util.ts';
+import RBSyncMain from './sub/RBSyncMain.tsx';
+import RBSyncAdmin from './sub/RBSyncAdmin.tsx';
 
 export default function Sync() {
   return (
@@ -13,7 +15,10 @@ export default function Sync() {
           <p>
             This prototype is currently hidden behind the isDevelopment() check.
           </p>
-          <RavenBrainSyncConnection />
+          <RavenBrainSyncConnection>
+            <RBSyncMain />
+            <RBSyncAdmin />
+          </RavenBrainSyncConnection>
         </>
       )}
     </>

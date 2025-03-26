@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { authenticate, rbfetch } from '../../storage/ravenbrain.ts';
+import { authenticate, ping, validate } from '../../storage/ravenbrain.ts';
 import Spinner from '../../common/Spinner.tsx';
 import { useNavigate } from 'react-router-dom';
 import { saveJwt } from '../../storage/util.ts';
 
-function RavenBrainSyncConnection() {
+function RavenBrainSyncConnection(props) {
   const navigate = useNavigate();
   const [alive, setAlive] = useState(false);
   const [error, setError] = useState<string>('');
@@ -13,14 +13,16 @@ function RavenBrainSyncConnection() {
 
   useEffect(() => {
     if (!alive) {
-      rbfetch(`/api/ping`, {})
-        .then(resp => {
-          if (resp.ok) {
+      ping()
+        .then(ok => {
+          if (ok) {
             setAlive(true);
+          } else {
+            setError('Ping failed');
           }
         })
         .catch(e => {
-          setError('Ping failed: ' + e);
+          setError('Ping failed: ' + e.message);
         });
     }
   }, []);
@@ -40,14 +42,16 @@ function RavenBrainSyncConnection() {
 
   useEffect(() => {
     if (authenticated && !validated) {
-      rbfetch(`/api/validate`, {})
-        .then(resp => {
-          if (resp.ok) {
+      validate()
+        .then(ok => {
+          if (ok) {
             setValidated(true);
+          } else {
+            setError('Validation failed');
           }
         })
         .catch(e => {
-          setError('Validation failed: ' + e);
+          setError('Validation failed: ' + e.message);
         });
     }
   }, [authenticated, validated]);
@@ -92,11 +96,7 @@ function RavenBrainSyncConnection() {
     );
   }
 
-  return (
-    <div>
-      <h2>Connected to Raven Brain</h2>
-    </div>
-  );
+  return <section>{props.children}</section>;
 }
 
 export default RavenBrainSyncConnection;
