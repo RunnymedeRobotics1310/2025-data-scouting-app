@@ -1,4 +1,5 @@
 import { getJwt, getScoutName } from './util.ts';
+import { useEffect, useState } from 'react';
 
 const HOST = 'http://localhost:8080';
 const KEY = 'abc123';
@@ -59,6 +60,37 @@ async function rbfetch(
 
 export async function validate(): Promise<boolean> {
   return rbfetch('/api/validate', {}).then(resp => {
+    return resp.ok;
+  });
+}
+
+export function useTournamentList() {
+  const [list, setList] = useState([]);
+  const [error, setError] = useState<null | string>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    rbfetch('/api/tournament', {}).then(resp => {
+      if (resp.ok) {
+        resp.json().then(data => {
+          setList(data);
+          setLoading(false);
+        });
+      } else {
+        setError('Failed to fetch tournaments');
+        setLoading(false);
+      }
+    });
+  }, []);
+
+  return { list, error, loading };
+}
+
+export async function saveTournament(tournament: any) {
+  return rbfetch('/api/tournament', {
+    method: 'POST',
+    body: JSON.stringify(tournament),
+  }).then(resp => {
     return resp.ok;
   });
 }

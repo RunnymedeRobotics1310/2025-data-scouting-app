@@ -6,10 +6,10 @@ import { saveJwt } from '../../storage/util.ts';
 
 function RavenBrainSyncConnection(props) {
   const navigate = useNavigate();
-  const [alive, setAlive] = useState(false);
   const [error, setError] = useState<string>('');
-  const [validated, setValidated] = useState(false);
+  const [alive, setAlive] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
+  const [validated, setValidated] = useState(false);
 
   useEffect(() => {
     if (!alive) {
