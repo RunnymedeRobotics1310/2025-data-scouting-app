@@ -11,12 +11,12 @@ function RBScheduleAdmin() {
       return <Loading />;
     }
     if (error) {
-      return <div>Error loading tournament list: {error}</div>;
+      return <div>Error loading schedule: {error}</div>;
     }
     return (
       <>
         <div>
-          <h3>Tournament List</h3>
+          <h3>Schedule</h3>
           <ul>
             {list.map((t: any) => (
               <li key={t.id}>
@@ -30,7 +30,7 @@ function RBScheduleAdmin() {
               </li>
             ))}
           </ul>
-          <button onClick={() => setShowForm(true)}>Add Tournament</button>
+          <button onClick={() => setShowForm(true)}>Add Schedule</button>
         </div>
         {showForm && <ShowForm closeFormCallback={() => setShowForm(false)} />}
         {tournamentDetail && (
@@ -44,7 +44,7 @@ function RBScheduleAdmin() {
   }
   return (
     <div>
-      <h3>Tournament Admin</h3>
+      <h3>Schedule Admin</h3>
       <List />
     </div>
   );
@@ -57,7 +57,7 @@ function RBScheduleAdmin() {
     const { tournamentDetail, setTournamentDetail } = props;
     return (
       <section>
-        <h4>Tournament Details:</h4>
+        <h4>Schedule Details:</h4>
         <table>
           <tbody>
             <tr>
@@ -92,16 +92,16 @@ function RBScheduleAdmin() {
             console.log('Saved');
             props.closeFormCallback();
           } else {
-            console.error('Failed to save tournament');
+            console.error('Failed to save schedule');
           }
         })
         .catch(e => {
-          console.error('Failed to save tournament', e);
+          console.error('Failed to save schedule', e);
         });
     }
     return (
       <section>
-        <h4>Add Tournament</h4>
+        <h4>Add Schedule</h4>
         <table>
           <tbody>
             <tr>
