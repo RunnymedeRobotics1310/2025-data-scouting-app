@@ -119,7 +119,7 @@ export function useScheduleDetail(tournamentId: string) {
   return { schedule, error, loading };
 }
 
-export async function saveMatch(match: any) {
+export async function saveMatch(match) {
   return rbfetch('/api/schedule', {
     method: 'POST',
     body: JSON.stringify(match),

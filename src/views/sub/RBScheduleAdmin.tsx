@@ -10,7 +10,6 @@ function RBScheduleAdmin() {
   function List() {
     const { list, error, loading } = useTournamentList();
     const [tournamentDetail, setTournamentDetail] = useState<any>(null);
-    const [showForm, setShowForm] = useState(false);
     if (loading) {
       return <Loading />;
     }
@@ -25,18 +24,18 @@ function RBScheduleAdmin() {
             {list.map((t: any) => (
               <li key={t.id}>
                 {t.name}
-                <button
-                  onClick={() => setTournamentDetail(t)}
-                  disabled={tournamentDetail && tournamentDetail.id === t.id}
-                >
-                  View Schedule
-                </button>
+                {!tournamentDetail && (
+                  <button
+                    onClick={() => setTournamentDetail(t)}
+                    disabled={tournamentDetail && tournamentDetail.id === t.id}
+                  >
+                    View Schedule
+                  </button>
+                )}
               </li>
             ))}
           </ul>
-          <button onClick={() => setShowForm(true)}>Add Schedule</button>
         </div>
-        {showForm && <ShowForm closeFormCallback={() => setShowForm(false)} />}
         {tournamentDetail && (
           <ShowSchedule
             tournamentDetail={tournamentDetail}
@@ -59,8 +58,10 @@ function RBScheduleAdmin() {
 
   function ShowSchedule(props: DetailType) {
     const { tournamentDetail, setTournamentDetail } = props;
+    console.log('tournament-detail:', tournamentDetail);
     const { schedule, error, loading } = useScheduleDetail(tournamentDetail.id);
-    console.log(schedule);
+    const [showForm, setShowForm] = useState(false);
+    console.log({ schedule, tournamentDetail });
 
     if (loading) {
       return <Loading />;
@@ -102,19 +103,30 @@ function RBScheduleAdmin() {
             })}
           </tbody>
         </table>
-        <p>{tournamentDetail.description}</p>
+        <button onClick={() => setShowForm(true)}>Add Schedule</button>
+        {showForm && tournamentDetail && (
+          <ShowForm
+            closeFormCallback={() => setShowForm(false)}
+            tournamentId={tournamentDetail.id}
+          />
+        )}
         <button onClick={() => setTournamentDetail()}>Close</button>
       </section>
     );
   }
   type FormType = {
     closeFormCallback: () => void;
+    tournamentId: string;
   };
   function ShowForm(props: FormType) {
     const [match, setMatch] = useState<any>({});
     function handleSave() {
-      console.log('Save', match);
-      saveMatch(match)
+      const matchWithId = {
+        ...match,
+        tournamentId: props.tournamentId,
+      };
+      console.log('Save', matchWithId);
+      saveMatch(matchWithId)
         .then(success => {
           if (success) {
             console.log('Saved');
