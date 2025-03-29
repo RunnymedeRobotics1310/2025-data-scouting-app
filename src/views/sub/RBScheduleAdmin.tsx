@@ -1,4 +1,8 @@
-import { saveTournament, useTournamentList } from '../../storage/ravenbrain.ts';
+import {
+  saveMatch,
+  useScheduleDetail,
+  useTournamentList,
+} from '../../storage/ravenbrain.ts';
 import Loading from '../../common/Loading.tsx';
 import { useState } from 'react';
 
@@ -20,12 +24,12 @@ function RBScheduleAdmin() {
           <ul>
             {list.map((t: any) => (
               <li key={t.id}>
-                {t.name}{' '}
+                {t.name}
                 <button
                   onClick={() => setTournamentDetail(t)}
                   disabled={tournamentDetail && tournamentDetail.id === t.id}
                 >
-                  Details
+                  View Schedule
                 </button>
               </li>
             ))}
@@ -34,7 +38,7 @@ function RBScheduleAdmin() {
         </div>
         {showForm && <ShowForm closeFormCallback={() => setShowForm(false)} />}
         {tournamentDetail && (
-          <ShowDetails
+          <ShowSchedule
             tournamentDetail={tournamentDetail}
             setTournamentDetail={() => setTournamentDetail(null)}
           />
@@ -53,25 +57,49 @@ function RBScheduleAdmin() {
     setTournamentDetail: any;
   };
 
-  function ShowDetails(props: DetailType) {
+  function ShowSchedule(props: DetailType) {
     const { tournamentDetail, setTournamentDetail } = props;
+    const { schedule, error, loading } = useScheduleDetail(tournamentDetail.id);
+    console.log(schedule);
+
+    if (loading) {
+      return <Loading />;
+    }
+    if (error) {
+      return <div>Error loading schedule: {error}</div>;
+    }
+
     return (
       <section>
         <h4>Schedule Details:</h4>
         <table>
           <tbody>
             <tr>
-              <th>Name</th>
-              <td> {tournamentDetail.name}</td>
+              <th>Match #</th>
+              <th>red 1</th>
+              <th>Red 2</th>
+              <th>redh 3</th>
+              <th>Blue 1</th>
+              <th>Blue 2</th>
+              <th>blUe 3</th>
+              <th>Blue score</th>
+              <th>Red score</th>
             </tr>
-            <tr>
-              <th>Start Date</th>
-              <td>{tournamentDetail.startTime}</td>
-            </tr>
-            <tr>
-              <th>End Date</th>
-              <td>{tournamentDetail.endTime}</td>
-            </tr>
+            {schedule.map(row => {
+              return (
+                <tr>
+                  <td>{row.match}</td>
+                  <td>{row.red1}</td>
+                  <td>{row.red2}</td>
+                  <td>{row.red3}</td>
+                  <td>{row.blue1}</td>
+                  <td>{row.blue2}</td>
+                  <td>{row.blue3}</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
         <p>{tournamentDetail.description}</p>
@@ -83,64 +111,120 @@ function RBScheduleAdmin() {
     closeFormCallback: () => void;
   };
   function ShowForm(props: FormType) {
-    const [tourn, setTourn] = useState<any>({});
+    const [match, setMatch] = useState<any>({});
     function handleSave() {
-      console.log('Save', tourn);
-      saveTournament(tourn)
+      console.log('Save', match);
+      saveMatch(match)
         .then(success => {
           if (success) {
             console.log('Saved');
             props.closeFormCallback();
           } else {
-            console.error('Failed to save schedule');
+            console.error('Failed to save match');
           }
         })
         .catch(e => {
-          console.error('Failed to save schedule', e);
+          console.error('Failed to save match', e);
         });
     }
     return (
       <section>
-        <h4>Add Schedule</h4>
+        <h4>Add Match</h4>
         <table>
           <tbody>
             <tr>
-              <th>Name</th>
+              <th>Match #</th>
               <td>
                 <input
-                  type="text"
+                  type="number"
                   onChange={e =>
-                    setTourn({
-                      ...tourn,
-                      name: e.target.value,
+                    setMatch({
+                      ...match,
+                      match: e.target.valueAsNumber,
                     })
                   }
                 />
               </td>
             </tr>
             <tr>
-              <th>Start (in UTC)</th>
+              <th>Red 1</th>
               <td>
                 <input
-                  type="datetime-local"
+                  type="number"
                   onChange={e =>
-                    setTourn({
-                      ...tourn,
-                      startTime: e.target.value,
+                    setMatch({
+                      ...match,
+                      red1: e.target.valueAsNumber,
                     })
                   }
                 />
               </td>
             </tr>
             <tr>
-              <th>End (in UTC)</th>
+              <th>Red 2</th>
               <td>
                 <input
-                  type="datetime-local"
+                  type="number"
                   onChange={e =>
-                    setTourn({
-                      ...tourn,
-                      endTime: e.target.value,
+                    setMatch({
+                      ...match,
+                      red2: e.target.valueAsNumber,
+                    })
+                  }
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>Red 3</th>
+              <td>
+                <input
+                  type="number"
+                  onChange={e =>
+                    setMatch({
+                      ...match,
+                      red3: e.target.valueAsNumber,
+                    })
+                  }
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>Blue 1</th>
+              <td>
+                <input
+                  type="number"
+                  onChange={e =>
+                    setMatch({
+                      ...match,
+                      blue1: e.target.valueAsNumber,
+                    })
+                  }
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>Blue 2</th>
+              <td>
+                <input
+                  type="number"
+                  onChange={e =>
+                    setMatch({
+                      ...match,
+                      blue2: e.target.valueAsNumber,
+                    })
+                  }
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>Blue 3</th>
+              <td>
+                <input
+                  type="number"
+                  onChange={e =>
+                    setMatch({
+                      ...match,
+                      blue3: e.target.valueAsNumber,
                     })
                   }
                 />
@@ -151,9 +235,13 @@ function RBScheduleAdmin() {
         <button
           onClick={() => handleSave()}
           disabled={
-            tourn.name == null ||
-            tourn.startTime == null ||
-            tourn.endTime == null
+            match.match == null ||
+            match.red1 == null ||
+            match.red2 == null ||
+            match.red3 == null ||
+            match.blue1 == null ||
+            match.blue2 == null ||
+            match.blue3 == null
           }
         >
           Save

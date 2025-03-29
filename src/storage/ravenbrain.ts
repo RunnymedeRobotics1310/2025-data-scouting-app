@@ -95,3 +95,35 @@ export async function saveTournament(tournament: any) {
     return resp.ok;
   });
 }
+
+export function useScheduleDetail(tournamentId: string) {
+  const [schedule, setSchedule] = useState([]);
+  const [error, setError] = useState<null | string>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    rbfetch('/api/schedule/' + tournamentId, {}).then(resp => {
+      if (resp.ok) {
+        resp.json().then(data => {
+          setSchedule(data);
+          console.log('Data: ', data);
+          setLoading(false);
+        });
+      } else {
+        setError('Failed to fetch schedule');
+        setLoading(false);
+      }
+    });
+  }, [loading]);
+
+  return { schedule, error, loading };
+}
+
+export async function saveMatch(match: any) {
+  return rbfetch('/api/schedule', {
+    method: 'POST',
+    body: JSON.stringify(match),
+  }).then(resp => {
+    return resp.ok;
+  });
+}

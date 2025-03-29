@@ -1,4 +1,3 @@
-import RavenBrainSyncConnection from './sub/RavenBrainSyncConnection.tsx';
 import { isDevelopment } from '../dev/util.ts';
 import RBSyncMain from './sub/RBSyncMain.tsx';
 
@@ -13,9 +12,7 @@ export default function Sync() {
           <p>
             This prototype is currently hidden behind the isDevelopment() check.
           </p>
-          <RavenBrainSyncConnection>
-            <RBSyncMain />
-          </RavenBrainSyncConnection>
+          <RBSyncMain />
         </>
       )}
     </>

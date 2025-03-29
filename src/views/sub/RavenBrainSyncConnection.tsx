@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { authenticate, ping, validate } from '../../storage/ravenbrain.ts';
 import Spinner from '../../common/Spinner.tsx';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { saveJwt } from '../../storage/util.ts';
 
-function RavenBrainSyncConnection(props) {
+function RavenBrainSyncConnection() {
   const navigate = useNavigate();
   const [error, setError] = useState<string>('');
   const [alive, setAlive] = useState(false);
@@ -96,7 +96,11 @@ function RavenBrainSyncConnection(props) {
     );
   }
 
-  return <section>{props.children}</section>;
+  return (
+    <section>
+      <Outlet />
+    </section>
+  );
 }
 
 export default RavenBrainSyncConnection;

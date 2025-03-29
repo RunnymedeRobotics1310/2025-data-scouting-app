@@ -36,6 +36,7 @@ import RBTournamentAdmin from './views/sub/RBTournamentAdmin.tsx';
 import RBScheduleAdmin from './views/sub/RBScheduleAdmin.tsx';
 import TournamentReports from './views/TournamentReports.tsx';
 import TeamReports from './views/TeamReports.tsx';
+import RavenBrainSyncConnection from './views/sub/RavenBrainSyncConnection.tsx';
 
 export const myBasename = '/2025-data-scouting-app'; // todo: fixme: make this dynamic
 export const GOOGLE_CLIENT_ID =
@@ -70,8 +71,10 @@ function App() {
     createRoutesFromElements(
       <Route path="/" element={<AppLayout />}>
         <Route index element={<Home />} />
-        <Route path="/sync" element={<Sync />} />
-        <Route path="admin/">
+        <Route path="/sync" element={<RavenBrainSyncConnection />}>
+          <Route path="" element={<Sync />} />
+        </Route>
+        <Route path="admin/" element={<RavenBrainSyncConnection />}>
           <Route path="tournament" element={<RBTournamentAdmin />} />
           <Route path="schedule" element={<RBScheduleAdmin />} />
         </Route>
