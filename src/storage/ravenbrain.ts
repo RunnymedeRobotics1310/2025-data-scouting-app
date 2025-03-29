@@ -49,6 +49,7 @@ async function rbfetch(
   const o2: Record<string, unknown> = {
     ...options,
     headers: {
+      ...options.headers,
       'Content-Type': 'application/json',
       Authorization: `Bearer ${getJwt()}`,
     },

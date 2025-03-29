@@ -1,7 +1,10 @@
+import SyncCount from './SyncCount.tsx';
+
 function RBSyncMain() {
   return (
     <div>
-      <h2>RB Sync Main</h2>
+      <h2>Synchronize Data</h2>
+      <SyncCount />
     </div>
   );
 }

@@ -12,9 +12,9 @@ import {
 } from '../../storage/util.ts';
 import { useNavigate } from 'react-router-dom';
 import { asMap, GameEvent } from '../../types/GameEvent.ts';
-import { useUnsynchronizedItemCount } from '../../storage/useUnsynchronizedItemCount.ts';
 import { SyncHelp } from './SyncHelp.tsx';
 import Spinner from '../../common/Spinner.tsx';
+import SyncCount from './SyncCount.tsx';
 
 type PropTypes = {
   tokenClient: any;
@@ -27,7 +27,6 @@ export default function SyncMain(props: PropTypes) {
   const [authenticated, setAuthenticated] = useState(false);
   const [syncing, setSyncing] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
-  const unsyncCount = useUnsynchronizedItemCount();
 
   function reportError(message: string) {
     let msg = message;
@@ -328,7 +327,6 @@ export default function SyncMain(props: PropTypes) {
     return items;
   }
 
-  const syncCountMessage = unsyncCount < 0 ? '(CALCULATING...)' : unsyncCount;
   /*
    * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
    *
@@ -343,10 +341,7 @@ export default function SyncMain(props: PropTypes) {
     return (
       <>
         <h2>Tournament & Schedule Data</h2>
-
-        <p>
-          You have <strong>{syncCountMessage}</strong> items to sync.{' '}
-        </p>
+        <SyncCount />
         {syncing && (
           <div>
             <Spinner />
@@ -385,9 +380,7 @@ export default function SyncMain(props: PropTypes) {
     return (
       <>
         <h1>Synchronize Data</h1>
-        <p>
-          You have <strong>{syncCountMessage}</strong> items to sync.{' '}
-        </p>
+        <SyncCount />
         {syncing && (
           <div>
             <Spinner />
