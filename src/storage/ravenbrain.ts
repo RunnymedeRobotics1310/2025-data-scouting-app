@@ -106,7 +106,6 @@ export function useScheduleDetail(tournamentId: string) {
       if (resp.ok) {
         resp.json().then(data => {
           setSchedule(data);
-          console.log('Data: ', data);
           setLoading(false);
         });
       } else {
