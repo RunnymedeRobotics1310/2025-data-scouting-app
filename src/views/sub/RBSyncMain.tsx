@@ -51,7 +51,7 @@ function RBSyncMain() {
       <div>
         <p>Tournament List Updated</p>
         {list.map(tournament => (
-          <LoadSchedule tournament={tournament} />
+          <LoadSchedule key={tournament.id} tournament={tournament} />
         ))}
       </div>
     );
