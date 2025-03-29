@@ -66,6 +66,18 @@ export function saveJwt(jwt: string) {
 export function getJwt() {
   return localStorage.getItem('rrJwt');
 }
+export function saveGoogleApiKey(key: string) {
+  localStorage.setItem('rrGoogleApiKey', key);
+}
+export function getGoogleApiKey() {
+  return localStorage.getItem('rrGoogleApiKey');
+}
+export function savePassword(password: string) {
+  localStorage.setItem('rrPassword', password);
+}
+export function getPassword() {
+  return localStorage.getItem('rrPassword');
+}
 export function addEvent(
   scoutingSessionId: ScoutingSessionId,
   phase: Phase,
@@ -352,4 +364,13 @@ export function getUnsynchronizedEventsForSession(session: ScoutingSessionId) {
     });
   }
   return events;
+}
+
+export function getCurrentGamestate() {
+  const gamestateString = localStorage.getItem('rrCurrentGamestate');
+  let gamestate = null;
+  if (gamestateString) {
+    gamestate = JSON.parse(gamestateString);
+  }
+  return gamestate;
 }
