@@ -7,7 +7,7 @@ import RBSyncAdmin from './sub/RBSyncAdmin.tsx';
 export default function Sync() {
   return (
     <>
-      <SyncGoogleApiLoader />
+      {/*<SyncGoogleApiLoader />*/}
       {isDevelopment() && (
         <>
           <hr />

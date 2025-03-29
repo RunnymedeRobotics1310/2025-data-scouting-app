@@ -32,6 +32,10 @@ import automapRedUrl from '/src/assets/requirements/fields/automap-red.png';
 import reefscapeBlueUrl from '/src/assets/requirements/fields/reefscape-blue.png';
 import reefscapeRedUrl from '/src/assets/requirements/fields/reefscape-red.png';
 import Sync from './views/Sync.tsx';
+import RBTournamentAdmin from './views/sub/RBTournamentAdmin.tsx';
+import RBScheduleAdmin from './views/sub/RBScheduleAdmin.tsx';
+import TournamentReports from './views/TournamentReports.tsx';
+import TeamReports from './views/TeamReports.tsx';
 
 export const myBasename = '/2025-data-scouting-app'; // todo: fixme: make this dynamic
 export const GOOGLE_CLIENT_ID =
@@ -67,6 +71,14 @@ function App() {
       <Route path="/" element={<AppLayout />}>
         <Route index element={<Home />} />
         <Route path="/sync" element={<Sync />} />
+        <Route path="admin/">
+          <Route path="tournament" element={<RBTournamentAdmin />} />
+          <Route path="schedule" element={<RBScheduleAdmin />} />
+        </Route>
+        <Route path="reports/">
+          <Route path="tournament" element={<TournamentReports />} />
+          <Route path="team" element={<TeamReports />} />
+        </Route>
         <Route path="dev" element={<DevResources />} />
         <Route path="game/" element={<FieldLayout />}>
           <Route path="start-line" element={<start_line.view />} />

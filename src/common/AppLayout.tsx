@@ -52,6 +52,18 @@ function AppLayout() {
             <li>
               <Link to={'/dev'}>Developer Resources</Link>
             </li>
+            <li>
+              <Link to={'/admin/tournament'}>Tourn A</Link>
+            </li>
+            <li>
+              <Link to={'/admin/schedule'}>Sch A</Link>
+            </li>
+            <li>
+              <Link to={'/reports/tournament'}>Tourn Report</Link>
+            </li>
+            <li>
+              <Link to={'/reports/team'}>Team Report</Link>
+            </li>
           </menu>
         )}
       </footer>
