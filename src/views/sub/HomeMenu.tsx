@@ -60,7 +60,7 @@ function HomeMenu() {
                 </button>
               </td>
               <td>
-                <p>Start scouting a new match. </p>
+                <p>Start scouting a new match.</p>
               </td>
             </tr>
           )}
@@ -142,6 +142,21 @@ function HomeMenu() {
                 <td>
                   Administer schedule list. Internet access required. Suitable
                   for mobile and desktop devices.
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <button
+                    onClick={() => {
+                      navigate('/admin/unsync');
+                    }}
+                  >
+                    Unsynchronize
+                  </button>
+                </td>
+                <td>
+                  In rare cases you may need to un-synchronize data. Do this
+                  with a RavenEye developer only.
                 </td>
               </tr>
             </>

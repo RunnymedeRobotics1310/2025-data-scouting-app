@@ -37,6 +37,7 @@ import TournamentReports from './views/TournamentReports.tsx';
 import TeamSummaryReports from './views/TeamSummaryReports.tsx';
 import RavenBrainSyncConnection from './views/sub/RavenBrainSyncConnection.tsx';
 import QuickComment from './views/QuickComment.tsx';
+import Unsync from './views/Unsync.tsx';
 
 export const myBasename = '/2025-data-scouting-app'; // todo: fixme: make this dynamic
 
@@ -79,6 +80,7 @@ function App() {
         >
           <Route path="tournament" element={<RBTournamentAdmin />} />
           <Route path="schedule" element={<RBScheduleAdmin />} />
+          <Route path="unsync" element={<Unsync />} />
         </Route>
         <Route path="reports/">
           <Route path="tournament" element={<TournamentReports />} />

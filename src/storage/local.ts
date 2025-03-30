@@ -266,7 +266,25 @@ export function cleanupEmptyScoutingSessions() {
   });
 }
 
-export function unsyncEverything() {
+export function useUnsynchronizeEverything() {
+  const [error, setError] = useState<null | string>(null);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    if (loading) {
+      try {
+        setTimeout(() => {
+          unsyncEverything();
+          setLoading(false);
+        }, 2500);
+      } catch (err) {
+        setError('Failed to unsynchronize: ' + err);
+        setLoading(false);
+      }
+    }
+  }, [loading]);
+  return { loading, error };
+}
+function unsyncEverything() {
   console.info(
     'Marking everything that was previously synchronized as unsynchronized.',
   );
