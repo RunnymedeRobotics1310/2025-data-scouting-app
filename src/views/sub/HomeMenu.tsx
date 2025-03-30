@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { tournament_select } from '../../modes/tournament_select.ts';
 import { useContext } from 'react';
 import GameContext from '../../context/GameContext.tsx';
+import { quick_comment } from '../../modes/quick_comment.ts';
 
 function HomeMenu() {
   const { isAdmin, isDataScout, isExpertScout, isMember } = useRole();
@@ -22,7 +23,7 @@ function HomeMenu() {
   const name = getScoutName();
 
   function handleQuickComment() {
-    alert('Not implemented.  Blame Quentin.');
+    navigate(quick_comment.url);
   }
   function handleSelectMatch() {
     navigate(tournament_select.url);

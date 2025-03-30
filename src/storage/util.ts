@@ -4,6 +4,7 @@ import { GameEvents } from '../types/GameEvents.ts';
 import { Tournament } from '../types/Tournament.ts';
 import { Phase } from '../common/phase.ts';
 import { useEffect, useState } from 'react';
+import { QuickComment } from '../types/QuickComment.ts';
 
 export function parseKey(keyString: string): ScoutingSessionId {
   const arr = keyString.split('|');
@@ -442,4 +443,20 @@ export function getCurrentGamestate() {
     gamestate = JSON.parse(gamestateString);
   }
   return gamestate;
+}
+
+export function addQuickComment(quickComment: QuickComment) {
+  const quickCommentsString = localStorage.getItem('rrQuickComments');
+  let quickComments: QuickComment[] | null = null;
+
+  if (quickCommentsString) {
+    quickComments = JSON.parse(quickCommentsString) as QuickComment[];
+  } else {
+    quickComments = [];
+  }
+
+  quickComments.push(quickComment);
+
+  const stringifiedQuickComments = JSON.stringify(quickComments);
+  localStorage.setItem('rrQuickComments', stringifiedQuickComments);
 }

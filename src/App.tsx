@@ -36,6 +36,7 @@ import RBScheduleAdmin from './views/sub/RBScheduleAdmin.tsx';
 import TournamentReports from './views/TournamentReports.tsx';
 import TeamReports from './views/TeamReports.tsx';
 import RavenBrainSyncConnection from './views/sub/RavenBrainSyncConnection.tsx';
+import QuickComment from './views/QuickComment.tsx';
 
 export const myBasename = '/2025-data-scouting-app'; // todo: fixme: make this dynamic
 export const GOOGLE_CLIENT_ID =
@@ -102,6 +103,7 @@ function App() {
         <Route path="/match-config" element={<match_config.view />} />
         <Route path="/checklist" element={<checklist.view />} />
         <Route path="/human-feedback" element={<human_feedback.view />} />
+        <Route path="/quick-comment" element={<QuickComment />} />
         <Route path="*" element={<NotFound />} />
       </Route>,
     ),
