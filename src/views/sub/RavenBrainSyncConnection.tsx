@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { authenticate, ping, validate } from '../../storage/ravenbrain.ts';
 import Spinner from '../../common/Spinner.tsx';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { saveJwt } from '../../storage/util.ts';
+import { clearRole, saveJwt, saveRole } from '../../storage/util.ts';
 
 function RavenBrainSyncConnection() {
   const navigate = useNavigate();
@@ -10,6 +10,7 @@ function RavenBrainSyncConnection() {
   const [alive, setAlive] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
   const [validated, setValidated] = useState(false);
+  const [role, setRole] = useState<string | null>(null);
 
   useEffect(() => {
     if (!alive) {
@@ -43,15 +44,18 @@ function RavenBrainSyncConnection() {
   useEffect(() => {
     if (authenticated && !validated) {
       validate()
-        .then(ok => {
-          if (ok) {
+        .then(role => {
+          if (role) {
             setValidated(true);
+            saveRole(role);
           } else {
             setError('Validation failed');
+            clearRole();
           }
         })
         .catch(e => {
           setError('Validation failed: ' + e.message);
+          clearRole();
         });
     }
   }, [authenticated, validated]);

@@ -1,10 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import {
+  clearPassword,
   getCurrentGamestate,
   getGoogleApiKey,
   getPassword,
   getScoutingSessionId,
   getScoutName,
+  isAdmin,
+  isDataScout,
+  isExpertScout,
+  isMember,
   saveGoogleApiKey,
   savePassword,
   saveScoutName,
@@ -128,7 +133,7 @@ export default function Home() {
         <div>
           <button
             onClick={() => {
-              savePassword('');
+              clearPassword();
               setPassword('');
               setPasswordSaved(false);
             }}
@@ -181,7 +186,23 @@ export default function Home() {
   return (
     <>
       <h1>Welcome{name ? ' back ' + name + '!' : '!'}</h1>
-
+      <p>
+        Your current role is{' '}
+        <strong>
+          <em>
+            {isAdmin()
+              ? 'administrator'
+              : isExpertScout()
+                ? 'expert scout'
+                : isDataScout()
+                  ? 'data scout'
+                  : isMember()
+                    ? 'member'
+                    : 'anonymous - please log in'}
+          </em>
+        </strong>
+        .
+      </p>
       <table className={'tools'}>
         <tbody>
           {loggedIn && (

@@ -4,6 +4,12 @@ import logoUrl from '/src/assets/images/logo.png';
 import titleUrl from '/src/assets/images/title.png';
 import { isDevelopment } from '../dev/util.ts';
 import VersionDisplay from './VersionDisplay.tsx';
+import {
+  isAdmin,
+  isDataScout,
+  isExpertScout,
+  isMember,
+} from '../storage/util.ts';
 
 function AppLayout() {
   const navigate = useNavigate();

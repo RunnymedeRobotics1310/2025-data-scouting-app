@@ -66,6 +66,34 @@ export function saveJwt(jwt: string) {
 export function getJwt() {
   return localStorage.getItem('rrJwt');
 }
+export function saveRole(role: string) {
+  localStorage.setItem('rrRole', role);
+}
+export function clearRole() {
+  localStorage.removeItem('rrRole');
+}
+function getRole() {
+  const r = localStorage.getItem('rrRole');
+  if (r === null || r === '') {
+    return null;
+  } else {
+    return r;
+  }
+}
+export function isAdmin() {
+  return getRole() === 'ROLE_ADMIN';
+}
+export function isExpertScout() {
+  return getRole() === 'ROLE_EXPERTSCOUT' || isAdmin();
+}
+export function isDataScout() {
+  return getRole() === 'ROLE_DATASCOUT' || isExpertScout() || isAdmin();
+}
+export function isMember() {
+  return (
+    getRole() === 'ROLE_MEMBER' || isDataScout() || isExpertScout() || isAdmin()
+  );
+}
 export function saveGoogleApiKey(key: string) {
   localStorage.setItem('rrGoogleApiKey', key);
 }
@@ -77,6 +105,9 @@ export function savePassword(password: string) {
 }
 export function getPassword() {
   return localStorage.getItem('rrPassword');
+}
+export function clearPassword() {
+  localStorage.removeItem('rrPassword');
 }
 export function addEvent(
   scoutingSessionId: ScoutingSessionId,

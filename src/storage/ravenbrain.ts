@@ -1,11 +1,11 @@
-import { getJwt, getScoutName } from './util.ts';
+import { getJwt, getPassword, getScoutName } from './util.ts';
 import { useEffect, useState } from 'react';
 
 const HOST = 'http://localhost:8080';
-const KEY = 'abc123';
 
 export async function authenticate() {
   const scoutName = getScoutName();
+  const password = getPassword();
   if (scoutName === null) {
     throw new Error("Scout name not set. Can't authenticate to Raven Brain.");
   }
@@ -17,7 +17,7 @@ export async function authenticate() {
     method: 'POST',
     body: JSON.stringify({
       username: scoutName,
-      password: KEY,
+      password: password,
     }),
   };
   return fetch(HOST + `/login`, options).then(response => {
@@ -59,10 +59,20 @@ async function rbfetch(
   return fetch(HOST + urlpath, o2);
 }
 
-export async function validate(): Promise<boolean> {
-  return rbfetch('/api/validate', {}).then(resp => {
-    return resp.ok;
-  });
+export async function validate(): Promise<string> {
+  return rbfetch('/api/validate', {})
+    .then(resp => {
+      if (resp.ok) {
+        return resp.json();
+      } else if (resp.status === 401) {
+        throw Error('Not authorized (401)');
+      } else {
+        throw Error('Unhandled server error (' + resp.status + ')');
+      }
+    })
+    .then(json => {
+      return json.role;
+    });
 }
 
 export function useTournamentList() {
