@@ -15,10 +15,10 @@ function RBSyncMain() {
       <p>
         Synchronize your data with RavenBrain. Your data is stored locally on
         your browser, so it is not necessary to sync after each match. However,
-        syncing will copy your data up to our repository thatsymotion-s) the
-        strategy team can analyze team performance. Simply connect to the
-        internet with your device and press the sync button. You'll have to
-        enter the password provided to you by the team.
+        syncing will copy your data up to our repository so that the strategy
+        team can analyze team performance. Simply connect to the internet with
+        your device and press the sync button. You'll have to enter the password
+        provided to you by the team.
       </p>
       {syncing && (
         <div>

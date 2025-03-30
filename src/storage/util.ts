@@ -3,6 +3,7 @@ import { equalsIgnoreSync, GameEvent } from '../types/GameEvent.ts';
 import { GameEvents } from '../types/GameEvents.ts';
 import { Tournament } from '../types/Tournament.ts';
 import { Phase } from '../common/phase.ts';
+import { useEffect, useState } from 'react';
 
 export function parseKey(keyString: string): ScoutingSessionId {
   const arr = keyString.split('|');
@@ -80,20 +81,40 @@ function getRole() {
     return r;
   }
 }
-export function isAdmin() {
-  return getRole() === 'ROLE_ADMIN';
+export function useRole() {
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isExpertScout, setIsExpertScout] = useState(false);
+  const [isDataScout, setIsDataScout] = useState(false);
+  const [isMember, setIsMember] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<null | string>(null);
+  useEffect(() => {
+    try {
+      const role = getRole();
+      if (role) {
+        setIsAdmin(role === 'ROLE_ADMIN');
+        setIsExpertScout(role === 'ROLE_EXPERTSCOUT' || role === 'ROLE_ADMIN');
+        setIsDataScout(
+          role === 'ROLE_DATASCOUT' ||
+            role === 'ROLE_EXPERTSCOUT' ||
+            role === 'ROLE_ADMIN',
+        );
+        setIsMember(
+          role === 'ROLE_MEMBER' ||
+            role === 'ROLE_DATASCOUT' ||
+            role === 'ROLE_EXPERTSCOUT' ||
+            role === 'ROLE_ADMIN',
+        );
+      }
+      setLoading(false);
+    } catch (e) {
+      setError('Failed to load roles: ' + e);
+      setLoading(false);
+    }
+  });
+  return { isAdmin, isExpertScout, isDataScout, isMember, loading, error };
 }
-export function isExpertScout() {
-  return getRole() === 'ROLE_EXPERTSCOUT' || isAdmin();
-}
-export function isDataScout() {
-  return getRole() === 'ROLE_DATASCOUT' || isExpertScout() || isAdmin();
-}
-export function isMember() {
-  return (
-    getRole() === 'ROLE_MEMBER' || isDataScout() || isExpertScout() || isAdmin()
-  );
-}
+
 export function saveGoogleApiKey(key: string) {
   localStorage.setItem('rrGoogleApiKey', key);
 }
@@ -106,9 +127,13 @@ export function savePassword(password: string) {
 export function getPassword() {
   return localStorage.getItem('rrPassword');
 }
-export function clearPassword() {
+export function logout() {
+  localStorage.removeItem('rrJwt');
+  localStorage.removeItem('rrRole');
   localStorage.removeItem('rrPassword');
+  // localStorage.removeItem('rrScoutName'); // keep the name to pre-populate the login form name next time
 }
+
 export function addEvent(
   scoutingSessionId: ScoutingSessionId,
   phase: Phase,

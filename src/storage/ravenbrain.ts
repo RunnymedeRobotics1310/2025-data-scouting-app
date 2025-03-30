@@ -97,7 +97,14 @@ export function useTournamentList() {
   return { list, error, loading };
 }
 
-export async function saveTournament(tournament: any) {
+export type RBTournament = {
+  id: string;
+  name: string;
+  startTime: Date;
+  endTime: Date;
+};
+
+export async function saveTournament(tournament: RBTournament) {
   return rbfetch('/api/tournament', {
     method: 'POST',
     body: JSON.stringify(tournament),
@@ -123,12 +130,23 @@ export function useSchedule(tournamentId: string) {
         setLoading(false);
       }
     });
-  }, [loading]);
+  }, [tournamentId, loading]);
 
   return { matches, error, loading };
 }
 
-export async function saveMatch(match) {
+export type RBScheduleItem = {
+  tournamentId: string;
+  match: number;
+  red1: number;
+  red2: number;
+  red3: number;
+  blue1: number;
+  blue2: number;
+  blue3: number;
+};
+
+export async function saveMatch(match: RBScheduleItem) {
   return rbfetch('/api/schedule', {
     method: 'POST',
     body: JSON.stringify(match),

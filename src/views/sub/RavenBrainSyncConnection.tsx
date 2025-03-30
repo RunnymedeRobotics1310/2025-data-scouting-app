@@ -2,15 +2,18 @@ import { useEffect, useState } from 'react';
 import { authenticate, ping, validate } from '../../storage/ravenbrain.ts';
 import Spinner from '../../common/Spinner.tsx';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { clearRole, saveJwt, saveRole } from '../../storage/util.ts';
+import { logout, saveJwt, saveRole } from '../../storage/util.ts';
 
-function RavenBrainSyncConnection() {
+type PropTypes = {
+  loginMode: boolean;
+};
+function RavenBrainSyncConnection(props: PropTypes) {
+  const loginMode = props.loginMode;
   const navigate = useNavigate();
   const [error, setError] = useState<string>('');
   const [alive, setAlive] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
   const [validated, setValidated] = useState(false);
-  const [role, setRole] = useState<string | null>(null);
 
   useEffect(() => {
     if (!alive) {
@@ -50,12 +53,10 @@ function RavenBrainSyncConnection() {
             saveRole(role);
           } else {
             setError('Validation failed');
-            clearRole();
           }
         })
         .catch(e => {
           setError('Validation failed: ' + e.message);
-          clearRole();
         });
     }
   }, [authenticated, validated]);
@@ -74,13 +75,19 @@ function RavenBrainSyncConnection() {
   if (error) {
     return (
       <section>
-        <h2>Error Connecting to Raven Brain</h2>
+        <h2>
+          {loginMode ? 'Login failed' : 'Error Connecting to Raven Brain'}
+        </h2>
         <ul>
           <li>Host is accessible? {alive ? 'YES' : 'NO'}</li>
           <li>Successfully authenticated? {authenticated ? 'YES' : 'NO'}</li>
           <li>Reason: {error}</li>
         </ul>
-        <button onClick={() => navigate('/')}>Return Home</button>
+        <button
+          onClick={() => (loginMode ? window.location.reload() : navigate('/'))}
+        >
+          {loginMode ? 'Try again' : 'Return Home'}
+        </button>
       </section>
     );
   }
@@ -100,6 +107,9 @@ function RavenBrainSyncConnection() {
     );
   }
 
+  if (loginMode) {
+    window.location.reload();
+  }
   return (
     <section>
       <Outlet />

@@ -70,10 +70,16 @@ function App() {
     createRoutesFromElements(
       <Route path="/" element={<AppLayout />}>
         <Route index element={<Home />} />
-        <Route path="/sync" element={<RavenBrainSyncConnection />}>
+        <Route
+          path="/sync"
+          element={<RavenBrainSyncConnection loginMode={false} />}
+        >
           <Route path="" element={<Sync />} />
         </Route>
-        <Route path="admin/" element={<RavenBrainSyncConnection />}>
+        <Route
+          path="admin/"
+          element={<RavenBrainSyncConnection loginMode={false} />}
+        >
           <Route path="tournament" element={<RBTournamentAdmin />} />
           <Route path="schedule" element={<RBScheduleAdmin />} />
         </Route>
