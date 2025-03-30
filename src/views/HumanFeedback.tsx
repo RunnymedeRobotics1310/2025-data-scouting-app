@@ -15,6 +15,7 @@ import {
 import NotFound from './NotFound.tsx';
 
 function HumanFeedback() {
+  const [mistake, setMistake] = useState(false);
   const [comment, setComment] = useState('');
   const [auto, setAuto] = useState(false);
   const [coral, setCoral] = useState(false);
@@ -26,6 +27,7 @@ function HumanFeedback() {
   const isRed = scoutingSessionId.alliance == 'red';
 
   function processHumanFeedback(
+    mistake: boolean,
     comment: string,
     auto: boolean,
     coral: boolean,
@@ -36,6 +38,7 @@ function HumanFeedback() {
     const target = saveFeedback(
       scoutingSessionId,
       gamestate.currentPhase,
+      mistake,
       comment,
       auto,
       coral,
@@ -58,11 +61,22 @@ function HumanFeedback() {
           </span>
         </label>
         <h1>Comments</h1>
+
+        <label className={'checkbox-and-label'}>
+          <input
+            type={'checkbox'}
+            checked={mistake}
+            id={'mistake'}
+            onChange={() => setMistake(!mistake)}
+          />
+          <span>Oopsie...</span>
+        </label>
+
         <textarea
           rows={5}
           cols={40}
           id={'comment'}
-          placeholder={'type here'}
+          placeholder={mistake ? 'report happy accident here' : 'type here'}
           onChange={e => setComment(e.target.value)}
         />
         <div>
@@ -139,7 +153,7 @@ function HumanFeedback() {
             desiredPhase={Phase.pre_match}
             label={'Done --->'}
             callback={() =>
-              processHumanFeedback(comment, auto, coral, barge, stars)
+              processHumanFeedback(mistake, comment, auto, coral, barge, stars)
             }
           />
         )}

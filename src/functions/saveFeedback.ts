@@ -7,6 +7,7 @@ import { Phase } from '../common/phase.ts';
 export function saveFeedback(
   scoutingSessionId: ScoutingSessionId,
   phase: Phase,
+  mistake: boolean,
   comment: string,
   autoRP: boolean,
   coralRP: boolean,
@@ -16,7 +17,9 @@ export function saveFeedback(
   console.log(
     'Comment: ' +
       comment +
-      '\nAuto RP: ' +
+      '\nMistake: ' +
+      mistake +
+      ' Auto RP: ' +
       autoRP +
       ' Coral RP: ' +
       coralRP +
@@ -25,6 +28,10 @@ export function saveFeedback(
       ' Stars: ' +
       stars,
   );
+
+  if (mistake) {
+    addEvent(scoutingSessionId, phase, 'mistake');
+  }
 
   addEvent(scoutingSessionId, phase, 'comment', comment);
 
