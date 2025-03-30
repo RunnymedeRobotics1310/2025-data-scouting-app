@@ -7,17 +7,15 @@ type Cell = {
   value: string | number | undefined;
 };
 type Row = {
-  rowId: number;
   values: Cell[];
 };
 type Table = {
-  rows: Row[];
-  headerRowCount: number;
-  dataRowCount: number;
-  footerRowCount: number;
+  headerRows: Row[];
+  dataRows: Row[];
+  footerRows: Row[];
 };
 
-const exampleRow0Values: Cell[] = [
+const exampleHeaderRow: Cell[] = [
   { colId: 'INFO', value: 1310 },
   { colId: 'COMMENT', value: 'Comments' },
   { colId: 'INFO', value: 'Mistake' },
@@ -81,11 +79,10 @@ const exampleRow0Values: Cell[] = [
 ];
 
 const exampleRow0: Row = {
-  rowId: 0,
-  values: exampleRow0Values,
+  values: exampleHeaderRow,
 };
 
-const exampleRow1Values: Cell[] = [
+const exampleDataRow: Cell[] = [
   { colId: 'INFO', value: 4 },
   { colId: 'COMMENT', value: '1310 is great! blah blah blah' },
   { colId: 'INFO', value: 1 },
@@ -149,11 +146,10 @@ const exampleRow1Values: Cell[] = [
 ];
 
 const exampleRow1 = {
-  rowId: 1,
-  values: exampleRow1Values,
+  values: exampleDataRow,
 };
 
-const exampleRow2Values: Cell[] = [
+const exampleFooterRow: Cell[] = [
   { colId: 'INFO', value: 'Success Rate' },
   { colId: 'COMMENT', value: undefined },
   { colId: 'INFO', value: undefined },
@@ -217,16 +213,12 @@ const exampleRow2Values: Cell[] = [
 ];
 
 const exampleRow2: Row = {
-  rowId: 0,
-  values: exampleRow2Values,
+  values: exampleFooterRow,
 };
 
 const exampleTable: Table = {
-  headerRowCount: 1,
-  dataRowCount: 12,
-  footerRowCount: 1,
-  rows: [
-    exampleRow0,
+  headerRows: [exampleRow0],
+  dataRows: [
     exampleRow1,
     exampleRow1,
     exampleRow1,
@@ -238,15 +230,21 @@ const exampleTable: Table = {
     exampleRow1,
     exampleRow1,
     exampleRow1,
-    exampleRow2,
+    exampleRow1,
   ],
+  footerRows: [exampleRow2],
 };
+
+function renderCell(cell: Cell) {
+  return <th>{cell.value}</th>;
+}
 
 function TournamentReports() {
   const [selectedTournament, setSelectedTournament] = useState('');
   const [teamNumber, setTeamNumber] = useState(-1310);
   const tournaments = getAllTournaments();
   if (tournaments.length === 0) return <Loading />;
+  const fullDataTable = exampleTable;
 
   return (
     <>
@@ -288,19 +286,43 @@ function TournamentReports() {
         showing data for {teamNumber} at {selectedTournament}
       </p>
 
-      <table>
-        <tbody>
-          {exampleTable.rows.map(r => {
-            return (
-              <tr>
-                {r.values.map(cell => {
-                  return <td>{cell.value}</td>;
-                })}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <section className={'report'}>
+        <table>
+          <thead>
+            {fullDataTable.headerRows.map(r => {
+              return (
+                <tr>
+                  {r.values.map(cell => {
+                    return renderCell(cell);
+                  })}
+                </tr>
+              );
+            })}
+          </thead>
+          <tbody>
+            {fullDataTable.dataRows.map(r => {
+              return (
+                <tr>
+                  {r.values.map(cell => {
+                    return renderCell(cell);
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
+          <tfoot>
+            {fullDataTable.footerRows.map(r => {
+              return (
+                <tr>
+                  {r.values.map(cell => {
+                    return renderCell(cell);
+                  })}
+                </tr>
+              );
+            })}
+          </tfoot>
+        </table>
+      </section>
     </>
   );
 }
