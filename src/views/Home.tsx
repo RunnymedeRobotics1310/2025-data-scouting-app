@@ -224,22 +224,9 @@ export default function Home() {
               </td>
               <td>
                 <p>
-                  Resume a match that is already underway. You can continue to
-                  record events, but once recorded, an event can't be removed.
+                  Resume a match that is already underway. Once recorded, an
+                  event can't be removed.
                 </p>
-              </td>
-            </tr>
-          )}
-
-          {loggedIn && (
-            <tr>
-              <td>
-                <button className={''} onClick={() => navigate('/sync')}>
-                  Sync
-                </button>
-              </td>
-              <td>
-                <p>Synchronize Match and Scouting Data</p>
               </td>
             </tr>
           )}
