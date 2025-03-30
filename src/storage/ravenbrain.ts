@@ -96,8 +96,8 @@ export async function saveTournament(tournament: any) {
   });
 }
 
-export function useScheduleDetail(tournamentId: string) {
-  const [schedule, setSchedule] = useState([]);
+export function useSchedule(tournamentId: string) {
+  const [matches, setSchedule] = useState([]);
   const [error, setError] = useState<null | string>(null);
   const [loading, setLoading] = useState(true);
 
@@ -115,7 +115,7 @@ export function useScheduleDetail(tournamentId: string) {
     });
   }, [loading]);
 
-  return { schedule, error, loading };
+  return { matches, error, loading };
 }
 
 export async function saveMatch(match) {

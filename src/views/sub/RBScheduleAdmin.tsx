@@ -1,6 +1,6 @@
 import {
   saveMatch,
-  useScheduleDetail,
+  useSchedule,
   useTournamentList,
 } from '../../storage/ravenbrain.ts';
 import Loading from '../../common/Loading.tsx';
@@ -59,9 +59,8 @@ function RBScheduleAdmin() {
   function ShowSchedule(props: DetailType) {
     const { tournamentDetail, setTournamentDetail } = props;
     console.log('tournament-detail:', tournamentDetail);
-    const { schedule, error, loading } = useScheduleDetail(tournamentDetail.id);
+    const { matches, error, loading } = useSchedule(tournamentDetail.id);
     const [showForm, setShowForm] = useState(false);
-    console.log({ schedule, tournamentDetail });
 
     if (loading) {
       return <Loading />;
@@ -86,7 +85,7 @@ function RBScheduleAdmin() {
               <th>Blue score</th>
               <th>Red score</th>
             </tr>
-            {schedule.map(row => {
+            {matches.map(row => {
               return (
                 <tr>
                   <td>{row.match}</td>
