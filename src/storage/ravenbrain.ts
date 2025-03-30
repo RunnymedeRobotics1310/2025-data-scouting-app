@@ -1,4 +1,11 @@
-import { getJwt, getPassword, getScoutName } from './util.ts';
+import {
+  getJwt,
+  getPassword,
+  getScoutName,
+  saveJwt,
+  saveRoles,
+  saveScoutName,
+} from './util.ts';
 import { useEffect, useState } from 'react';
 
 const HOST = 'http://localhost:8080';
@@ -20,17 +27,38 @@ export async function authenticate() {
       password: password,
     }),
   };
-  return fetch(HOST + `/login`, options).then(response => {
-    if (response.ok) {
-      return response.json();
-    } else if (response.status === 401) {
-      throw new Error('Not authorized (401)');
-    } else {
-      throw new Error('Unhandled server error (' + response.status + ')');
-    }
-  });
+  return fetch(HOST + `/login`, options)
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else if (response.status === 401) {
+        throw new Error('Not authorized (401)');
+      } else {
+        throw new Error('Unhandled server error (' + response.status + ')');
+      }
+    })
+    .then(json => {
+      saveJwt(json.access_token);
+      const payload = parseJwt(json.access_token);
+      saveScoutName(payload.sub);
+      saveRoles(payload.roles);
+      return true;
+    });
 }
-
+function parseJwt(token: string) {
+  const base64Url = token.split('.')[1];
+  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  const jsonPayload = decodeURIComponent(
+    window
+      .atob(base64)
+      .split('')
+      .map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join(''),
+  );
+  return JSON.parse(jsonPayload);
+}
 export async function ping(): Promise<boolean> {
   return fetch(HOST + '/api/ping', {}).then(resp => {
     return resp.ok;

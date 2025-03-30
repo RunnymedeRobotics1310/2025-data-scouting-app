@@ -4,6 +4,7 @@ import {
   getScoutingSessionId,
   getScoutName,
   logout,
+  usePrimaryRole,
   useRole,
 } from '../../storage/util.ts';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +14,7 @@ import GameContext from '../../context/GameContext.tsx';
 
 function HomeMenu() {
   const { isAdmin, isDataScout, isExpertScout, isMember } = useRole();
+  const { primaryRole } = usePrimaryRole();
   const navigate = useNavigate();
   const gamestate = getCurrentGamestate();
   const { saveGamestate } = useContext(GameContext);
@@ -31,17 +33,7 @@ function HomeMenu() {
       <p>
         Your current role is{' '}
         <strong>
-          <em>
-            {isAdmin
-              ? 'administrator'
-              : isExpertScout
-                ? 'expert scout'
-                : isDataScout
-                  ? 'data scout'
-                  : isMember
-                    ? 'member'
-                    : 'anonymous - please log in'}
-          </em>
+          <em>{primaryRole}</em>
         </strong>
         .
       </p>

@@ -67,20 +67,42 @@ export function saveJwt(jwt: string) {
 export function getJwt() {
   return localStorage.getItem('rrJwt');
 }
-export function saveRole(role: string) {
-  localStorage.setItem('rrRole', role);
+export function saveRoles(roles: string[]) {
+  localStorage.setItem('rrRoles', JSON.stringify(roles));
 }
-export function clearRole() {
-  localStorage.removeItem('rrRole');
+export function clearRoles() {
+  localStorage.removeItem('rrRoles');
 }
-function getRole() {
-  const r = localStorage.getItem('rrRole');
+function getRoles() {
+  const r = localStorage.getItem('rrRoles');
   if (r === null || r === '') {
     return null;
   } else {
-    return r;
+    return JSON.parse(r);
   }
 }
+export function usePrimaryRole() {
+  const { isAdmin, isDataScout, isExpertScout, isMember, loading, error } =
+    useRole();
+  const [prettyRole, setPrettyRole] = useState<string | null>(null);
+  useEffect(() => {
+    if (!prettyRole && !loading && !error) {
+      if (isAdmin) {
+        setPrettyRole('admin');
+      } else if (isDataScout) {
+        setPrettyRole('data scout');
+      } else if (isExpertScout) {
+        setPrettyRole('expert scout');
+      } else if (isMember) {
+        setPrettyRole('member');
+      } else {
+        setPrettyRole('anonymous');
+      }
+    }
+  }, [isAdmin, isDataScout, isExpertScout, isMember, loading, error]);
+  return { primaryRole: prettyRole, loading, error };
+}
+
 export function useRole() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isExpertScout, setIsExpertScout] = useState(false);
@@ -90,21 +112,12 @@ export function useRole() {
   const [error, setError] = useState<null | string>(null);
   useEffect(() => {
     try {
-      const role = getRole();
-      if (role) {
-        setIsAdmin(role === 'ROLE_ADMIN');
-        setIsExpertScout(role === 'ROLE_EXPERTSCOUT' || role === 'ROLE_ADMIN');
-        setIsDataScout(
-          role === 'ROLE_DATASCOUT' ||
-            role === 'ROLE_EXPERTSCOUT' ||
-            role === 'ROLE_ADMIN',
-        );
-        setIsMember(
-          role === 'ROLE_MEMBER' ||
-            role === 'ROLE_DATASCOUT' ||
-            role === 'ROLE_EXPERTSCOUT' ||
-            role === 'ROLE_ADMIN',
-        );
+      const roles = getRoles();
+      if (roles) {
+        setIsAdmin(roles.includes('ROLE_ADMIN'));
+        setIsExpertScout(roles.includes('ROLE_EXPERTSCOUT'));
+        setIsDataScout(roles.includes('ROLE_DATASCOUT'));
+        setIsMember(roles.includes('ROLE_MEMBER'));
       }
       setLoading(false);
     } catch (e) {
@@ -129,7 +142,7 @@ export function getPassword() {
 }
 export function logout() {
   localStorage.removeItem('rrJwt');
-  localStorage.removeItem('rrRole');
+  localStorage.removeItem('rrRoles');
   localStorage.removeItem('rrPassword');
   // localStorage.removeItem('rrScoutName'); // keep the name to pre-populate the login form name next time
 }

@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { authenticate, ping, validate } from '../../storage/ravenbrain.ts';
 import Spinner from '../../common/Spinner.tsx';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { logout, saveJwt, saveRole } from '../../storage/util.ts';
 
 type PropTypes = {
   loginMode: boolean;
@@ -34,9 +33,8 @@ function RavenBrainSyncConnection(props: PropTypes) {
   useEffect(() => {
     if (error == '' && alive && !authenticated) {
       authenticate()
-        .then(resp => {
+        .then(() => {
           setAuthenticated(true);
-          saveJwt(resp.access_token);
         })
         .catch(e => {
           setError('Authentication failed: ' + e.message);
@@ -47,13 +45,8 @@ function RavenBrainSyncConnection(props: PropTypes) {
   useEffect(() => {
     if (authenticated && !validated) {
       validate()
-        .then(role => {
-          if (role) {
-            setValidated(true);
-            saveRole(role);
-          } else {
-            setError('Validation failed');
-          }
+        .then(() => {
+          setValidated(true);
         })
         .catch(e => {
           setError('Validation failed: ' + e.message);
