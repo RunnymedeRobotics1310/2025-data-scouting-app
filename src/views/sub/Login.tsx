@@ -3,7 +3,7 @@ import {
   getScoutName,
   savePassword,
   saveScoutName,
-} from '../../storage/util.ts';
+} from '../../storage/local.ts';
 import { useEffect, useState } from 'react';
 import RavenBrainSyncConnection from './RavenBrainSyncConnection.tsx';
 

@@ -5,7 +5,7 @@ import {
   saveJwt,
   saveRoles,
   saveScoutName,
-} from './util.ts';
+} from './local.ts';
 import { useEffect, useState } from 'react';
 import { GameEvent } from '../types/GameEvent.ts';
 

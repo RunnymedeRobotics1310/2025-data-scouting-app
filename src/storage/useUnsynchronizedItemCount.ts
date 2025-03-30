@@ -1,11 +1,8 @@
 import { useEffect, useState } from 'react';
 import {
-  getAllTournaments,
   getScoutedSessions,
-  getScoutedSessionsForTournament,
-  getScoutedTournaments,
   getUnsynchronizedEventsForSession,
-} from './util.ts';
+} from './local.ts';
 
 export function useUnsynchronizedItemCount() {
   const [count, setCount] = useState(-1);

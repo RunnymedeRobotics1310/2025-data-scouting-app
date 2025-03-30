@@ -6,7 +6,7 @@ import {
   logout,
   usePrimaryRole,
   useRole,
-} from '../../storage/util.ts';
+} from '../../storage/local.ts';
 import { useNavigate } from 'react-router-dom';
 import { tournament_select } from '../../modes/tournament_select.ts';
 import { useContext } from 'react';

@@ -1,6 +1,6 @@
 import { Mode } from '../common/mode.ts';
 import { removeAlgae } from '../functions/removeAlgae.ts';
-import { getScoutingSessionId } from '../storage/util.ts';
+import { getScoutingSessionId } from '../storage/local.ts';
 import Loading from '../common/Loading.tsx';
 import { useContext, useEffect, useState } from 'react';
 import GameContext from '../context/GameContext.tsx';

@@ -1,5 +1,5 @@
 import { startDefence, stopDefence } from '../functions/toggleDefence.ts';
-import { getScoutingSessionId } from '../storage/util.ts';
+import { getScoutingSessionId } from '../storage/local.ts';
 import Loading from '../common/Loading.tsx';
 import { useEffect, useState } from 'react';
 import { ScoutingSessionId } from '../types/ScoutingSessionId.ts';

@@ -1,4 +1,4 @@
-import { getAllTournaments } from '../storage/util.ts';
+import { getAllTournaments } from '../storage/local.ts';
 import { useState } from 'react';
 import Loading from '../common/Loading.tsx';
 

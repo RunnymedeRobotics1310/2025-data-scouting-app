@@ -1,6 +1,6 @@
 import { Mode } from '../common/mode.ts';
 import { match_config } from '../modes/match_config.ts';
-import { addEvent, getScoutingSessionId } from '../storage/util.ts';
+import { addEvent, getScoutingSessionId } from '../storage/local.ts';
 import { Phase } from '../common/phase.ts';
 import { home } from '../modes/home.ts';
 

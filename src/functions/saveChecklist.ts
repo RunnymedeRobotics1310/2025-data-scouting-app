@@ -1,7 +1,7 @@
 import { human_feedback } from '../modes/human_feedback.ts';
 import { Mode } from '../common/mode.ts';
 import { ScoutingSessionId } from '../types/ScoutingSessionId.ts';
-import { addEvent } from '../storage/util.ts';
+import { addEvent } from '../storage/local.ts';
 import { Phase } from '../common/phase.ts';
 
 export function saveChecklist(

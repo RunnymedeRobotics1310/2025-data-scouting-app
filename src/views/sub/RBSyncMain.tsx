@@ -6,7 +6,7 @@ import {
   getScoutedTournaments,
   getUnsynchronizedEventsForSession,
   updateEventSyncStatus,
-} from '../../storage/util.ts';
+} from '../../storage/local.ts';
 import { GameEvent } from '../../types/GameEvent.ts';
 import { saveEvents } from '../../storage/ravenbrain.ts';
 import { useUnsynchronizedItemCount } from '../../storage/useUnsynchronizedItemCount.ts';

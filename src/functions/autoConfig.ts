@@ -1,6 +1,6 @@
 import { Mode } from '../common/mode.ts';
 import { start_line } from '../modes/start_line.ts';
-import { addEvent } from '../storage/util.ts';
+import { addEvent } from '../storage/local.ts';
 import { ScoutingSessionId } from '../types/ScoutingSessionId.ts';
 import { Phase } from '../common/phase.ts';
 

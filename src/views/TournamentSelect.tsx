@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { match_select } from '../modes/match_select.ts';
-import { getAllTournaments, setCurrentTournament } from '../storage/util.ts';
+import { getAllTournaments, setCurrentTournament } from '../storage/local.ts';
 import Loading from '../common/Loading.tsx';
 import { useState } from 'react';
 

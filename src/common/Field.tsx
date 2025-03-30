@@ -1,4 +1,4 @@
-import { getScoutingSessionId } from '../storage/util.ts';
+import { getScoutingSessionId } from '../storage/local.ts';
 import Loading from './Loading.tsx';
 
 function Field(props: any) {

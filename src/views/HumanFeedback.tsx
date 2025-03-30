@@ -11,7 +11,7 @@ import {
   setMatchNumber,
   setScoutingSessionId,
   setTeam,
-} from '../storage/util.ts';
+} from '../storage/local.ts';
 import NotFound from './NotFound.tsx';
 
 function HumanFeedback() {

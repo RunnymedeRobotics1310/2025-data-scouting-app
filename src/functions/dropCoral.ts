@@ -4,7 +4,7 @@ import { holding_coral } from '../modes/holding_coral.ts';
 import { holding_both } from '../modes/holding_both.ts';
 import { holding_algae } from '../modes/holding_algae.ts';
 import { ScoutingSessionId } from '../types/ScoutingSessionId.ts';
-import { addEvent } from '../storage/util.ts';
+import { addEvent } from '../storage/local.ts';
 import { Phase } from '../common/phase.ts';
 
 export function dropCoral(
