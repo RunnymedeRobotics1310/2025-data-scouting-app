@@ -1,11 +1,12 @@
 import SyncCount from './SyncCount.tsx';
 import Spinner from '../../common/Spinner.tsx';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   useScheduleDetail,
   useTournamentList,
 } from '../../storage/ravenbrain.ts';
+import { Tournament } from '../../types/Tournament.ts';
 
 function RBSyncMain() {
   const navigate = useNavigate();
@@ -33,6 +34,23 @@ function RBSyncMain() {
 
   function LoadingTournaments() {
     const { list, error, loading } = useTournamentList();
+
+    useEffect(() => {
+      if (list && list.length > 0) {
+        const tournaments: Tournament[] = [];
+        list.forEach(t => {
+          tournaments.push({
+            id: t.id,
+            name: t.name,
+            startDate: new Date(t.startTime),
+            scheduleGoogleSheetId: '-',
+            eventLogGoogleSheetId: '-',
+          });
+        });
+        localStorage.setItem('rrAllTournaments', JSON.stringify(tournaments));
+      }
+    }, [list]);
+
     if (loading) {
       return (
         <div>
@@ -45,8 +63,6 @@ function RBSyncMain() {
       return <div>Error loading tournaments: {error}</div>;
     }
 
-    // todo: fixme; save data to local repo
-    console.log('Save tournament data here!', list);
     return (
       <div>
         <p>Tournament List Updated</p>
