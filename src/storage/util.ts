@@ -90,10 +90,10 @@ export function usePrimaryRole() {
     if (!prettyRole && !loading && !error) {
       if (isAdmin) {
         setPrettyRole('admin');
-      } else if (isDataScout) {
-        setPrettyRole('data scout');
       } else if (isExpertScout) {
         setPrettyRole('expert scout');
+      } else if (isDataScout) {
+        setPrettyRole('data scout');
       } else if (isMember) {
         setPrettyRole('member');
       } else {
