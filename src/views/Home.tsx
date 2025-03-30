@@ -68,7 +68,7 @@ export default function Home() {
               setHasApiKey(false);
             }}
           >
-            Change My Access Key
+            Change API Key (this feature is about to go away)
           </button>
         </div>
       );
@@ -101,7 +101,7 @@ export default function Home() {
               setName('');
             }}
           >
-            Change Name from {name}
+            Change&nbsp;Name
           </button>
         </div>
       );
@@ -133,7 +133,7 @@ export default function Home() {
               setPasswordSaved(false);
             }}
           >
-            Log Out
+            Log&nbsp;Out
           </button>
         </div>
       );
@@ -175,33 +175,38 @@ export default function Home() {
   function handleSelectMatch() {
     navigate(tournament_select.url);
   }
+  function handleQuickComment() {
+    alert('Not implemented.  Blame Quentin.');
+  }
   return (
     <>
-      <h1>Welcome!</h1>
+      <h1>Welcome{name ? ' back ' + name + '!' : '!'}</h1>
 
       <table className={'tools'}>
         <tbody>
-          <tr>
-            <td>{renderNameForm()}</td>
-          </tr>
-          <tr>
-            <td>{renderApiKey()}</td>
-          </tr>
-          <tr>
-            <td>{renderPassword()}</td>
-            <td>{renderSavePassword()}</td>
-          </tr>
           {loggedIn && (
-            <tr>
-              <td>
-                <button className={''} onClick={() => handleSelectMatch()}>
-                  Select Match
-                </button>
-              </td>
-              <td>
-                <p>Start scouting a new match. </p>
-              </td>
-            </tr>
+            <>
+              <tr>
+                <td>
+                  <button className={''} onClick={() => handleQuickComment()}>
+                    Quick&nbsp;Comment
+                  </button>
+                </td>
+                <td>
+                  <p>Record a comment about a team.</p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <button className={''} onClick={() => handleSelectMatch()}>
+                    Select Match
+                  </button>
+                </td>
+                <td>
+                  <p>Start scouting a new match. </p>
+                </td>
+              </tr>
+            </>
           )}
 
           {loggedIn && id && gamestate && id.matchId > 0 && (
@@ -214,7 +219,7 @@ export default function Home() {
                     navigate(getResumedMode(gamestate).url);
                   }}
                 >
-                  Resume Match
+                  Resume&nbsp;Match
                 </button>
               </td>
               <td>
@@ -238,8 +243,23 @@ export default function Home() {
               </td>
             </tr>
           )}
+          <tr>
+            <td>&nbsp;</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>{renderNameForm()}</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>{renderPassword()}</td>
+            <td>{renderSavePassword()}</td>
+          </tr>
         </tbody>
       </table>
+      <br />
+      <br />
+      {renderApiKey()}
     </>
   );
 }
