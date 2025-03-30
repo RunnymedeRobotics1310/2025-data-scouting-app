@@ -46,6 +46,7 @@ export type SetPhaseButtonType = {
   label: string;
   desiredGamestate?: GS;
   callback?: any;
+  disabled: boolean;
 };
 
 export function SetPhaseButton(props: SetPhaseButtonType) {
@@ -62,6 +63,7 @@ export function SetPhaseButton(props: SetPhaseButtonType) {
   return (
     <Button
       label={props.label}
+      disabled={props.disabled}
       callback={() => {
         addEvent(
           scoutingSessionId,

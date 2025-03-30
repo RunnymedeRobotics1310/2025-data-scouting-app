@@ -61,6 +61,7 @@ function Endgame() {
         currentMode={endgame}
         desiredPhase={Phase.comments}
         label={'Next --->'}
+        disabled={false}
         callback={() =>
           endgameStatus(scoutingSessionId, gamestate.currentPhase, climbed)
         }

@@ -84,6 +84,7 @@ function MatchConfig() {
           <SetPhaseButton
             currentMode={match_config}
             desiredPhase={Phase.auto}
+            disabled={false}
             label={'Start --->'}
             desiredGamestate={
               {

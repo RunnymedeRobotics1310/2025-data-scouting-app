@@ -147,16 +147,15 @@ function HumanFeedback() {
             <Star filled={stars >= 5} />
           </button>
         </div>
-        {stars > 0 && (
-          <SetPhaseButton
-            currentMode={human_feedback}
-            desiredPhase={Phase.pre_match}
-            label={'Done --->'}
-            callback={() =>
-              processHumanFeedback(mistake, comment, auto, coral, barge, stars)
-            }
-          />
-        )}
+        <SetPhaseButton
+          currentMode={human_feedback}
+          desiredPhase={Phase.pre_match}
+          label={'Done --->'}
+          disabled={stars <= 0}
+          callback={() =>
+            processHumanFeedback(mistake, comment, auto, coral, barge, stars)
+          }
+        />
       </div>
     </div>
   );
