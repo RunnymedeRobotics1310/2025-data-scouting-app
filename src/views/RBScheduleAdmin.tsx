@@ -3,8 +3,8 @@ import {
   saveMatch,
   useSchedule,
   useTournamentList,
-} from '../../storage/ravenbrain.ts';
-import Loading from '../../common/Loading.tsx';
+} from '../storage/ravenbrain.ts';
+import Loading from '../common/Loading.tsx';
 import { useState } from 'react';
 
 function RBScheduleAdmin() {

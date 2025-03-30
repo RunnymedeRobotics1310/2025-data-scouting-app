@@ -106,23 +106,45 @@ function HomeMenu() {
             </tr>
           )}
           {isAdmin && (
-            <tr>
-              <td>
-                <button
-                  onClick={() => {
-                    alert(
-                      'Not yet implemented. Quentin will create a new view for that links to the two admin screens.',
-                    );
-                  }}
-                >
-                  Administration
-                </button>
-              </td>
-              <td>
-                Administer tournament and schedule list. Internet access
-                required. Suitable for mobile and desktop devices.
-              </td>
-            </tr>
+            <>
+              <tr>
+                <td>
+                  <br />
+                  <br />
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                  <button
+                    onClick={() => {
+                      navigate('/admin/tournament');
+                    }}
+                  >
+                    Tournaments
+                  </button>
+                </td>
+                <td>
+                  Administer tournaments in the system. Internet access
+                  required. Suitable for mobile and desktop devices.
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <button
+                    onClick={() => {
+                      navigate('/admin/schedule');
+                    }}
+                  >
+                    Schedules
+                  </button>
+                </td>
+                <td>
+                  Administer schedule list. Internet access required. Suitable
+                  for mobile and desktop devices.
+                </td>
+              </tr>
+            </>
           )}
           <tr>
             <td>

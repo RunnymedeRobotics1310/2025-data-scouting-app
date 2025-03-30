@@ -1,5 +1,5 @@
-import { saveTournament, useTournamentList } from '../../storage/ravenbrain.ts';
-import Loading from '../../common/Loading.tsx';
+import { saveTournament, useTournamentList } from '../storage/ravenbrain.ts';
+import Loading from '../common/Loading.tsx';
 import { useState } from 'react';
 
 function RBTournamentAdmin() {
