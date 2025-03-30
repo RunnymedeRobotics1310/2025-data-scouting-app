@@ -125,7 +125,7 @@ function HoldingNothing() {
             </Zone>
           )}
           {!pickedAutoAlgaeCenter && (
-            <Zone zone="driver-station" classes={'top'}>
+            <Zone zone="reef-front" classes={'top'}>
               <PickupAlgaeAuto
                 mode={holding_nothing}
                 location={AlgaeLocation.autoCenter}
@@ -133,7 +133,7 @@ function HoldingNothing() {
             </Zone>
           )}
           {!pickedAutoAlgaeLeft && (
-            <Zone zone="left-station" classes={'top right'}>
+            <Zone zone="reef-front-left" classes={'top right'}>
               <PickupAlgaeAuto
                 mode={holding_nothing}
                 location={AlgaeLocation.autoLeft}
@@ -141,7 +141,7 @@ function HoldingNothing() {
             </Zone>
           )}
           {!pickedAutoAlgaeRight && (
-            <Zone zone="right-station" classes={'top left'}>
+            <Zone zone="reef-front-right" classes={'top left'}>
               <PickupAlgaeAuto
                 mode={holding_nothing}
                 location={AlgaeLocation.autoRight}
