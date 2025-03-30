@@ -266,6 +266,12 @@ export function cleanupEmptyScoutingSessions() {
   });
 }
 
+export function unsyncEverything() {
+  console.info(
+    'Marking everything that was previously synchronized as unsynchronized.',
+  );
+}
+
 export function updateEventSyncStatus(event: GameEvent) {
   const scoutingSessionId: ScoutingSessionId = {
     tournamentId: event.tournamentId,
@@ -288,12 +294,11 @@ export function updateEventSyncStatus(event: GameEvent) {
       events: [],
       lastUpdated: new Date() as Date,
     } as GameEvents);
-    console.log('Created new sync data store for ', synchronizedStorageKey);
+    console.info('Created new sync data store for ', synchronizedStorageKey);
   }
   const synchronizedEvents: GameEvents = parseStringifiedEvents(
     stringifiedSyncEventsListing,
   );
-  console.log('Parse stringified sync events listing', synchronizedEvents);
   const toAddToSync = [];
   const toRemoveFromUnsync = [];
   let found = false;
@@ -315,12 +320,10 @@ export function updateEventSyncStatus(event: GameEvent) {
     toAddToSync.forEach(e => {
       synchronizedEvents.events.push(e);
     });
-    console.log('SAVING!!');
     localStorage.setItem(
       synchronizedStorageKey,
       JSON.stringify(synchronizedEvents),
     );
-    console.log('SAVE TO LOCAL STORE DONE');
   } else {
     console.log('Do not need to add to sync because it is already there');
   }
@@ -335,34 +338,27 @@ export function updateEventSyncStatus(event: GameEvent) {
         unsynchronizedStorageKey,
       );
       return;
-    } else {
-      console.log("Found unsync'd events, removing from unsync'd store");
     }
     const unsynchronizedEvents: GameEvents = parseStringifiedEvents(s);
     let changed = false;
     for (const e of toRemoveFromUnsync) {
       for (let i = 0; i < unsynchronizedEvents.events.length; i++) {
         const candidate = unsynchronizedEvents.events[i];
-        console.log('Checking...', { candidate, e });
         if (equalsIgnoreSync(candidate, e)) {
-          console.log('Trying to remove an event now');
-          const nuked = unsynchronizedEvents.events.splice(i, 1);
+          unsynchronizedEvents.events.splice(i, 1);
           changed = true;
-          console.log('Seeding and nuked', { candidate, nuked });
           break;
         }
       }
     }
-    console.log('Changed?', changed);
     if (changed) {
       localStorage.setItem(
         unsynchronizedStorageKey,
         JSON.stringify(unsynchronizedEvents),
       );
-      console.log('REMOVED FROM UNSYNC STORE DONE');
     }
   }
-  console.log('EXITING updateEventSyncStatus');
+  cleanupEmptyScoutingSessions();
 }
 
 export function getAllTournaments(): Tournament[] {
