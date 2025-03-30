@@ -8,8 +8,8 @@ import {
   stringifyKey,
   updateEventSyncStatus,
 } from '../../storage/util.ts';
-import { asMap, GameEvent } from '../../types/GameEvent.ts';
-import { RBGaveEventResponse, saveEvents } from '../../storage/ravenbrain.ts';
+import { GameEvent } from '../../types/GameEvent.ts';
+import { saveEvents } from '../../storage/ravenbrain.ts';
 
 function RBSyncMain() {
   const [content, setContent] = useState('');
@@ -83,35 +83,6 @@ function RBSyncMain() {
                 console.log('Updating event sync status', e);
               }
               setSyncing(false);
-
-              // const eventsMap = asMap(events);
-              // readEventLog(tournament.eventLogGoogleSheetId).then(
-              //   eventsReadFromGoogle => {
-              //     const googleMap = asMap(eventsReadFromGoogle);
-              //     const successfullySaved: GameEvent[] = [];
-              //     for (const emk of eventsMap.keys()) {
-              //       const gme = googleMap.get(emk);
-              //       const em = eventsMap.get(emk);
-              //       if (em === undefined) {
-              //         console.warn(
-              //           'Unexpectedly found no mapped value for key ',
-              //           emk,
-              //         );
-              //       } else if (gme) {
-              //         successfullySaved.push(em);
-              //       }
-              //     }
-              //     console.log(
-              //       'Marking ' +
-              //         successfullySaved.length +
-              //         ' events as synchronized',
-              //     );
-              //     for (const e of successfullySaved) {
-              //       e.synchronized = true;
-              //       updateEventSyncStatus(e);
-              //     }
-              //   },
-              // );
             });
           } catch (err: any) {
             reportError(
@@ -137,41 +108,6 @@ function RBSyncMain() {
       });
     });
   }
-
-  // async function readEventLog(
-  //   eventLogSpreadsheetId: string,
-  // ): Promise<GameEvent[]> {
-  //   // Fetch first 10 files
-  //   // @ts-ignore
-  //   const response = await window.gapi.client.sheets.spreadsheets.values.get({
-  //     spreadsheetId: eventLogSpreadsheetId,
-  //     range: 'A3:H',
-  //   });
-  //   const range = response.result;
-  //   if (!range || !range.values || range.values.length == 0) {
-  //     throw Error(
-  //       'No event log found for spreadsheet ' + eventLogSpreadsheetId,
-  //     );
-  //   }
-  //   const items: GameEvent[] = [];
-  //   // @ts-ignore
-  //   range.values.forEach(row => {
-  //     items.push({
-  //       timestamp: new Date(row[0]),
-  //       scoutName: row[1],
-  //       tournamentId: row[2],
-  //       matchId: row[3],
-  //       alliance: row[4],
-  //       teamNumber: row[5],
-  //       eventType: row[6],
-  //       amount: row[7],
-  //       note: row[8],
-  //       synchronized: true,
-  //     } as GameEvent);
-  //   });
-  //   console.log('Loaded ' + items.length + ' game events from Google');
-  //   return items;
-  // }
 
   return (
     <div>
