@@ -34,7 +34,7 @@ import Sync from './views/Sync.tsx';
 import RBTournamentAdmin from './views/sub/RBTournamentAdmin.tsx';
 import RBScheduleAdmin from './views/sub/RBScheduleAdmin.tsx';
 import TournamentReports from './views/TournamentReports.tsx';
-import TeamReports from './views/TeamReports.tsx';
+import TeamSummaryReports from './views/TeamSummaryReports.tsx';
 import RavenBrainSyncConnection from './views/sub/RavenBrainSyncConnection.tsx';
 import QuickComment from './views/QuickComment.tsx';
 
@@ -86,7 +86,7 @@ function App() {
         </Route>
         <Route path="reports/">
           <Route path="tournament" element={<TournamentReports />} />
-          <Route path="team" element={<TeamReports />} />
+          <Route path="team" element={<TeamSummaryReports />} />
         </Route>
         <Route path="dev" element={<DevResources />} />
         <Route path="game/" element={<FieldLayout />}>
