@@ -1,4 +1,5 @@
 import {
+  RBTournament,
   saveMatch,
   useSchedule,
   useTournamentList,
@@ -52,7 +53,7 @@ function RBScheduleAdmin() {
     </div>
   );
   type DetailType = {
-    tournamentDetail: any;
+    tournamentDetail: RBTournament;
     setTournamentDetail: any;
   };
 
@@ -71,7 +72,7 @@ function RBScheduleAdmin() {
 
     return (
       <section>
-        <h4>Schedule Details:</h4>
+        <h4>Schedule Details for {tournamentDetail.name}</h4>
         <table>
           <tbody>
             <tr>

@@ -295,10 +295,6 @@ export function getTournamentForId(tournamentId: string) {
   return tournament;
 }
 
-export function setScout(name: string) {
-  localStorage.setItem('rrScout', name);
-}
-
 export function setMatchNumber(match: number) {
   const matchString = JSON.stringify(match);
   localStorage.setItem('rrMatch', matchString);
@@ -310,7 +306,7 @@ export function setTeam(team: number) {
 }
 
 export function setScoutingSessionId(alliance: string) {
-  const scout = localStorage.getItem('rrScout');
+  const scout = getScoutName();
   const tournamentString = localStorage.getItem('rrTournament');
   const matchString = localStorage.getItem('rrMatch');
   const teamString = localStorage.getItem('rrTeam');
