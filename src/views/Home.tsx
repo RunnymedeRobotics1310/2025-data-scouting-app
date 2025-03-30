@@ -22,9 +22,9 @@ export default function Home() {
   const [name, setName] = useState('');
   const [hasApiKey, setHasApiKey] = useState(false);
   const [password, setPassword] = useState('');
-  const nameSet = name && name != '';
-  const passwordSet = password && password != '';
-  const loggedIn = nameSet && hasApiKey && passwordSet;
+  const [passwordSaved, setPasswordSaved] = useState(false);
+  const nameSet = name != null && name != '';
+  const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     if (name == '') {
@@ -45,13 +45,18 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (!passwordSet) {
-      const password = getPassword();
-      if (password && password != '') {
-        setPassword(password);
+    if (!password || password == '') {
+      const pw = getPassword();
+      if (pw && pw != '') {
+        setPassword(pw);
+        setPasswordSaved(true);
       }
     }
-  });
+  }, [password, passwordSaved]);
+
+  useEffect(() => {
+    setLoggedIn(nameSet && hasApiKey && passwordSaved);
+  }, [nameSet, hasApiKey, passwordSaved]);
 
   function renderApiKey() {
     if (hasApiKey) {
@@ -118,16 +123,17 @@ export default function Home() {
     }
   }
   function renderPassword() {
-    if (passwordSet) {
+    if (passwordSaved) {
       return (
         <div>
           <button
             onClick={() => {
               savePassword('');
               setPassword('');
+              setPasswordSaved(false);
             }}
           >
-            Change Password
+            Log Out
           </button>
         </div>
       );
@@ -136,17 +142,34 @@ export default function Home() {
         <label>
           <input
             className={'center'}
-            type={'text'}
+            type={'password'}
             id={'password'}
             placeholder={'password'}
-            onBlur={e => {
+            onChange={e => {
               setPassword(e.target.value);
-              savePassword(e.target.value);
             }}
           />
         </label>
       );
     }
+  }
+
+  function renderSavePassword() {
+    return (
+      <div>
+        {!passwordSaved && (
+          <button
+            onClick={() => {
+              savePassword(password);
+              setPasswordSaved(true);
+              console.log('saving password');
+            }}
+          >
+            Save Password
+          </button>
+        )}
+      </div>
+    );
   }
 
   function handleSelectMatch() {
@@ -166,6 +189,7 @@ export default function Home() {
           </tr>
           <tr>
             <td>{renderPassword()}</td>
+            <td>{renderSavePassword()}</td>
           </tr>
           {loggedIn && (
             <tr>
