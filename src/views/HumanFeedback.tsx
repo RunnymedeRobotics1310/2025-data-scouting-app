@@ -69,7 +69,7 @@ function HumanFeedback() {
             id={'mistake'}
             onChange={() => setMistake(!mistake)}
           />
-          <span>Oopsie...</span>
+          <span>Mistake!</span>
         </label>
 
         <textarea
