@@ -2,8 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { getTeamsForMatch } from '../functions/getTeamsForMatch.ts';
 import { selectMatch } from '../functions/selectMatch.ts';
-import { Tournament } from '../types/Tournament.ts';
 import {
+  getCurrentTournament,
   setMatchNumber,
   setScoutingSessionId,
   setTeam,
@@ -21,14 +21,7 @@ function MatchSelect() {
   const [checked, setChecked] = useState(false);
   const { saveGamestate } = useContext(GameContext);
   const visibility = lineup[0] > 0 ? ' ' : 'isNotVisible';
-
-  const currentTournamentString = localStorage.getItem('rrTournament');
-  let currentTournament: Tournament | null = null;
-  if (currentTournamentString) {
-    currentTournament = JSON.parse(currentTournamentString);
-  } else {
-    console.error('tournament not found');
-  }
+  const currentTournament = getCurrentTournament();
 
   return (
     <div className={'general-layout'}>
