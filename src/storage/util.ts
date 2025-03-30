@@ -128,13 +128,6 @@ export function useRole() {
   });
   return { isAdmin, isExpertScout, isDataScout, isMember, loading, error };
 }
-
-export function saveGoogleApiKey(key: string) {
-  localStorage.setItem('rrGoogleApiKey', key);
-}
-export function getGoogleApiKey() {
-  return localStorage.getItem('rrGoogleApiKey');
-}
 export function savePassword(password: string) {
   localStorage.setItem('rrPassword', password);
 }

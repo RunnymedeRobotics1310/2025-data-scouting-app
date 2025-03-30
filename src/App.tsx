@@ -39,10 +39,6 @@ import RavenBrainSyncConnection from './views/sub/RavenBrainSyncConnection.tsx';
 import QuickComment from './views/QuickComment.tsx';
 
 export const myBasename = '/2025-data-scouting-app'; // todo: fixme: make this dynamic
-export const GOOGLE_CLIENT_ID =
-  '139207708944-87j550c491r7od4qj9fmvn85hvoc3n0u.apps.googleusercontent.com';
-export const TOURNAMENT_SPREADSHEET_ID =
-  '1XjOA98tsxwQru0tBYl8qbtxnxq9Dr8IvIyELxsKNnAU';
 
 function App() {
   const [gamestate, setGamestate] = useState<GS>(DEFAULT_GAME_STATE);
