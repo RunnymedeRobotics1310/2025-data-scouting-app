@@ -1,13 +1,177 @@
 import Spinner from '../../common/Spinner.tsx';
 import { useState } from 'react';
+import {
+  cleanupEmptyScoutingSessions,
+  getScoutedSessionsForTournament,
+  getScoutedTournaments,
+  getUnsynchronizedEventsForSession,
+  stringifyKey,
+  updateEventSyncStatus,
+} from '../../storage/util.ts';
+import { asMap, GameEvent } from '../../types/GameEvent.ts';
+import { RBGaveEventResponse, saveEvents } from '../../storage/ravenbrain.ts';
 
 function RBSyncMain() {
   const [content, setContent] = useState('');
   const [syncing, setSyncing] = useState(false);
 
   function handleSyncClick() {
-    console.log("Help me, I'm syncing!");
+    saveEventLog();
   }
+
+  async function saveEventLog() {
+    console.log('Saving event log');
+
+    const tournaments = getScoutedTournaments();
+    tournaments.forEach(tournament => {
+      const sessions = getScoutedSessionsForTournament(tournament);
+      sessions.forEach(session => {
+        const events: GameEvent[] = getUnsynchronizedEventsForSession(session);
+        if (events.length > 0) {
+          console.log('Saving ' + events.length + ' events to raven brain ', {
+            session,
+            events,
+          });
+
+          try {
+            setContent('Uploading data.');
+
+            setSyncing(true);
+            saveEvents(events).then(results => {
+              let errorCount = 0;
+              let errMsg = '';
+              const successfullySaved: GameEvent[] = [];
+              results.map(result => {
+                if (!result.success) {
+                  errorCount++;
+                  errMsg += result.reason + '\n';
+                } else {
+                  const e = {
+                    ...result.eventLogRecord,
+                    synchronized: true,
+                  };
+                  if (!(e.timestamp instanceof Date)) {
+                    e.timestamp = new Date(e.timestamp);
+                  }
+                  successfullySaved.push(e);
+                }
+              });
+              if (errorCount > 0) {
+                setContent(
+                  'Error saving ' +
+                    errorCount +
+                    ' events.  Errors:\n' +
+                    errMsg +
+                    '\nThe ' +
+                    successfullySaved.length +
+                    ' successfully saved events will not have to be re-synchronized.',
+                );
+              } else {
+                setContent(
+                  'Successfully saved ' +
+                    successfullySaved.length +
+                    " events.  You're all set!",
+                );
+              }
+              console.log('SAVED', successfullySaved);
+              for (const e of successfullySaved) {
+                try {
+                  updateEventSyncStatus(e);
+                } catch (err) {
+                  console.error('Error updating event sync status', err);
+                }
+                console.log('Updating event sync status', e);
+              }
+              setSyncing(false);
+
+              // const eventsMap = asMap(events);
+              // readEventLog(tournament.eventLogGoogleSheetId).then(
+              //   eventsReadFromGoogle => {
+              //     const googleMap = asMap(eventsReadFromGoogle);
+              //     const successfullySaved: GameEvent[] = [];
+              //     for (const emk of eventsMap.keys()) {
+              //       const gme = googleMap.get(emk);
+              //       const em = eventsMap.get(emk);
+              //       if (em === undefined) {
+              //         console.warn(
+              //           'Unexpectedly found no mapped value for key ',
+              //           emk,
+              //         );
+              //       } else if (gme) {
+              //         successfullySaved.push(em);
+              //       }
+              //     }
+              //     console.log(
+              //       'Marking ' +
+              //         successfullySaved.length +
+              //         ' events as synchronized',
+              //     );
+              //     for (const e of successfullySaved) {
+              //       e.synchronized = true;
+              //       updateEventSyncStatus(e);
+              //     }
+              //   },
+              // );
+            });
+          } catch (err: any) {
+            reportError(
+              'Error saving events for session ' +
+                stringifyKey(session) +
+                ' ' +
+                err.message,
+            );
+            return;
+          } finally {
+          }
+        } else {
+          console.info(
+            'No events need synchronization for event ' +
+              session.tournamentId +
+              ' match ' +
+              session.matchId +
+              ' team ' +
+              session.teamNumber,
+          );
+        }
+        cleanupEmptyScoutingSessions();
+      });
+    });
+  }
+
+  // async function readEventLog(
+  //   eventLogSpreadsheetId: string,
+  // ): Promise<GameEvent[]> {
+  //   // Fetch first 10 files
+  //   // @ts-ignore
+  //   const response = await window.gapi.client.sheets.spreadsheets.values.get({
+  //     spreadsheetId: eventLogSpreadsheetId,
+  //     range: 'A3:H',
+  //   });
+  //   const range = response.result;
+  //   if (!range || !range.values || range.values.length == 0) {
+  //     throw Error(
+  //       'No event log found for spreadsheet ' + eventLogSpreadsheetId,
+  //     );
+  //   }
+  //   const items: GameEvent[] = [];
+  //   // @ts-ignore
+  //   range.values.forEach(row => {
+  //     items.push({
+  //       timestamp: new Date(row[0]),
+  //       scoutName: row[1],
+  //       tournamentId: row[2],
+  //       matchId: row[3],
+  //       alliance: row[4],
+  //       teamNumber: row[5],
+  //       eventType: row[6],
+  //       amount: row[7],
+  //       note: row[8],
+  //       synchronized: true,
+  //     } as GameEvent);
+  //   });
+  //   console.log('Loaded ' + items.length + ' game events from Google');
+  //   return items;
+  // }
 
   return (
     <div>

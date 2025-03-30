@@ -7,6 +7,7 @@ import {
   saveScoutName,
 } from './util.ts';
 import { useEffect, useState } from 'react';
+import { GameEvent } from '../types/GameEvent.ts';
 
 const HOST = 'http://localhost:8080';
 
@@ -181,4 +182,68 @@ export async function saveMatch(match: RBScheduleItem) {
   }).then(resp => {
     return resp.ok;
   });
+}
+
+export type RBGameEvent = {
+  timestamp: Date;
+  scoutName: string;
+  tournamentId: string;
+  matchId: number;
+  alliance: string;
+  teamNumber: number;
+  eventType: string;
+  amount: number;
+  note: string;
+};
+export type RBGameEventResponse = {
+  success: boolean;
+  reason: string;
+  eventLogRecord: RBGameEvent;
+};
+export async function saveEvents(
+  events: GameEvent[],
+): Promise<RBGameEventResponse[]> {
+  const rbEvents: RBGameEvent[] = [];
+  for (const e of events) {
+    const rbe: RBGameEvent = {
+      timestamp: e.timestamp,
+      scoutName: e.scoutName,
+      tournamentId: e.tournamentId,
+      matchId: e.matchId,
+      alliance: e.alliance,
+      teamNumber: e.teamNumber,
+      eventType: e.eventType,
+      amount: e.amount,
+      note: e.note ? e.note : '',
+    };
+    if (
+      rbe.scoutName &&
+      rbe.scoutName !== '' &&
+      rbe.tournamentId &&
+      rbe.tournamentId !== '' &&
+      rbe.matchId > 0 &&
+      (rbe.alliance === 'red' || rbe.alliance === 'blue') &&
+      rbe.teamNumber > 0 &&
+      rbe.eventType &&
+      rbe.eventType !== '' &&
+      rbe.amount > -1
+    ) {
+      rbEvents.push(rbe);
+    }
+  }
+
+  if (rbEvents.length > 5) {
+    rbEvents[4].timestamp = null;
+  }
+  return rbfetch('/api/event', {
+    method: 'POST',
+    body: JSON.stringify(rbEvents),
+  })
+    .then(resp => {
+      return resp.json();
+    })
+    .catch(error => {
+      console.error('Error saving events', error);
+      return false;
+    });
 }

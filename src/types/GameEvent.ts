@@ -12,6 +12,7 @@ export type GameEvent = {
 };
 
 export function equalsIgnoreSync(event: GameEvent, e: GameEvent) {
+  // console.log('Comparing event and e', { event, e });
   return (
     event.timestamp.getTime() == e.timestamp.getTime() &&
     event.scoutName == e.scoutName &&
@@ -21,7 +22,9 @@ export function equalsIgnoreSync(event: GameEvent, e: GameEvent) {
     event.teamNumber == e.teamNumber &&
     event.eventType == e.eventType &&
     event.amount == e.amount &&
-    event.note == e.note
+    (event.note == e.note ||
+      (event.note == '' && !e.note) ||
+      (!event.note && e.note == ''))
   );
 }
 

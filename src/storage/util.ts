@@ -223,6 +223,49 @@ export function readLatestEvent(
     return event;
   }
 }
+export function cleanupEmptyScoutingSessions() {
+  console.log('Cleaning up empty scouting sessions');
+  const tournaments = getScoutedTournaments();
+  tournaments.forEach(tournament => {
+    const sessions = getScoutedSessionsForTournament(tournament);
+    sessions.forEach(session => {
+      const events: GameEvent[] = getUnsynchronizedEventsForSession(session);
+      if (events.length === 0) {
+        // remove event logs that are empty
+        const key = 'rrEvents-' + stringifyKey(session);
+        console.log('Removing session ', key);
+        localStorage.removeItem(key);
+        // move session to synchronized:
+        // 1. add to synchronized
+        const syncStr = localStorage.getItem('rrSynchronizedScoutedSessions');
+        let sync: ScoutingSessionId[] = [];
+        if (syncStr) {
+          sync = JSON.parse(syncStr);
+        }
+        sync.push(session);
+        localStorage.setItem(
+          'rrSynchronizedScoutedSessions',
+          JSON.stringify(sync),
+        );
+        // 2. remove from unsynchronized
+        const unsyncStr = localStorage.getItem('rrScoutedSessions');
+        const newUnsync: ScoutingSessionId[] = JSON.parse(
+          unsyncStr ? unsyncStr : '[]',
+        );
+        const toRemoveKey = stringifyKey(session);
+        const idx = newUnsync.findIndex(s => {
+          const stringified = stringifyKey(s);
+          return stringified == toRemoveKey;
+        });
+        if (idx > -1) {
+          newUnsync.splice(idx, 1);
+        }
+        localStorage.setItem('rrScoutedSessions', JSON.stringify(newUnsync));
+      }
+    });
+  });
+}
+
 export function updateEventSyncStatus(event: GameEvent) {
   const scoutingSessionId: ScoutingSessionId = {
     tournamentId: event.tournamentId,
@@ -234,28 +277,92 @@ export function updateEventSyncStatus(event: GameEvent) {
 
   const scoutingSessionKeyStr = stringifyKey(scoutingSessionId);
 
-  const storageKey = 'rrEvents-' + scoutingSessionKeyStr;
-  const stringifiedEventsListing = localStorage.getItem(storageKey);
-  if (stringifiedEventsListing == null) {
-    console.error('Failed to load event listing', storageKey);
-    return;
-  }
-  const gameEvents: GameEvents = parseStringifiedEvents(
-    stringifiedEventsListing,
+  // first, save to synchronized events.
+  const synchronizedStorageKey =
+    'rrSynchronizedEvents-' + scoutingSessionKeyStr;
+  let stringifiedSyncEventsListing = localStorage.getItem(
+    synchronizedStorageKey,
   );
-  let changed = false;
-  for (const e of gameEvents.events) {
+  if (stringifiedSyncEventsListing == null) {
+    stringifiedSyncEventsListing = JSON.stringify({
+      events: [],
+      lastUpdated: new Date() as Date,
+    } as GameEvents);
+    console.log('Created new sync data store for ', synchronizedStorageKey);
+  }
+  const synchronizedEvents: GameEvents = parseStringifiedEvents(
+    stringifiedSyncEventsListing,
+  );
+  console.log('Parse stringified sync events listing', synchronizedEvents);
+  const toAddToSync = [];
+  const toRemoveFromUnsync = [];
+  let found = false;
+  for (const e of synchronizedEvents.events) {
     if (equalsIgnoreSync(e, event)) {
-      e.synchronized = event.synchronized;
-      changed = true;
+      found = true;
     }
   }
 
-  if (changed) {
-    const s = JSON.stringify(gameEvents);
-    // console.log('Saving with new sync value', s);
-    localStorage.setItem(storageKey, s);
+  if (found) {
+    toRemoveFromUnsync.push(event);
+  } else {
+    toAddToSync.push(event);
+    toRemoveFromUnsync.push(event);
   }
+  console.log({ toAddToSync, toRemoveFromUnsync });
+
+  if (toAddToSync.length > 0) {
+    toAddToSync.forEach(e => {
+      synchronizedEvents.events.push(e);
+    });
+    console.log('SAVING!!');
+    localStorage.setItem(
+      synchronizedStorageKey,
+      JSON.stringify(synchronizedEvents),
+    );
+    console.log('SAVE TO LOCAL STORE DONE');
+  } else {
+    console.log('Do not need to add to sync because it is already there');
+  }
+
+  // second, remove from unsynchronized events.
+  const unsynchronizedStorageKey = 'rrEvents-' + scoutingSessionKeyStr;
+  if (toRemoveFromUnsync.length > 0) {
+    const s = localStorage.getItem(unsynchronizedStorageKey);
+    if (s == null) {
+      console.error(
+        'Failed to load event listing - but we just did a little while ago!',
+        unsynchronizedStorageKey,
+      );
+      return;
+    } else {
+      console.log("Found unsync'd events, removing from unsync'd store");
+    }
+    const unsynchronizedEvents: GameEvents = parseStringifiedEvents(s);
+    let changed = false;
+    for (const e of toRemoveFromUnsync) {
+      for (let i = 0; i < unsynchronizedEvents.events.length; i++) {
+        const candidate = unsynchronizedEvents.events[i];
+        console.log('Checking...', { candidate, e });
+        if (equalsIgnoreSync(candidate, e)) {
+          console.log('Trying to remove an event now');
+          const nuked = unsynchronizedEvents.events.splice(i, 1);
+          changed = true;
+          console.log('Seeding and nuked', { candidate, nuked });
+          break;
+        }
+      }
+    }
+    console.log('Changed?', changed);
+    if (changed) {
+      localStorage.setItem(
+        unsynchronizedStorageKey,
+        JSON.stringify(unsynchronizedEvents),
+      );
+      console.log('REMOVED FROM UNSYNC STORE DONE');
+    }
+  }
+  console.log('EXITING updateEventSyncStatus');
 }
 
 export function getAllTournaments(): Tournament[] {
@@ -359,12 +466,24 @@ function parseStringifiedEvents(stringifiedGameEvents: string): GameEvents {
     if (e.amount === undefined) {
       e.amount = 0;
     }
-    if (!(e.timestamp instanceof Date)) {
+
+    if (e.timestamp instanceof Date) {
+      /* empty */
+    } else {
       e.timestamp = new Date(e.timestamp);
     }
   }
   return events;
 }
+export function getScoutedSessions() {
+  const scoutedSessionsString = localStorage.getItem('rrScoutedSessions');
+  if (!scoutedSessionsString) {
+    return [];
+  }
+  const result = JSON.parse(scoutedSessionsString) as ScoutingSessionId[];
+  return result;
+}
+
 export function getScoutedTournaments() {
   const scoutedSessionsString = localStorage.getItem('rrScoutedSessions');
   const tourns: Tournament[] = [];
@@ -422,11 +541,7 @@ export function getUnsynchronizedEventsForSession(session: ScoutingSessionId) {
   } else {
     const allEvents = parseStringifiedEvents(stringifiedLog);
     allEvents.events.forEach(e => {
-      if (e.synchronized) {
-        // Data is already synchronized - yay! Ignore.
-      } else {
-        events.push({ ...e, timestamp: new Date(e.timestamp) });
-      }
+      events.push({ ...e, timestamp: new Date(e.timestamp) });
     });
   }
   return events;
