@@ -251,6 +251,44 @@ export default function Home() {
               </td>
             </tr>
           )}
+          {isExpertScout() && (
+            <tr>
+              <td>
+                <button
+                  onClick={() => {
+                    alert(
+                      'Not yet implemented. Quentin will create a new view for reports. That reports page will have links to our two reports.',
+                    );
+                  }}
+                >
+                  Reports
+                </button>
+              </td>
+              <td>
+                View scouting reports. Internet access required. Desktop or
+                tablet recommended.
+              </td>
+            </tr>
+          )}
+          {isAdmin() && (
+            <tr>
+              <td>
+                <button
+                  onClick={() => {
+                    alert(
+                      'Not yet implemented. Quentin will create a new view for that links to the two admin screens.',
+                    );
+                  }}
+                >
+                  Administration
+                </button>
+              </td>
+              <td>
+                Administer tournament and schedule list. Internet access
+                required. Suitable for mobile and desktop devices.
+              </td>
+            </tr>
+          )}
           <tr>
             <td>&nbsp;</td>
             <td></td>
