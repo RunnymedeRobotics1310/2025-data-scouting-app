@@ -10,10 +10,12 @@ import {
 } from '../../storage/util.ts';
 import { GameEvent } from '../../types/GameEvent.ts';
 import { saveEvents } from '../../storage/ravenbrain.ts';
+import { useUnsynchronizedItemCount } from '../../storage/useUnsynchronizedItemCount.ts';
 
 function RBSyncMain() {
   const [content, setContent] = useState('');
   const [syncing, setSyncing] = useState(false);
+  const unsyncCount = useUnsynchronizedItemCount();
 
   function handleSyncClick() {
     saveEventLog();
@@ -126,7 +128,9 @@ function RBSyncMain() {
           Syncing...
         </div>
       )}
-      <button onClick={() => handleSyncClick()}>Sync Scouting Data</button>
+      <button disabled={unsyncCount === 0} onClick={() => handleSyncClick()}>
+        Sync Scouting Data
+      </button>
       <p>&nbsp;</p>
       <h4>Sync Status Messages</h4>
       <pre id="content" className="googleExampleContentPreStyle">
