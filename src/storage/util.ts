@@ -6,7 +6,7 @@ import { Phase } from '../common/phase.ts';
 import { useEffect, useState } from 'react';
 import { QuickComment } from '../types/QuickComment.ts';
 
-export function parseKey(keyString: string): ScoutingSessionId {
+function parseKey(keyString: string): ScoutingSessionId {
   const arr = keyString.split('|');
   const key: ScoutingSessionId = {
     tournamentId: arr[0],
@@ -18,9 +18,7 @@ export function parseKey(keyString: string): ScoutingSessionId {
   return key;
 }
 
-export function stringifyKey(obj: ScoutingSessionId): string {
-  // console.log('Stringifying: ', obj);
-
+function stringifyKey(obj: ScoutingSessionId): string {
   return (
     '' +
     obj.tournamentId +
@@ -56,24 +54,27 @@ export function addDefenceEndedEvent(
     addEvent(scoutingSessionId, phase, 'defence-stopped', note);
   }
 }
+
 export function saveScoutName(name: string) {
   localStorage.setItem('rrScoutName', name);
 }
+
 export function getScoutName() {
   return localStorage.getItem('rrScoutName');
 }
+
 export function saveJwt(jwt: string) {
   localStorage.setItem('rrJwt', jwt);
 }
+
 export function getJwt() {
   return localStorage.getItem('rrJwt');
 }
+
 export function saveRoles(roles: string[]) {
   localStorage.setItem('rrRoles', JSON.stringify(roles));
 }
-export function clearRoles() {
-  localStorage.removeItem('rrRoles');
-}
+
 function getRoles() {
   const r = localStorage.getItem('rrRoles');
   if (r === null || r === '') {
@@ -82,6 +83,7 @@ function getRoles() {
     return JSON.parse(r);
   }
 }
+
 export function usePrimaryRole() {
   const { isAdmin, isDataScout, isExpertScout, isMember, loading, error } =
     useRole();
@@ -128,12 +130,15 @@ export function useRole() {
   });
   return { isAdmin, isExpertScout, isDataScout, isMember, loading, error };
 }
+
 export function savePassword(password: string) {
   localStorage.setItem('rrPassword', password);
 }
+
 export function getPassword() {
   return localStorage.getItem('rrPassword');
 }
+
 export function logout() {
   localStorage.removeItem('rrJwt');
   localStorage.removeItem('rrRoles');
@@ -149,6 +154,7 @@ export function addEvent(
 ) {
   addEventWithAmount(scoutingSessionId, phase, eventType, 0, note);
 }
+
 export function addEventWithAmount(
   scoutingSessionId: ScoutingSessionId,
   phase: Phase,
@@ -216,6 +222,7 @@ export function readLatestEvent(
     return event;
   }
 }
+
 export function cleanupEmptyScoutingSessions() {
   console.log('Cleaning up empty scouting sessions');
   const tournaments = getScoutedTournaments();
@@ -468,6 +475,7 @@ function parseStringifiedEvents(stringifiedGameEvents: string): GameEvents {
   }
   return events;
 }
+
 export function getScoutedSessions() {
   const scoutedSessionsString = localStorage.getItem('rrScoutedSessions');
   if (!scoutedSessionsString) {
@@ -559,6 +567,7 @@ export function addQuickComment(quickComment: QuickComment) {
     quickComments = [];
   }
 
+  quickComment.timestamp = new Date();
   quickComments.push(quickComment);
 
   const stringifiedQuickComments = JSON.stringify(quickComments);

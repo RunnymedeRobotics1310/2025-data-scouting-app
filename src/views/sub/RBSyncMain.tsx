@@ -5,7 +5,6 @@ import {
   getScoutedSessionsForTournament,
   getScoutedTournaments,
   getUnsynchronizedEventsForSession,
-  stringifyKey,
   updateEventSyncStatus,
 } from '../../storage/util.ts';
 import { GameEvent } from '../../types/GameEvent.ts';
@@ -89,7 +88,7 @@ function RBSyncMain() {
           } catch (err: any) {
             reportError(
               'Error saving events for session ' +
-                stringifyKey(session) +
+                JSON.stringify(session) +
                 ' ' +
                 err.message,
             );
