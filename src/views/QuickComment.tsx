@@ -3,7 +3,7 @@ import {
   addQuickComment,
   getScoutName,
   usePrimaryRole,
-} from '../storage/util.ts';
+} from '../storage/local.ts';
 import Loading from '../common/Loading.tsx';
 import { home } from '../modes/home.ts';
 import { useNavigate } from 'react-router-dom';

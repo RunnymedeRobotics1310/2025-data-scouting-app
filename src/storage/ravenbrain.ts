@@ -5,7 +5,7 @@ import {
   saveJwt,
   saveRoles,
   saveScoutName,
-} from './util.ts';
+} from './local.ts';
 import { useEffect, useState } from 'react';
 import { GameEvent } from '../types/GameEvent.ts';
 
@@ -232,9 +232,6 @@ export async function saveEvents(
     }
   }
 
-  if (rbEvents.length > 5) {
-    rbEvents[4].timestamp = null;
-  }
   return rbfetch('/api/event', {
     method: 'POST',
     body: JSON.stringify(rbEvents),

@@ -7,7 +7,7 @@ import {
   setMatchNumber,
   setScoutingSessionId,
   setTeam,
-} from '../storage/util.ts';
+} from '../storage/local.ts';
 import { DEFAULT_GAME_STATE } from '../context/GS.ts';
 import GameContext from '../context/GameContext.tsx';
 

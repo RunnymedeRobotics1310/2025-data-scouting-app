@@ -12,7 +12,7 @@ import { holding_nothing } from '../modes/holding_nothing.ts';
 import { start_line } from '../modes/start_line.ts';
 import { holding_both } from '../modes/holding_both.ts';
 import { holding_algae } from '../modes/holding_algae.ts';
-import { addEvent, getScoutingSessionId } from '../storage/util.ts';
+import { addEvent, getScoutingSessionId } from '../storage/local.ts';
 
 function GamePhaseSwitch() {
   const navigate = useNavigate();

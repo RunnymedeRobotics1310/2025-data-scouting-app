@@ -4,7 +4,7 @@ import { CoralLocation, pickupCoral } from '../functions/pickupCoral.ts';
 import Coral from '../common/Coral.tsx';
 import GameContext from '../context/GameContext.tsx';
 import { useContext } from 'react';
-import { getScoutingSessionId } from '../storage/util.ts';
+import { getScoutingSessionId } from '../storage/local.ts';
 import Loading from '../common/Loading.tsx';
 
 type PropTypes = {

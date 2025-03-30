@@ -4,7 +4,7 @@ import GamePhaseSwitch from '../buttons/GamePhaseSwitch.tsx';
 import Law from '../icons/Law.tsx';
 import GameContext from '../context/GameContext.tsx';
 import { penalties } from '../modes/penalties.ts';
-import { getScoutingSessionId } from '../storage/util.ts';
+import { getScoutingSessionId } from '../storage/local.ts';
 import Loading from './Loading.tsx';
 import { myBasename } from '../App.tsx';
 

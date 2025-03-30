@@ -11,7 +11,7 @@ import {
   setMatchNumber,
   setScoutingSessionId,
   setTeam,
-} from '../storage/util.ts';
+} from '../storage/local.ts';
 import NotFound from './NotFound.tsx';
 
 function HumanFeedback() {
@@ -69,7 +69,7 @@ function HumanFeedback() {
             id={'mistake'}
             onChange={() => setMistake(!mistake)}
           />
-          <span>Oopsie...</span>
+          <span>Mistake!</span>
         </label>
 
         <textarea
