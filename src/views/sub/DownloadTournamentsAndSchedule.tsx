@@ -3,6 +3,7 @@ import { useSchedule, useTournamentList } from '../../storage/ravenbrain.ts';
 import { Tournament } from '../../types/Tournament.ts';
 import Spinner from '../../common/Spinner.tsx';
 import { ScheduleItem } from '../../types/ScheduleItem.ts';
+import { Schedule } from '../../types/Schedule.ts';
 
 function DownloadTournamentsAndSchedule() {
   const [loadTournaments, setLoadTournaments] = useState(false);
@@ -84,11 +85,15 @@ function DownloadTournamentsAndSchedule() {
           blue1: m.blue1,
           blue2: m.blue2,
           blue3: m.blue3,
-        });
+        } as ScheduleItem);
       });
+      const sched: Schedule = {
+        tournament: tournament,
+        matches: items,
+      };
       localStorage.setItem(
         'rrSchedule-' + tournament.id,
-        JSON.stringify(items),
+        JSON.stringify(sched),
       );
     }
     return <li>{tournament.name}</li>;

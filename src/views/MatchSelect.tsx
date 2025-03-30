@@ -29,7 +29,6 @@ function MatchSelect() {
   } else {
     console.error('tournament not found');
   }
-  console.log('tournament' + currentTournamentString);
 
   return (
     <div className={'general-layout'}>
@@ -43,8 +42,6 @@ function MatchSelect() {
               const n = e.target.valueAsNumber;
               if (n > 0 && n <= 1000 && currentTournament) {
                 setMatch(n);
-                console.log(n);
-                console.log(currentTournament);
                 const matches = getTeamsForMatch(currentTournament.id, n);
                 if (matches) setLineup(matches);
               } else {
