@@ -5,10 +5,12 @@ import {
   getScoutedSessionsForTournament,
   getScoutedTournaments,
   getUnsynchronizedEventsForSession,
+  getUnsynchronizedQuickComments,
+  moveQuickComments,
   updateEventSyncStatus,
 } from '../../storage/local.ts';
 import { GameEvent } from '../../types/GameEvent.ts';
-import { saveEvents } from '../../storage/ravenbrain.ts';
+import { saveEvents, saveQuickComments } from '../../storage/ravenbrain.ts';
 import { useUnsynchronizedItemCount } from '../../storage/useUnsynchronizedItemCount.ts';
 
 function RBSyncMain() {
@@ -136,6 +138,76 @@ function RBSyncMain() {
       });
       cleanupEmptyScoutingSessions();
     });
+    const quickComments = getUnsynchronizedQuickComments();
+    if (quickComments.length > 0) {
+      console.log(
+        'Saving ' + quickComments.length + ' quick comments to RavenBrain ',
+        {
+          quickComments,
+        },
+      );
+
+      try {
+        log.push(
+          'Uploading ' +
+            quickComments.length +
+            ' quick comments to RavenBrain.',
+        );
+        setLog(log);
+
+        setSyncing(true);
+        saveQuickComments(quickComments)
+          .then(results => {
+            let errorCount = 0;
+            let errMsg = '';
+            results.map(res => {
+              if (!res.success) {
+                errorCount++;
+                errMsg += res.reason + '\n';
+              }
+            });
+            if (errorCount > 0) {
+              const message =
+                'Error saving ' +
+                errorCount +
+                ' quick comments.  Errors:\n' +
+                errMsg;
+              errors.push(message);
+              setErrors(errors);
+              log.push(message);
+              setLog(log);
+            } else {
+              log.push(
+                'Successfully saved ' +
+                  quickComments.length +
+                  ' quick comments to RavenBrain.',
+              );
+              setLog(log);
+            }
+            setSyncing(false);
+          })
+          .then(() => {
+            quickComments.forEach(comment => {
+              moveQuickComments(comment, true);
+              log.push(
+                'Moved quick comment to synchronized team: ' +
+                  comment.team +
+                  ' timestamp: ' +
+                  comment.timestamp,
+              );
+              setLog(log);
+            });
+          });
+      } catch (err: any) {
+        const message = 'Error saving quick comments ' + err.message;
+        errors.push(message);
+        setErrors(errors);
+        log.push(message);
+        setLog(log);
+        return;
+      } finally {
+      }
+    }
   }
 
   return (

@@ -3,6 +3,7 @@ import {
   cleanupEmptyScoutingSessions,
   getScoutedSessions,
   getUnsynchronizedEventsForSession,
+  getUnsynchronizedQuickComments,
 } from './local.ts';
 
 export function useUnsynchronizedItemCount() {
@@ -13,11 +14,17 @@ export function useUnsynchronizedItemCount() {
     getScoutedSessions(false).forEach(session => {
       unsyncSession += getUnsynchronizedEventsForSession(session).length;
     });
+    getUnsynchronizedQuickComments().forEach(() => {
+      unsyncSession += 1;
+    });
     setCount(unsyncSession); // Correct way to update state
     const interval = setInterval(() => {
       unsyncSession = 0;
       getScoutedSessions(false).forEach(session => {
         unsyncSession += getUnsynchronizedEventsForSession(session).length;
+      });
+      getUnsynchronizedQuickComments().forEach(() => {
+        unsyncSession += 1;
       });
       setCount(unsyncSession); // Correct way to update state
       cleanupEmptyScoutingSessions();

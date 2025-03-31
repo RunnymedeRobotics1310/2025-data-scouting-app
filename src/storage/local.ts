@@ -350,6 +350,11 @@ function unsyncEverything() {
       }
     });
   });
+
+  const syncComments = getSynchronizedQuickComments();
+  syncComments?.forEach(c => {
+    moveQuickComments(c, false);
+  });
   console.info('Unsynchronization complete.');
 }
 
@@ -704,4 +709,63 @@ export function addQuickComment(quickComment: QuickComment) {
 
   const stringifiedQuickComments = JSON.stringify(quickComments);
   localStorage.setItem('rrQuickComments', stringifiedQuickComments);
+}
+
+export function getUnsynchronizedQuickComments() {
+  const quickCommentsString = localStorage.getItem('rrQuickComments');
+  let quickComments: QuickComment[] = [];
+  if (quickCommentsString) {
+    quickComments = JSON.parse(quickCommentsString);
+  }
+  return quickComments;
+}
+
+export function getSynchronizedQuickComments() {
+  const quickCommentsString = localStorage.getItem(
+    'rrSynchronizedQuickComments',
+  );
+  let quickComments: QuickComment[] = [];
+  if (quickCommentsString) {
+    quickComments = JSON.parse(quickCommentsString);
+  }
+  return quickComments;
+}
+
+export function moveQuickComments(
+  quickComment: QuickComment,
+  toSynchronized: boolean,
+) {
+  const toKey = toSynchronized
+    ? 'rrSynchronizedQuickComments'
+    : 'rrQuickComments';
+  const fromKey = toSynchronized
+    ? 'rrQuickComments'
+    : 'rrSynchronizedQuickComments';
+
+  // save to new location
+  const str = localStorage.getItem(toKey);
+  let quickComments: QuickComment[] = [];
+  if (str) {
+    quickComments = JSON.parse(str);
+  }
+  quickComments.push(quickComment);
+  localStorage.setItem(toKey, JSON.stringify(quickComments));
+
+  // remove from old location
+  const fromStr = localStorage.getItem(fromKey);
+  let fromQuickComments: QuickComment[] = [];
+  if (fromStr) {
+    fromQuickComments = JSON.parse(fromStr);
+  }
+  const idx = fromQuickComments.findIndex(
+    qc =>
+      qc.timestamp === quickComment.timestamp &&
+      qc.quickComment === quickComment.quickComment &&
+      qc.name === quickComment.name &&
+      qc.team === quickComment.team,
+  );
+  if (idx > -1) {
+    fromQuickComments.splice(idx, 1);
+  }
+  localStorage.setItem(fromKey, JSON.stringify(fromQuickComments));
 }

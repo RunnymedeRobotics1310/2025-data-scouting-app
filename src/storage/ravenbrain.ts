@@ -8,6 +8,7 @@ import {
 } from './local.ts';
 import { useEffect, useState } from 'react';
 import { GameEvent } from '../types/GameEvent.ts';
+import { QuickComment } from '../types/QuickComment.ts';
 
 const HOST = 'http://localhost:8080';
 
@@ -241,6 +242,20 @@ export async function saveEvents(
     })
     .catch(error => {
       console.error('Error saving events', error);
+      return false;
+    });
+}
+
+export async function saveQuickComments(comments: QuickComment[]) {
+  return rbfetch('/api/quickcomment', {
+    method: 'POST',
+    body: JSON.stringify(comments),
+  })
+    .then(resp => {
+      return resp.json();
+    })
+    .catch(error => {
+      console.error('Error saving quick comments', error);
       return false;
     });
 }
