@@ -9,13 +9,13 @@ export function useUnsynchronizedItemCount() {
 
   useEffect(() => {
     let unsyncSession = 0;
-    getScoutedSessions().forEach(session => {
+    getScoutedSessions(false).forEach(session => {
       unsyncSession += getUnsynchronizedEventsForSession(session).length;
     });
     setCount(unsyncSession); // Correct way to update state
     const interval = setInterval(() => {
       unsyncSession = 0;
-      getScoutedSessions().forEach(session => {
+      getScoutedSessions(false).forEach(session => {
         unsyncSession += getUnsynchronizedEventsForSession(session).length;
       });
       setCount(unsyncSession); // Correct way to update state

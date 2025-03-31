@@ -284,10 +284,74 @@ export function useUnsynchronizeEverything() {
   }, [loading]);
   return { loading, error };
 }
+
 function unsyncEverything() {
   console.info(
     'Marking everything that was previously synchronized as unsynchronized.',
   );
+  const synchronizedSessionsByTournament: Map<string, ScoutingSessionId[]> =
+    new Map();
+
+  const tournaments = getAllTournaments();
+  tournaments.forEach(tournament => {
+    const sessions = getSynchronizedScoutedSessionsForTournament(tournament);
+    synchronizedSessionsByTournament.set(tournament.id, sessions);
+
+    sessions.forEach(session => {
+      const toMove: GameEvent[] = getSynchronizedEventsForSession(session);
+      const destArray: GameEvent[] = getUnsynchronizedEventsForSession(session);
+      toMove.forEach(e => {
+        destArray.push(e);
+      });
+
+      try {
+        localStorage.setItem(
+          'rrEvents-' + stringifyKey(session),
+          JSON.stringify({ events: destArray, lastUpdated: new Date() }),
+        );
+      } catch (error) {
+        throw new Error(
+          'Failed to save synchronized events in unsynchronized list for session ' +
+            stringifyKey(session) +
+            ': ' +
+            error,
+        );
+      }
+    });
+  });
+
+  try {
+    const sessionsToMove = getScoutedSessions(true);
+    const sessionDestArray = getScoutedSessions(false);
+    sessionsToMove.forEach(s => {
+      sessionDestArray.push(s);
+    });
+    replaceScoutedSessions(false, sessionDestArray);
+    replaceScoutedSessions(true, []);
+  } catch (error) {
+    throw new Error(
+      'Failed to save synchronized sessions in unsynchronized list: ' + error,
+    );
+  }
+
+  tournaments.forEach(tournament => {
+    const sessions = synchronizedSessionsByTournament.get(tournament.id);
+    sessions?.forEach(session => {
+      try {
+        localStorage.removeItem(
+          'rrSynchronizedEvents-' + stringifyKey(session),
+        );
+      } catch (error) {
+        throw new Error(
+          'Failed to clear synchronized session list ' +
+            stringifyKey(session) +
+            ': ' +
+            error,
+        );
+      }
+    });
+  });
+  console.info('Unsynchronization complete.');
 }
 
 export function updateEventSyncStatus(event: GameEvent) {
@@ -490,13 +554,26 @@ function parseStringifiedEvents(stringifiedGameEvents: string): GameEvents {
   return events;
 }
 
-export function getScoutedSessions() {
-  const scoutedSessionsString = localStorage.getItem('rrScoutedSessions');
+export function getScoutedSessions(synchronized: boolean) {
+  const scoutedSessionsString = localStorage.getItem(
+    synchronized ? 'rrSynchronizedScoutedSessions' : 'rrScoutedSessions',
+  );
   if (!scoutedSessionsString) {
     return [];
   }
   const result = JSON.parse(scoutedSessionsString) as ScoutingSessionId[];
   return result;
+}
+
+function replaceScoutedSessions(
+  synchronized: boolean,
+  sessions: ScoutingSessionId[],
+) {
+  const key = synchronized
+    ? 'rrSynchronizedScoutedSessions'
+    : 'rrScoutedSessions';
+  const stringified = JSON.stringify(sessions);
+  localStorage.setItem(key, stringified);
 }
 
 export function getScoutedTournaments() {
@@ -517,6 +594,25 @@ export function getScoutedTournaments() {
     });
   }
   return tourns;
+}
+
+export function getSynchronizedScoutedSessionsForTournament(
+  tournament: Tournament,
+) {
+  const sessions: ScoutingSessionId[] = [];
+  const sessionsStr = localStorage.getItem('rrSynchronizedScoutedSessions');
+  if (!sessionsStr) {
+    console.warn('No synchronized scouted sessions found');
+    return sessions;
+  } else {
+    const allScoutedSessions = JSON.parse(sessionsStr) as ScoutingSessionId[];
+    allScoutedSessions.forEach(s => {
+      if (s.tournamentId === tournament.id) {
+        sessions.push(s);
+      }
+    });
+  }
+  return sessions;
 }
 
 export function getScoutedSessionsForTournament(tournament: Tournament) {
@@ -541,6 +637,31 @@ export function getUnsynchronizedEventsForSession(session: ScoutingSessionId) {
   const events: GameEvent[] = [];
   const sessionString = stringifyKey(session);
   const key = 'rrEvents-' + sessionString;
+  const stringifiedLog = localStorage.getItem(key);
+  if (!stringifiedLog) {
+    if (session.teamNumber !== -1310) {
+      console.warn(
+        'Could not find scouting data for ' +
+          session.tournamentId +
+          ' match ' +
+          session.matchId +
+          ' team ' +
+          session.teamNumber,
+      );
+    }
+  } else {
+    const allEvents = parseStringifiedEvents(stringifiedLog);
+    allEvents.events.forEach(e => {
+      events.push({ ...e, timestamp: new Date(e.timestamp) });
+    });
+  }
+  return events;
+}
+
+export function getSynchronizedEventsForSession(session: ScoutingSessionId) {
+  const events: GameEvent[] = [];
+  const sessionString = stringifyKey(session);
+  const key = 'rrSynchronizedEvents-' + sessionString;
   const stringifiedLog = localStorage.getItem(key);
   if (!stringifiedLog) {
     if (session.teamNumber !== -1310) {
