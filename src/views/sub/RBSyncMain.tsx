@@ -12,9 +12,11 @@ import { saveEvents } from '../../storage/ravenbrain.ts';
 import { useUnsynchronizedItemCount } from '../../storage/useUnsynchronizedItemCount.ts';
 
 function RBSyncMain() {
-  const [content, setContent] = useState('');
+  const [errors, setErrors] = useState<string[]>([]);
+  const [log, setLog] = useState<string[]>([]);
   const [syncing, setSyncing] = useState(false);
   const unsyncCount = useUnsynchronizedItemCount();
+  const [showLog, setShowLog] = useState(false);
 
   function handleSyncClick() {
     saveEventLog();
@@ -29,13 +31,24 @@ function RBSyncMain() {
       sessions.forEach(session => {
         const events: GameEvent[] = getUnsynchronizedEventsForSession(session);
         if (events.length > 0) {
-          console.log('Saving ' + events.length + ' events to raven brain ', {
+          console.log('Saving ' + events.length + ' events to RavenBrain ', {
             session,
             events,
           });
 
           try {
-            setContent('Uploading data.');
+            log.push(
+              'Uploading ' +
+                events.length +
+                ' events for ' +
+                session.tournamentId +
+                ' match ' +
+                session.matchId +
+                ' team ' +
+                session.teamNumber +
+                ' to RavenBrain.',
+            );
+            setLog(log);
 
             setSyncing(true);
             saveEvents(events).then(results => {
@@ -58,40 +71,54 @@ function RBSyncMain() {
                 }
               });
               if (errorCount > 0) {
-                setContent(
+                const message =
                   'Error saving ' +
-                    errorCount +
-                    ' events.  Errors:\n' +
-                    errMsg +
-                    '\nThe ' +
-                    successfullySaved.length +
-                    ' successfully saved events will not have to be re-synchronized.',
-                );
+                  errorCount +
+                  ' events.  Errors:\n' +
+                  errMsg +
+                  '\nThe ' +
+                  successfullySaved.length +
+                  ' successfully saved events will not have to be re-synchronized.';
+                errors.push(message);
+                setErrors(errors);
+                log.push(message);
+                setLog(log);
               } else {
-                setContent(
+                log.push(
                   'Successfully saved ' +
                     successfullySaved.length +
-                    " events.  You're all set!",
+                    ' events to RavenBrain.',
                 );
+                setLog(log);
               }
-              console.log('SAVED', successfullySaved);
               for (const e of successfullySaved) {
                 try {
                   updateEventSyncStatus(e);
                 } catch (err) {
                   console.error('Error updating event sync status', err);
                 }
-                console.log('Updating event sync status', e);
+                log.push(
+                  'Updated event sync status for event ' +
+                    e.tournamentId +
+                    ' match ' +
+                    e.matchId +
+                    ' team ' +
+                    e.teamNumber,
+                );
+                setLog(log);
               }
               setSyncing(false);
             });
           } catch (err: any) {
-            reportError(
+            const message =
               'Error saving events for session ' +
-                JSON.stringify(session) +
-                ' ' +
-                err.message,
-            );
+              JSON.stringify(session) +
+              ' ' +
+              err.message;
+            errors.push(message);
+            setErrors(errors);
+            log.push(message);
+            setLog(log);
             return;
           } finally {
           }
@@ -105,8 +132,9 @@ function RBSyncMain() {
               session.teamNumber,
           );
         }
-        cleanupEmptyScoutingSessions();
+        setLog(log);
       });
+      cleanupEmptyScoutingSessions();
     });
   }
 
@@ -131,10 +159,36 @@ function RBSyncMain() {
         Sync Scouting Data
       </button>
       <p>&nbsp;</p>
-      <h4>Sync Status Messages</h4>
-      <pre id="content" className="googleExampleContentPreStyle">
-        {content}
-      </pre>
+      {errors.length > 0 ? (
+        <>
+          <h4>Sync Errors</h4>
+          <pre id="content" className="googleExampleContentPreStyle">
+            {errors}
+          </pre>
+        </>
+      ) : log.length > 0 ? (
+        <>
+          <h4>Sync Complete</h4>
+          <p>Your data has been synchronized successfully.</p>
+        </>
+      ) : (
+        ''
+      )}
+      {log.length > 0 && (
+        <section>
+          <button onClick={() => setShowLog(!showLog)}>
+            {showLog ? 'Hide Sync Log' : 'Show Nerdy Sync Details'}
+          </button>
+          {showLog && (
+            <>
+              <h4>Sync Status Messages</h4>
+              <pre id="content" className="googleExampleContentPreStyle">
+                {log.map(msg => msg + '\n')}
+              </pre>
+            </>
+          )}
+        </section>
+      )}
     </div>
   );
 }

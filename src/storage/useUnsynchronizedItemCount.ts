@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
+  cleanupEmptyScoutingSessions,
   getScoutedSessions,
   getUnsynchronizedEventsForSession,
 } from './local.ts';
@@ -19,6 +20,7 @@ export function useUnsynchronizedItemCount() {
         unsyncSession += getUnsynchronizedEventsForSession(session).length;
       });
       setCount(unsyncSession); // Correct way to update state
+      cleanupEmptyScoutingSessions();
     }, 5 * 1000);
 
     return () => clearInterval(interval); // Cleanup function

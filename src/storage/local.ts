@@ -224,7 +224,6 @@ export function readLatestEvent(
 }
 
 export function cleanupEmptyScoutingSessions() {
-  console.log('Cleaning up empty scouting sessions');
   const tournaments = getScoutedTournaments();
   tournaments.forEach(tournament => {
     const sessions = getScoutedSessionsForTournament(tournament);
@@ -233,7 +232,7 @@ export function cleanupEmptyScoutingSessions() {
       if (events.length === 0) {
         // remove event logs that are empty
         const key = 'rrEvents-' + stringifyKey(session);
-        console.log('Removing session ', key);
+        console.log('Removing empty session', key);
         localStorage.removeItem(key);
         // move session to synchronized:
         // 1. add to synchronized
@@ -396,7 +395,6 @@ export function updateEventSyncStatus(event: GameEvent) {
     toAddToSync.push(event);
     toRemoveFromUnsync.push(event);
   }
-  console.log({ toAddToSync, toRemoveFromUnsync });
 
   if (toAddToSync.length > 0) {
     toAddToSync.forEach(e => {
@@ -407,7 +405,7 @@ export function updateEventSyncStatus(event: GameEvent) {
       JSON.stringify(synchronizedEvents),
     );
   } else {
-    console.log('Do not need to add to sync because it is already there');
+    // console.log('Do not need to add to sync because it is already there');
   }
 
   // second, remove from unsynchronized events.
@@ -440,7 +438,6 @@ export function updateEventSyncStatus(event: GameEvent) {
       );
     }
   }
-  cleanupEmptyScoutingSessions();
 }
 
 export function getAllTournaments(): Tournament[] {
