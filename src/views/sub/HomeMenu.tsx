@@ -155,8 +155,8 @@ function HomeMenu() {
                   </button>
                 </td>
                 <td>
-                  In rare cases you may need to un-synchronize data. Do this
-                  with a RavenEye developer only.
+                  In rare cases you may need to unsynchronize data. Do this with
+                  a RavenEye developer only.
                 </td>
               </tr>
             </>

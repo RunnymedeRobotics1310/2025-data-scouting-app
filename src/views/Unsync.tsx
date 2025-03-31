@@ -6,7 +6,7 @@ function Unsync() {
   const [proceed, setProceed] = useState(false);
   return (
     <div>
-      <h1>Un-synchronize Data</h1>
+      <h1>Unsynchronize Data</h1>
       <p>
         In cases of emergency, an administrator working with the developer may
         need to unsynchronize data in the app. This will remove all data from
@@ -49,6 +49,6 @@ function Proceed() {
   if (error) {
     return <p className={'syncRed'}>Error: {error}</p>;
   }
-  return <p>Un-suynchronization complete</p>;
+  return <p>Unsynchronization complete</p>;
 }
 export default Unsync;
