@@ -9,6 +9,7 @@ import {
 import { useEffect, useState } from 'react';
 import { GameEvent } from '../types/GameEvent.ts';
 import { QuickComment } from '../types/QuickComment.ts';
+import { ScheduleItem } from '../types/ScheduleItem.ts';
 
 const HOST = 'http://localhost:8080';
 
@@ -142,8 +143,12 @@ export async function saveTournament(tournament: RBTournament) {
     return resp.ok;
   });
 }
-
-export function useSchedule(tournamentId: string) {
+export type UseScheduleType = {
+  matches: ScheduleItem[];
+  error: string | null;
+  loading: boolean;
+};
+export function useSchedule<UseScheduleType>(tournamentId: string) {
   const [matches, setSchedule] = useState([]);
   const [error, setError] = useState<null | string>(null);
   const [loading, setLoading] = useState(true);
@@ -162,7 +167,7 @@ export function useSchedule(tournamentId: string) {
     });
   }, [tournamentId, loading]);
 
-  return { matches, error, loading };
+  return { matches, error, loading } as UseScheduleType;
 }
 
 export type RBScheduleItem = {
