@@ -7,7 +7,7 @@ import {
 import Loading from '../common/Loading.tsx';
 import { home } from '../modes/home.ts';
 import { useNavigate } from 'react-router-dom';
-
+import { QuickComment as QC } from '../types/QuickComment.ts';
 function QuickComment() {
   const navigate = useNavigate();
   const [teamNumber, setTeamNumber] = useState(-1310);
@@ -21,6 +21,14 @@ function QuickComment() {
   if (error || !primaryRole || !scoutName) {
     return <div>An error has occured {error}</div>;
   }
+
+  const qc: QC = {
+    timestamp: new Date(),
+    name: scoutName,
+    role: primaryRole,
+    team: teamNumber,
+    quickComment: quickComment,
+  };
 
   return (
     <>
@@ -60,12 +68,7 @@ function QuickComment() {
         <p>
           <button
             onClick={() => {
-              addQuickComment({
-                name: scoutName,
-                role: primaryRole,
-                team: teamNumber,
-                quickComment: quickComment,
-              });
+              addQuickComment(qc);
               navigate(home.url);
             }}
             disabled={teamNumber <= 0 || !quickComment}
