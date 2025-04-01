@@ -147,12 +147,7 @@ export async function saveTournament(tournament: RBTournament) {
     return resp.ok;
   });
 }
-export type UseScheduleType = {
-  matches: ScheduleItem[];
-  error: string | null;
-  loading: boolean;
-};
-export function useSchedule<UseScheduleType>(tournamentId: string) {
+export function useSchedule(tournamentId: string) {
   const [matches, setSchedule] = useState([]);
   const [error, setError] = useState<null | string>(null);
   const [loading, setLoading] = useState(true);
@@ -171,7 +166,11 @@ export function useSchedule<UseScheduleType>(tournamentId: string) {
     });
   }, [tournamentId, loading]);
 
-  return { matches, error, loading } as UseScheduleType;
+  return { matches, error, loading } as {
+    matches: ScheduleItem[];
+    error: string | null;
+    loading: boolean;
+  };
 }
 
 export type RBScheduleItem = {
