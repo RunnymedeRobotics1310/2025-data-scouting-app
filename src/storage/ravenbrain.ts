@@ -125,7 +125,11 @@ export function useTournamentList() {
     });
   }, []);
 
-  return { list, error, loading };
+  return { list, error, loading } as {
+    list: RBTournament[];
+    error: string | null;
+    loading: boolean;
+  };
 }
 
 export type RBTournament = {
