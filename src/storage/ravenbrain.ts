@@ -254,16 +254,18 @@ export async function saveEvents(
     });
 }
 
-export async function saveQuickComments(comments: QuickComment[]) {
+export type QuickCommentResponse = {
+  comment: QuickComment;
+  success: boolean;
+  reason: string | null;
+};
+export async function saveQuickComments(
+  comments: QuickComment[],
+): Promise<QuickCommentResponse[]> {
   return rbfetch('/api/quickcomment', {
     method: 'POST',
     body: JSON.stringify(comments),
-  })
-    .then(resp => {
-      return resp.json();
-    })
-    .catch(error => {
-      console.error('Error saving quick comments', error);
-      return false;
-    });
+  }).then(resp => {
+    return resp.json();
+  });
 }
