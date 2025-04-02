@@ -274,7 +274,7 @@ export function useUnsynchronizeEverything() {
         setTimeout(() => {
           unsyncEverything();
           setLoading(false);
-        }, 2500);
+        }, 1000);
       } catch (err) {
         setError('Failed to unsynchronize: ' + err);
         setLoading(false);
