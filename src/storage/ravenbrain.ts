@@ -151,6 +151,11 @@ export function useSchedule(tournamentId: string) {
   const [matches, setSchedule] = useState([]);
   const [error, setError] = useState<null | string>(null);
   const [loading, setLoading] = useState(true);
+  const [doRefresh, setDoRefresh] = useState(true);
+
+  function refresh() {
+    setDoRefresh(true);
+  }
 
   useEffect(() => {
     rbfetch('/api/schedule/' + tournamentId, {}).then(resp => {
@@ -158,18 +163,21 @@ export function useSchedule(tournamentId: string) {
         resp.json().then(data => {
           setSchedule(data);
           setLoading(false);
+          setDoRefresh(false);
         });
       } else {
         setError('Failed to fetch schedule');
         setLoading(false);
+        setDoRefresh(false);
       }
     });
-  }, [tournamentId, loading]);
+  }, [tournamentId, loading, doRefresh]);
 
-  return { matches, error, loading } as {
+  return { matches, error, loading, refresh } as {
     matches: ScheduleItem[];
     error: string | null;
     loading: boolean;
+    refresh: () => void;
   };
 }
 
