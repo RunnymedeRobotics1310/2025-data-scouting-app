@@ -16,9 +16,10 @@ import { useUnsynchronizedItemCount } from '../../storage/useUnsynchronizedItemC
 function RBSyncMain() {
   const [errors, setErrors] = useState<string[]>([]);
   const [log, setLog] = useState<string[]>([]);
-  const [syncing, setSyncing] = useState(false);
   const unsyncCount = useUnsynchronizedItemCount();
   const [showLog, setShowLog] = useState(false);
+  const [currentlySynchornizingCount, setCurrentlySynchronizingCount] =
+    useState(0);
 
   function handleSyncClick() {
     saveEventLog();
@@ -51,13 +52,15 @@ function RBSyncMain() {
                 ' to RavenBrain.',
             );
             setLog(log);
-
-            setSyncing(true);
+            setCurrentlySynchronizingCount(
+              currentlySynchornizingCount + events.length,
+            );
             saveEvents(events).then(results => {
               let errorCount = 0;
               let errMsg = '';
               const successfullySaved: GameEvent[] = [];
               results.map(result => {
+                setCurrentlySynchronizingCount(currentlySynchornizingCount - 1);
                 if (!result.success) {
                   errorCount++;
                   errMsg += result.reason + '\n';
@@ -109,7 +112,6 @@ function RBSyncMain() {
                 );
                 setLog(log);
               }
-              setSyncing(false);
             });
           } catch (err: any) {
             const message =
@@ -140,6 +142,9 @@ function RBSyncMain() {
     });
     const quickComments = getUnsynchronizedQuickComments();
     if (quickComments.length > 0) {
+      setCurrentlySynchronizingCount(
+        currentlySynchornizingCount + quickComments.length,
+      );
       console.log(
         'Saving ' + quickComments.length + ' quick comments to RavenBrain ',
         {
@@ -155,12 +160,12 @@ function RBSyncMain() {
         );
         setLog(log);
 
-        setSyncing(true);
         saveQuickComments(quickComments)
           .then(results => {
             let errorCount = 0;
             let errMsg = '';
             results.map(res => {
+              setCurrentlySynchronizingCount(currentlySynchornizingCount - 1);
               if (!res.success) {
                 errorCount++;
                 errMsg += res.reason + '\n';
@@ -184,7 +189,6 @@ function RBSyncMain() {
               );
               setLog(log);
             }
-            setSyncing(false);
           })
           .then(() => {
             quickComments.forEach(comment => {
@@ -221,7 +225,7 @@ function RBSyncMain() {
         your device and press the sync button. You'll have to enter the password
         provided to you by the team.
       </p>
-      {syncing && (
+      {currentlySynchornizingCount > 0 && (
         <div>
           <Spinner />
           Syncing...
