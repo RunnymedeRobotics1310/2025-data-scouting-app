@@ -58,6 +58,10 @@ function RBTournamentAdmin() {
         <table>
           <tbody>
             <tr>
+              <th>ID</th>
+              <td> {tournamentDetail.id}</td>
+            </tr>
+            <tr>
               <th>Name</th>
               <td> {tournamentDetail.name}</td>
             </tr>
@@ -101,6 +105,20 @@ function RBTournamentAdmin() {
         <h4>Add Tournament</h4>
         <table>
           <tbody>
+            <tr>
+              <th>ID</th>
+              <td>
+                <input
+                  type="text"
+                  onChange={e =>
+                    setTourn({
+                      ...tourn,
+                      id: e.target.value,
+                    })
+                  }
+                />
+              </td>
+            </tr>
             <tr>
               <th>Name</th>
               <td>
