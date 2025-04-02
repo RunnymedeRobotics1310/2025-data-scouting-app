@@ -5,16 +5,21 @@ import {
   getScoutedSessionsForTournament,
   getScoutedTournaments,
   getUnsynchronizedEventsForSession,
+  getUnsynchronizedQuickComments,
+  moveQuickComments,
   updateEventSyncStatus,
 } from '../../storage/local.ts';
 import { GameEvent } from '../../types/GameEvent.ts';
-import { saveEvents } from '../../storage/ravenbrain.ts';
+import { saveEvents, saveQuickComments } from '../../storage/ravenbrain.ts';
 import { useUnsynchronizedItemCount } from '../../storage/useUnsynchronizedItemCount.ts';
 
 function RBSyncMain() {
-  const [content, setContent] = useState('');
-  const [syncing, setSyncing] = useState(false);
+  const [errors, setErrors] = useState<string[]>([]);
+  const [log, setLog] = useState<string[]>([]);
   const unsyncCount = useUnsynchronizedItemCount();
+  const [showLog, setShowLog] = useState(false);
+  const [currentlySynchornizingCount, setCurrentlySynchronizingCount] =
+    useState(0);
 
   function handleSyncClick() {
     saveEventLog();
@@ -29,20 +34,33 @@ function RBSyncMain() {
       sessions.forEach(session => {
         const events: GameEvent[] = getUnsynchronizedEventsForSession(session);
         if (events.length > 0) {
-          console.log('Saving ' + events.length + ' events to raven brain ', {
+          console.log('Saving ' + events.length + ' events to RavenBrain ', {
             session,
             events,
           });
 
           try {
-            setContent('Uploading data.');
-
-            setSyncing(true);
+            log.push(
+              'Uploading ' +
+                events.length +
+                ' events for ' +
+                session.tournamentId +
+                ' match ' +
+                session.matchId +
+                ' team ' +
+                session.teamNumber +
+                ' to RavenBrain.',
+            );
+            setLog(log);
+            setCurrentlySynchronizingCount(
+              currentlySynchornizingCount + events.length,
+            );
             saveEvents(events).then(results => {
               let errorCount = 0;
               let errMsg = '';
               const successfullySaved: GameEvent[] = [];
               results.map(result => {
+                setCurrentlySynchronizingCount(currentlySynchornizingCount - 1);
                 if (!result.success) {
                   errorCount++;
                   errMsg += result.reason + '\n';
@@ -54,44 +72,63 @@ function RBSyncMain() {
                   if (!(e.timestamp instanceof Date)) {
                     e.timestamp = new Date(e.timestamp);
                   }
+                  setCurrentlySynchronizingCount(
+                    currentlySynchornizingCount + 1,
+                  );
                   successfullySaved.push(e);
                 }
               });
               if (errorCount > 0) {
-                setContent(
+                const message =
                   'Error saving ' +
-                    errorCount +
-                    ' events.  Errors:\n' +
-                    errMsg +
-                    '\nThe ' +
-                    successfullySaved.length +
-                    ' successfully saved events will not have to be re-synchronized.',
-                );
+                  errorCount +
+                  ' events.  Errors:\n' +
+                  errMsg +
+                  '\nThe ' +
+                  successfullySaved.length +
+                  ' successfully saved events will not have to be re-synchronized.';
+                errors.push(message);
+                setErrors(errors);
+                log.push(message);
+                setLog(log);
               } else {
-                setContent(
+                log.push(
                   'Successfully saved ' +
                     successfullySaved.length +
-                    " events.  You're all set!",
+                    ' events to RavenBrain.',
                 );
+                setLog(log);
               }
-              console.log('SAVED', successfullySaved);
               for (const e of successfullySaved) {
                 try {
+                  setCurrentlySynchronizingCount(
+                    currentlySynchornizingCount - 1,
+                  );
                   updateEventSyncStatus(e);
                 } catch (err) {
                   console.error('Error updating event sync status', err);
                 }
-                console.log('Updating event sync status', e);
+                log.push(
+                  'Updated event sync status for event ' +
+                    e.tournamentId +
+                    ' match ' +
+                    e.matchId +
+                    ' team ' +
+                    e.teamNumber,
+                );
+                setLog(log);
               }
-              setSyncing(false);
             });
           } catch (err: any) {
-            reportError(
+            const message =
               'Error saving events for session ' +
-                JSON.stringify(session) +
-                ' ' +
-                err.message,
-            );
+              JSON.stringify(session) +
+              ' ' +
+              err.message;
+            errors.push(message);
+            setErrors(errors);
+            log.push(message);
+            setLog(log);
             return;
           } finally {
           }
@@ -105,9 +142,82 @@ function RBSyncMain() {
               session.teamNumber,
           );
         }
-        cleanupEmptyScoutingSessions();
+        setLog(log);
       });
+      cleanupEmptyScoutingSessions();
     });
+    const quickComments = getUnsynchronizedQuickComments();
+    if (quickComments.length > 0) {
+      setCurrentlySynchronizingCount(
+        currentlySynchornizingCount + quickComments.length,
+      );
+      console.log(
+        'Saving ' + quickComments.length + ' quick comments to RavenBrain ',
+        {
+          quickComments,
+        },
+      );
+
+      try {
+        log.push(
+          'Uploading ' +
+            quickComments.length +
+            ' quick comments to RavenBrain.',
+        );
+        setLog(log);
+
+        saveQuickComments(quickComments)
+          .then(results => {
+            let errorCount = 0;
+            let errMsg = '';
+            results.map(res => {
+              setCurrentlySynchronizingCount(currentlySynchornizingCount - 1);
+              if (!res.success) {
+                errorCount++;
+                errMsg += res.reason + '\n';
+              }
+            });
+            if (errorCount > 0) {
+              const message =
+                'Error saving ' +
+                errorCount +
+                ' quick comments.  Errors:\n' +
+                errMsg;
+              errors.push(message);
+              setErrors(errors);
+              log.push(message);
+              setLog(log);
+            } else {
+              log.push(
+                'Successfully saved ' +
+                  quickComments.length +
+                  ' quick comments to RavenBrain.',
+              );
+              setLog(log);
+            }
+          })
+          .then(() => {
+            quickComments.forEach(comment => {
+              moveQuickComments(comment, true);
+              log.push(
+                'Moved quick comment to synchronized team: ' +
+                  comment.team +
+                  ' timestamp: ' +
+                  comment.timestamp,
+              );
+              setLog(log);
+            });
+          });
+      } catch (err: any) {
+        const message = 'Error saving quick comments ' + err.message;
+        errors.push(message);
+        setErrors(errors);
+        log.push(message);
+        setLog(log);
+        return;
+      } finally {
+      }
+    }
   }
 
   return (
@@ -121,7 +231,7 @@ function RBSyncMain() {
         your device and press the sync button. You'll have to enter the password
         provided to you by the team.
       </p>
-      {syncing && (
+      {currentlySynchornizingCount > 0 && (
         <div>
           <Spinner />
           Syncing...
@@ -131,10 +241,36 @@ function RBSyncMain() {
         Sync Scouting Data
       </button>
       <p>&nbsp;</p>
-      <h4>Sync Status Messages</h4>
-      <pre id="content" className="googleExampleContentPreStyle">
-        {content}
-      </pre>
+      {errors.length > 0 ? (
+        <>
+          <h4>Sync Errors</h4>
+          <pre id="content" className="googleExampleContentPreStyle">
+            {errors}
+          </pre>
+        </>
+      ) : log.length > 0 ? (
+        <>
+          <h4>Sync Complete</h4>
+          <p>Your data has been synchronized successfully.</p>
+        </>
+      ) : (
+        ''
+      )}
+      {log.length > 0 && (
+        <section>
+          <button onClick={() => setShowLog(!showLog)}>
+            {showLog ? 'Hide Sync Log' : 'Show Nerdy Sync Details'}
+          </button>
+          {showLog && (
+            <>
+              <h4>Sync Status Messages</h4>
+              <pre id="content" className="googleExampleContentPreStyle">
+                {log.map(msg => msg + '\n')}
+              </pre>
+            </>
+          )}
+        </section>
+      )}
     </div>
   );
 }

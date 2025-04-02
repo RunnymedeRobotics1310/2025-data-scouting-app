@@ -8,6 +8,8 @@ import {
 } from './local.ts';
 import { useEffect, useState } from 'react';
 import { GameEvent } from '../types/GameEvent.ts';
+import { QuickComment } from '../types/QuickComment.ts';
+import { ScheduleItem } from '../types/ScheduleItem.ts';
 
 const HOST = 'http://localhost:8080';
 
@@ -108,6 +110,11 @@ export function useTournamentList() {
   const [list, setList] = useState([]);
   const [error, setError] = useState<null | string>(null);
   const [loading, setLoading] = useState(true);
+  const [doRefresh, setDoRefresh] = useState(true);
+
+  function refresh() {
+    setDoRefresh(true);
+  }
 
   useEffect(() => {
     rbfetch('/api/tournament', {}).then(resp => {
@@ -115,15 +122,22 @@ export function useTournamentList() {
         resp.json().then(data => {
           setList(data);
           setLoading(false);
+          setDoRefresh(false);
         });
       } else {
         setError('Failed to fetch tournaments');
         setLoading(false);
+        setDoRefresh(false);
       }
     });
-  }, []);
+  }, [doRefresh]);
 
-  return { list, error, loading };
+  return { list, error, loading, refresh } as {
+    list: RBTournament[];
+    error: string | null;
+    loading: boolean;
+    refresh: () => void;
+  };
 }
 
 export type RBTournament = {
@@ -141,11 +155,15 @@ export async function saveTournament(tournament: RBTournament) {
     return resp.ok;
   });
 }
-
 export function useSchedule(tournamentId: string) {
   const [matches, setSchedule] = useState([]);
   const [error, setError] = useState<null | string>(null);
   const [loading, setLoading] = useState(true);
+  const [doRefresh, setDoRefresh] = useState(true);
+
+  function refresh() {
+    setDoRefresh(true);
+  }
 
   useEffect(() => {
     rbfetch('/api/schedule/' + tournamentId, {}).then(resp => {
@@ -153,15 +171,22 @@ export function useSchedule(tournamentId: string) {
         resp.json().then(data => {
           setSchedule(data);
           setLoading(false);
+          setDoRefresh(false);
         });
       } else {
         setError('Failed to fetch schedule');
         setLoading(false);
+        setDoRefresh(false);
       }
     });
-  }, [tournamentId, loading]);
+  }, [tournamentId, loading, doRefresh]);
 
-  return { matches, error, loading };
+  return { matches, error, loading, refresh } as {
+    matches: ScheduleItem[];
+    error: string | null;
+    loading: boolean;
+    refresh: () => void;
+  };
 }
 
 export type RBScheduleItem = {
@@ -243,4 +268,20 @@ export async function saveEvents(
       console.error('Error saving events', error);
       return false;
     });
+}
+
+export type QuickCommentResponse = {
+  comment: QuickComment;
+  success: boolean;
+  reason: string | null;
+};
+export async function saveQuickComments(
+  comments: QuickComment[],
+): Promise<QuickCommentResponse[]> {
+  return rbfetch('/api/quickcomment', {
+    method: 'POST',
+    body: JSON.stringify(comments),
+  }).then(resp => {
+    return resp.json();
+  });
 }

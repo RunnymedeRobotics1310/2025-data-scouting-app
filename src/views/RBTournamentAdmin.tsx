@@ -1,10 +1,11 @@
 import { saveTournament, useTournamentList } from '../storage/ravenbrain.ts';
 import Loading from '../common/Loading.tsx';
 import { useState } from 'react';
+import ErrorMessage from '../common/ErrorMessage.tsx';
 
 function RBTournamentAdmin() {
   function List() {
-    const { list, error, loading } = useTournamentList();
+    const { list, error, loading, refresh } = useTournamentList();
     const [tournamentDetail, setTournamentDetail] = useState<any>(null);
     const [showForm, setShowForm] = useState(false);
     if (loading) {
@@ -30,7 +31,12 @@ function RBTournamentAdmin() {
           ))}
         </ul>
         <button onClick={() => setShowForm(true)}>Add Tournament</button>
-        {showForm && <ShowForm closeFormCallback={() => setShowForm(false)} />}
+        {showForm && (
+          <ShowForm
+            closeFormCallback={() => setShowForm(false)}
+            refreshCallback={() => refresh()}
+          />
+        )}
         {tournamentDetail && (
           <ShowDetails
             tournamentDetail={tournamentDetail}
@@ -58,6 +64,10 @@ function RBTournamentAdmin() {
         <table>
           <tbody>
             <tr>
+              <th>ID</th>
+              <td> {tournamentDetail.id}</td>
+            </tr>
+            <tr>
               <th>Name</th>
               <td> {tournamentDetail.name}</td>
             </tr>
@@ -78,9 +88,11 @@ function RBTournamentAdmin() {
   }
   type FormType = {
     closeFormCallback: () => void;
+    refreshCallback: () => void;
   };
   function ShowForm(props: FormType) {
     const [tourn, setTourn] = useState<any>({});
+    const [error, setError] = useState<string | null>(null);
     function handleSave() {
       console.log('Save', tourn);
       saveTournament(tourn)
@@ -88,19 +100,39 @@ function RBTournamentAdmin() {
           if (success) {
             console.log('Saved');
             props.closeFormCallback();
+            props.refreshCallback();
           } else {
             console.error('Failed to save tournament');
+            setError(
+              'The tournament was not saved. Is the id duplicated? If not, check with the programming team.',
+            );
           }
         })
         .catch(e => {
           console.error('Failed to save tournament', e);
+          setError('Failed to save tournament - ' + e);
         });
     }
     return (
       <section>
         <h4>Add Tournament</h4>
+        {error && <ErrorMessage>{error}</ErrorMessage>}
         <table>
           <tbody>
+            <tr>
+              <th>ID</th>
+              <td>
+                <input
+                  type="text"
+                  onChange={e =>
+                    setTourn({
+                      ...tourn,
+                      id: e.target.value,
+                    })
+                  }
+                />
+              </td>
+            </tr>
             <tr>
               <th>Name</th>
               <td>

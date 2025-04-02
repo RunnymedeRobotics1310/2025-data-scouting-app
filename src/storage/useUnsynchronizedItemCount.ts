@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import {
+  cleanupEmptyScoutingSessions,
   getScoutedSessions,
   getUnsynchronizedEventsForSession,
+  getUnsynchronizedQuickComments,
 } from './local.ts';
 
 export function useUnsynchronizedItemCount() {
@@ -9,16 +11,23 @@ export function useUnsynchronizedItemCount() {
 
   useEffect(() => {
     let unsyncSession = 0;
-    getScoutedSessions().forEach(session => {
+    getScoutedSessions(false).forEach(session => {
       unsyncSession += getUnsynchronizedEventsForSession(session).length;
+    });
+    getUnsynchronizedQuickComments().forEach(() => {
+      unsyncSession += 1;
     });
     setCount(unsyncSession); // Correct way to update state
     const interval = setInterval(() => {
       unsyncSession = 0;
-      getScoutedSessions().forEach(session => {
+      getScoutedSessions(false).forEach(session => {
         unsyncSession += getUnsynchronizedEventsForSession(session).length;
       });
+      getUnsynchronizedQuickComments().forEach(() => {
+        unsyncSession += 1;
+      });
       setCount(unsyncSession); // Correct way to update state
+      cleanupEmptyScoutingSessions();
     }, 5 * 1000);
 
     return () => clearInterval(interval); // Cleanup function

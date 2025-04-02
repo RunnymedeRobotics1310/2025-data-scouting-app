@@ -6,6 +6,7 @@ import {
 } from '../storage/ravenbrain.ts';
 import Loading from '../common/Loading.tsx';
 import { useState } from 'react';
+import { ScheduleItem } from '../types/ScheduleItem.ts';
 
 function RBScheduleAdmin() {
   function List() {
@@ -57,66 +58,75 @@ function RBScheduleAdmin() {
     setTournamentDetail: any;
   };
 
+  function ShowMatchTable(props: { matches: ScheduleItem[] }) {
+    return (
+      <table>
+        <tbody>
+          <tr>
+            <th>Match #</th>
+            <th>Red 1</th>
+            <th>Red 2</th>
+            <th>Red 3</th>
+            <th>Blue 1</th>
+            <th>Blue 2</th>
+            <th>Blue 3</th>
+            <th>Blue score</th>
+            <th>Red score</th>
+          </tr>
+          {props.matches.map(row => {
+            return (
+              <tr>
+                <td>{row.match}</td>
+                <td>{row.red1}</td>
+                <td>{row.red2}</td>
+                <td>{row.red3}</td>
+                <td>{row.blue1}</td>
+                <td>{row.blue2}</td>
+                <td>{row.blue3}</td>
+                <td>-</td>
+                <td>-</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    );
+  }
   function ShowSchedule(props: DetailType) {
     const { tournamentDetail, setTournamentDetail } = props;
-    console.log('tournament-detail:', tournamentDetail);
-    const { matches, error, loading } = useSchedule(tournamentDetail.id);
     const [showForm, setShowForm] = useState(false);
-
+    const { matches, error, loading, refresh } = useSchedule(
+      tournamentDetail.id,
+    );
     if (loading) {
       return <Loading />;
     }
     if (error) {
       return <div>Error loading schedule: {error}</div>;
     }
-
     return (
       <section>
         <h4>Schedule Details for {tournamentDetail.name}</h4>
-        <table>
-          <tbody>
-            <tr>
-              <th>Match #</th>
-              <th>red 1</th>
-              <th>Red 2</th>
-              <th>redh 3</th>
-              <th>Blue 1</th>
-              <th>Blue 2</th>
-              <th>blUe 3</th>
-              <th>Blue score</th>
-              <th>Red score</th>
-            </tr>
-            {matches.map(row => {
-              return (
-                <tr>
-                  <td>{row.match}</td>
-                  <td>{row.red1}</td>
-                  <td>{row.red2}</td>
-                  <td>{row.red3}</td>
-                  <td>{row.blue1}</td>
-                  <td>{row.blue2}</td>
-                  <td>{row.blue3}</td>
-                  <td>-</td>
-                  <td>-</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-        <button onClick={() => setShowForm(true)}>Add Schedule</button>
+        <ShowMatchTable matches={matches} />
+        <button onClick={() => setTournamentDetail()}>Close</button>
+        {!showForm && (
+          <button onClick={() => setShowForm(true)}>Add Match</button>
+        )}
+
         {showForm && tournamentDetail && (
           <ShowForm
             closeFormCallback={() => setShowForm(false)}
             tournamentId={tournamentDetail.id}
+            refreshCallback={() => refresh()}
           />
         )}
-        <button onClick={() => setTournamentDetail()}>Close</button>
       </section>
     );
   }
   type FormType = {
     closeFormCallback: () => void;
     tournamentId: string;
+    refreshCallback: () => void;
   };
   function ShowForm(props: FormType) {
     const [match, setMatch] = useState<any>({});
@@ -126,6 +136,7 @@ function RBScheduleAdmin() {
         tournamentId: props.tournamentId,
       };
       console.log('Save', matchWithId);
+
       saveMatch(matchWithId)
         .then(success => {
           if (success) {
@@ -138,6 +149,7 @@ function RBScheduleAdmin() {
         .catch(e => {
           console.error('Failed to save match', e);
         });
+      props.refreshCallback();
     }
     return (
       <section>

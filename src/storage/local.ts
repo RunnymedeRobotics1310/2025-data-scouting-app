@@ -224,7 +224,6 @@ export function readLatestEvent(
 }
 
 export function cleanupEmptyScoutingSessions() {
-  console.log('Cleaning up empty scouting sessions');
   const tournaments = getScoutedTournaments();
   tournaments.forEach(tournament => {
     const sessions = getScoutedSessionsForTournament(tournament);
@@ -233,7 +232,7 @@ export function cleanupEmptyScoutingSessions() {
       if (events.length === 0) {
         // remove event logs that are empty
         const key = 'rrEvents-' + stringifyKey(session);
-        console.log('Removing session ', key);
+        console.log('Removing empty session', key);
         localStorage.removeItem(key);
         // move session to synchronized:
         // 1. add to synchronized
@@ -275,7 +274,7 @@ export function useUnsynchronizeEverything() {
         setTimeout(() => {
           unsyncEverything();
           setLoading(false);
-        }, 2500);
+        }, 1000);
       } catch (err) {
         setError('Failed to unsynchronize: ' + err);
         setLoading(false);
@@ -284,10 +283,79 @@ export function useUnsynchronizeEverything() {
   }, [loading]);
   return { loading, error };
 }
+
 function unsyncEverything() {
   console.info(
     'Marking everything that was previously synchronized as unsynchronized.',
   );
+  const synchronizedSessionsByTournament: Map<string, ScoutingSessionId[]> =
+    new Map();
+
+  const tournaments = getAllTournaments();
+  tournaments.forEach(tournament => {
+    const sessions = getSynchronizedScoutedSessionsForTournament(tournament);
+    synchronizedSessionsByTournament.set(tournament.id, sessions);
+
+    sessions.forEach(session => {
+      const toMove: GameEvent[] = getSynchronizedEventsForSession(session);
+      const destArray: GameEvent[] = getUnsynchronizedEventsForSession(session);
+      toMove.forEach(e => {
+        destArray.push(e);
+      });
+
+      try {
+        localStorage.setItem(
+          'rrEvents-' + stringifyKey(session),
+          JSON.stringify({ events: destArray, lastUpdated: new Date() }),
+        );
+      } catch (error) {
+        throw new Error(
+          'Failed to save synchronized events in unsynchronized list for session ' +
+            stringifyKey(session) +
+            ': ' +
+            error,
+        );
+      }
+    });
+  });
+
+  try {
+    const sessionsToMove = getScoutedSessions(true);
+    const sessionDestArray = getScoutedSessions(false);
+    sessionsToMove.forEach(s => {
+      sessionDestArray.push(s);
+    });
+    replaceScoutedSessions(false, sessionDestArray);
+    replaceScoutedSessions(true, []);
+  } catch (error) {
+    throw new Error(
+      'Failed to save synchronized sessions in unsynchronized list: ' + error,
+    );
+  }
+
+  tournaments.forEach(tournament => {
+    const sessions = synchronizedSessionsByTournament.get(tournament.id);
+    sessions?.forEach(session => {
+      try {
+        localStorage.removeItem(
+          'rrSynchronizedEvents-' + stringifyKey(session),
+        );
+      } catch (error) {
+        throw new Error(
+          'Failed to clear synchronized session list ' +
+            stringifyKey(session) +
+            ': ' +
+            error,
+        );
+      }
+    });
+  });
+
+  const syncComments = getSynchronizedQuickComments();
+  syncComments?.forEach(c => {
+    moveQuickComments(c, false);
+  });
+  console.info('Unsynchronization complete.');
 }
 
 export function updateEventSyncStatus(event: GameEvent) {
@@ -332,7 +400,6 @@ export function updateEventSyncStatus(event: GameEvent) {
     toAddToSync.push(event);
     toRemoveFromUnsync.push(event);
   }
-  console.log({ toAddToSync, toRemoveFromUnsync });
 
   if (toAddToSync.length > 0) {
     toAddToSync.forEach(e => {
@@ -343,7 +410,7 @@ export function updateEventSyncStatus(event: GameEvent) {
       JSON.stringify(synchronizedEvents),
     );
   } else {
-    console.log('Do not need to add to sync because it is already there');
+    // console.log('Do not need to add to sync because it is already there');
   }
 
   // second, remove from unsynchronized events.
@@ -376,7 +443,6 @@ export function updateEventSyncStatus(event: GameEvent) {
       );
     }
   }
-  cleanupEmptyScoutingSessions();
 }
 
 export function getAllTournaments(): Tournament[] {
@@ -490,13 +556,26 @@ function parseStringifiedEvents(stringifiedGameEvents: string): GameEvents {
   return events;
 }
 
-export function getScoutedSessions() {
-  const scoutedSessionsString = localStorage.getItem('rrScoutedSessions');
+export function getScoutedSessions(synchronized: boolean) {
+  const scoutedSessionsString = localStorage.getItem(
+    synchronized ? 'rrSynchronizedScoutedSessions' : 'rrScoutedSessions',
+  );
   if (!scoutedSessionsString) {
     return [];
   }
   const result = JSON.parse(scoutedSessionsString) as ScoutingSessionId[];
   return result;
+}
+
+function replaceScoutedSessions(
+  synchronized: boolean,
+  sessions: ScoutingSessionId[],
+) {
+  const key = synchronized
+    ? 'rrSynchronizedScoutedSessions'
+    : 'rrScoutedSessions';
+  const stringified = JSON.stringify(sessions);
+  localStorage.setItem(key, stringified);
 }
 
 export function getScoutedTournaments() {
@@ -517,6 +596,25 @@ export function getScoutedTournaments() {
     });
   }
   return tourns;
+}
+
+export function getSynchronizedScoutedSessionsForTournament(
+  tournament: Tournament,
+) {
+  const sessions: ScoutingSessionId[] = [];
+  const sessionsStr = localStorage.getItem('rrSynchronizedScoutedSessions');
+  if (!sessionsStr) {
+    console.warn('No synchronized scouted sessions found');
+    return sessions;
+  } else {
+    const allScoutedSessions = JSON.parse(sessionsStr) as ScoutingSessionId[];
+    allScoutedSessions.forEach(s => {
+      if (s.tournamentId === tournament.id) {
+        sessions.push(s);
+      }
+    });
+  }
+  return sessions;
 }
 
 export function getScoutedSessionsForTournament(tournament: Tournament) {
@@ -562,6 +660,31 @@ export function getUnsynchronizedEventsForSession(session: ScoutingSessionId) {
   return events;
 }
 
+export function getSynchronizedEventsForSession(session: ScoutingSessionId) {
+  const events: GameEvent[] = [];
+  const sessionString = stringifyKey(session);
+  const key = 'rrSynchronizedEvents-' + sessionString;
+  const stringifiedLog = localStorage.getItem(key);
+  if (!stringifiedLog) {
+    if (session.teamNumber !== -1310) {
+      console.warn(
+        'Could not find scouting data for ' +
+          session.tournamentId +
+          ' match ' +
+          session.matchId +
+          ' team ' +
+          session.teamNumber,
+      );
+    }
+  } else {
+    const allEvents = parseStringifiedEvents(stringifiedLog);
+    allEvents.events.forEach(e => {
+      events.push({ ...e, timestamp: new Date(e.timestamp) });
+    });
+  }
+  return events;
+}
+
 export function getCurrentGamestate() {
   const gamestateString = localStorage.getItem('rrCurrentGamestate');
   let gamestate = null;
@@ -586,4 +709,63 @@ export function addQuickComment(quickComment: QuickComment) {
 
   const stringifiedQuickComments = JSON.stringify(quickComments);
   localStorage.setItem('rrQuickComments', stringifiedQuickComments);
+}
+
+export function getUnsynchronizedQuickComments() {
+  const quickCommentsString = localStorage.getItem('rrQuickComments');
+  let quickComments: QuickComment[] = [];
+  if (quickCommentsString) {
+    quickComments = JSON.parse(quickCommentsString);
+  }
+  return quickComments;
+}
+
+export function getSynchronizedQuickComments() {
+  const quickCommentsString = localStorage.getItem(
+    'rrSynchronizedQuickComments',
+  );
+  let quickComments: QuickComment[] = [];
+  if (quickCommentsString) {
+    quickComments = JSON.parse(quickCommentsString);
+  }
+  return quickComments;
+}
+
+export function moveQuickComments(
+  quickComment: QuickComment,
+  toSynchronized: boolean,
+) {
+  const toKey = toSynchronized
+    ? 'rrSynchronizedQuickComments'
+    : 'rrQuickComments';
+  const fromKey = toSynchronized
+    ? 'rrQuickComments'
+    : 'rrSynchronizedQuickComments';
+
+  // save to new location
+  const str = localStorage.getItem(toKey);
+  let quickComments: QuickComment[] = [];
+  if (str) {
+    quickComments = JSON.parse(str);
+  }
+  quickComments.push(quickComment);
+  localStorage.setItem(toKey, JSON.stringify(quickComments));
+
+  // remove from old location
+  const fromStr = localStorage.getItem(fromKey);
+  let fromQuickComments: QuickComment[] = [];
+  if (fromStr) {
+    fromQuickComments = JSON.parse(fromStr);
+  }
+  const idx = fromQuickComments.findIndex(
+    qc =>
+      qc.timestamp === quickComment.timestamp &&
+      qc.quickComment === quickComment.quickComment &&
+      qc.name === quickComment.name &&
+      qc.team === quickComment.team,
+  );
+  if (idx > -1) {
+    fromQuickComments.splice(idx, 1);
+  }
+  localStorage.setItem(fromKey, JSON.stringify(fromQuickComments));
 }
