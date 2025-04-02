@@ -72,6 +72,9 @@ function RBSyncMain() {
                   if (!(e.timestamp instanceof Date)) {
                     e.timestamp = new Date(e.timestamp);
                   }
+                  setCurrentlySynchronizingCount(
+                    currentlySynchornizingCount + 1,
+                  );
                   successfullySaved.push(e);
                 }
               });
@@ -98,6 +101,9 @@ function RBSyncMain() {
               }
               for (const e of successfullySaved) {
                 try {
+                  setCurrentlySynchronizingCount(
+                    currentlySynchornizingCount - 1,
+                  );
                   updateEventSyncStatus(e);
                 } catch (err) {
                   console.error('Error updating event sync status', err);
