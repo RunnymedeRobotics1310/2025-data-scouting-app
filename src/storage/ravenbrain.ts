@@ -110,6 +110,11 @@ export function useTournamentList() {
   const [list, setList] = useState([]);
   const [error, setError] = useState<null | string>(null);
   const [loading, setLoading] = useState(true);
+  const [doRefresh, setDoRefresh] = useState(true);
+
+  function refresh() {
+    setDoRefresh(true);
+  }
 
   useEffect(() => {
     rbfetch('/api/tournament', {}).then(resp => {
@@ -117,18 +122,21 @@ export function useTournamentList() {
         resp.json().then(data => {
           setList(data);
           setLoading(false);
+          setDoRefresh(false);
         });
       } else {
         setError('Failed to fetch tournaments');
         setLoading(false);
+        setDoRefresh(false);
       }
     });
-  }, []);
+  }, [doRefresh]);
 
-  return { list, error, loading } as {
+  return { list, error, loading, refresh } as {
     list: RBTournament[];
     error: string | null;
     loading: boolean;
+    refresh: () => void;
   };
 }
 

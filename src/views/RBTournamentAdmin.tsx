@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 function RBTournamentAdmin() {
   function List() {
-    const { list, error, loading } = useTournamentList();
+    const { list, error, loading, refresh } = useTournamentList();
     const [tournamentDetail, setTournamentDetail] = useState<any>(null);
     const [showForm, setShowForm] = useState(false);
     if (loading) {
@@ -30,7 +30,12 @@ function RBTournamentAdmin() {
           ))}
         </ul>
         <button onClick={() => setShowForm(true)}>Add Tournament</button>
-        {showForm && <ShowForm closeFormCallback={() => setShowForm(false)} />}
+        {showForm && (
+          <ShowForm
+            closeFormCallback={() => setShowForm(false)}
+            refreshCallback={() => refresh()}
+          />
+        )}
         {tournamentDetail && (
           <ShowDetails
             tournamentDetail={tournamentDetail}
@@ -82,6 +87,7 @@ function RBTournamentAdmin() {
   }
   type FormType = {
     closeFormCallback: () => void;
+    refreshCallback: () => void;
   };
   function ShowForm(props: FormType) {
     const [tourn, setTourn] = useState<any>({});
@@ -92,6 +98,7 @@ function RBTournamentAdmin() {
           if (success) {
             console.log('Saved');
             props.closeFormCallback();
+            props.refreshCallback();
           } else {
             console.error('Failed to save tournament');
           }
