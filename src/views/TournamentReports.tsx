@@ -88,7 +88,7 @@ const exampleDataRow: Cell[] = [
   { colId: 'INFO', value: 1 },
   { colId: 'INFO', value: 'Left' },
   { colId: 'INFO', value: 'Y' },
-  { colId: 'INFO', value: 'Y' },
+  { colId: 'INFO', value: 'N' },
   { colId: 'AUTO-algae', value: 0 },
   { colId: 'AUTO-algae', value: 0 },
   { colId: 'AUTO-algae', value: 0 },
@@ -150,8 +150,8 @@ const exampleRow1 = {
 };
 
 const exampleFooterRow: Cell[] = [
-  { colId: 'INFO', value: 'Success Rate' },
-  { colId: 'COMMENT', value: undefined },
+  { colId: 'INFO', value: undefined },
+  { colId: 'COMMENT', value: 'Success Rate' },
   { colId: 'INFO', value: undefined },
   { colId: 'INFO', value: undefined },
   { colId: 'INFO', value: undefined },
@@ -236,7 +236,57 @@ const exampleTable: Table = {
 };
 
 function renderCell(cell: Cell) {
-  return <th>{cell.value}</th>;
+  let classes = '';
+  switch (cell.colId) {
+    case 'AUTO-coral-pickup':
+      classes += 'auto-coral-pickup';
+      break;
+    case 'TELEOP-coral-pickup':
+      classes += 'teleop-coral-pickup';
+      break;
+    case 'AUTO-coral-score':
+      classes += 'auto-coral-score';
+      break;
+    case 'TELEOP-coral-score':
+      classes += 'teleop-coral-score';
+      break;
+    case 'TELEOP-algae':
+      classes += ' teleop-algae';
+      break;
+    case 'AUTO-algae':
+      classes += 'auto-algae';
+      break;
+    case 'DEFENCE':
+      classes += 'defence';
+      break;
+    case 'ENDGAME':
+      classes += 'endgame';
+      break;
+    case 'PENALTY':
+      classes += 'penalties';
+      break;
+    case 'COMMENT':
+      classes += 'comments';
+      break;
+  }
+  switch (cell.value) {
+    case 'Y':
+      classes += ' yes';
+      break;
+    case 'N':
+      classes += ' no';
+      break;
+  }
+
+  return <td className={classes}>{cell.value}</td>;
+}
+
+function renderHeaderCell(cell: Cell) {
+  return (
+    <th>
+      <div>{cell.value}</div>
+    </th>
+  );
 }
 
 function TournamentReports() {
@@ -245,6 +295,7 @@ function TournamentReports() {
   const tournaments = getAllTournaments();
   if (tournaments.length === 0) return <Loading />;
   const fullDataTable = exampleTable;
+  // const fullDataTable = rbFetch();
 
   return (
     <>
@@ -293,7 +344,7 @@ function TournamentReports() {
               return (
                 <tr>
                   {r.values.map(cell => {
-                    return renderCell(cell);
+                    return renderHeaderCell(cell);
                   })}
                 </tr>
               );

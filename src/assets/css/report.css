@@ -1,0 +1,97 @@
+/*Light Mode Colors*/
+:root {
+    --defence: rgb(208, 198, 227);
+    --auto-algae: rgb(222, 255, 246);
+    --auto-coral-pickup: rgb(251, 240, 246);
+    --auto-coral-score: rgb(251, 248, 235);
+    --teleop-algae: rgb(212, 246, 234);
+    --teleop-coral-pickup: rgb(238, 217, 228);
+    --teleop-coral-score: rgb(251, 243, 204);
+    --endgame: rgb(213, 225, 243);
+    --penalties: rgb(249, 234, 234);
+    --comments: rgb(245, 230, 205);
+    --yes: rgb(222, 234, 211);
+    --no: rgb(233, 205, 204);
+}
+
+/*Dark Mode Colors*/
+@media (prefers-color-scheme: dark) {
+    :root {
+        --defence: rgb(123, 101, 182);
+        --auto-algae: rgb(136, 209, 187);
+        --auto-coral-pickup: rgb(212, 183, 199);
+        --auto-coral-score: rgb(226, 217, 160);
+        --teleop-algae: rgb(103, 216, 170);
+        --teleop-coral-pickup: rgb(173, 110, 158);
+        --teleop-coral-score: rgb(227, 197, 50);
+        --endgame: rgb(132, 165, 220);
+        --penalties: rgb(212, 183, 199);
+        --comments: rgb(225, 147, 0);
+        --yes: rgb(163, 197, 124);
+        --no: rgb(198, 106, 103);
+    }
+}
+
+section.report{
+    table, th, td {
+        border: 1px solid var(--primary-text);
+        border-collapse: collapse;
+        min-width: 2rem;
+        max-width: 2rem;
+    }
+
+    td {
+        align-content: center;
+        justify-content: center;
+        padding: 0;
+    }
+
+     th {
+         text-wrap: nowrap;
+
+         div {
+             transform: rotate(-90deg);
+             margin: 0 -5rem;
+         }
+         height: 11.3rem;
+     }
+}
+
+.teleop-coral-pickup {
+    background-color: var(--teleop-coral-pickup);
+}
+.auto-coral-pickup {
+    background-color: var(--auto-coral-pickup);
+}
+.teleop-coral-score {
+    background-color: var(--teleop-coral-score);
+}
+.auto-coral-score {
+    background-color: var(--auto-coral-score);
+}
+.teleop-algae{
+    background-color: var(--teleop-algae);
+}
+.auto-algae{
+    background-color: var(--auto-algae);
+}
+.defence {
+    background-color: var(--defence);
+}
+.endgame {
+    background-color: var(--endgame);
+}
+.penalties {
+    background-color: var(--penalties);
+}
+.comments {
+    background-color: var(--comments);
+}
+
+
+.yes {
+    background-color: var(--yes);
+}
+.no{
+    background-color: var(--no);
+}
