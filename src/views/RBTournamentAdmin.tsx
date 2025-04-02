@@ -1,6 +1,7 @@
 import { saveTournament, useTournamentList } from '../storage/ravenbrain.ts';
 import Loading from '../common/Loading.tsx';
 import { useState } from 'react';
+import ErrorMessage from '../common/ErrorMessage.tsx';
 
 function RBTournamentAdmin() {
   function List() {
@@ -91,6 +92,7 @@ function RBTournamentAdmin() {
   };
   function ShowForm(props: FormType) {
     const [tourn, setTourn] = useState<any>({});
+    const [error, setError] = useState<string | null>(null);
     function handleSave() {
       console.log('Save', tourn);
       saveTournament(tourn)
@@ -101,15 +103,20 @@ function RBTournamentAdmin() {
             props.refreshCallback();
           } else {
             console.error('Failed to save tournament');
+            setError(
+              'The tournament was not saved. Is the id duplicated? If not, check with the programming team.',
+            );
           }
         })
         .catch(e => {
           console.error('Failed to save tournament', e);
+          setError('Failed to save tournament - ' + e);
         });
     }
     return (
       <section>
         <h4>Add Tournament</h4>
+        {error && <ErrorMessage>{error}</ErrorMessage>}
         <table>
           <tbody>
             <tr>
