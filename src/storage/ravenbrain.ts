@@ -11,7 +11,8 @@ import { GameEvent } from '../types/GameEvent.ts';
 import { QuickComment } from '../types/QuickComment.ts';
 import { ScheduleItem } from '../types/ScheduleItem.ts';
 
-const HOST = 'http://localhost:8080';
+const HOST = 'http://ravenbrain.ca-central-1.elasticbeanstalk.com';
+// const HOST = 'http://localhost:8080';
 
 export async function authenticate() {
   const scoutName = getScoutName();
