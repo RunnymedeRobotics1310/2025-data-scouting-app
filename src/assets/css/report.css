@@ -78,7 +78,7 @@ section.report{
 .defence {
     background-color: var(--defence);
 }
-.endgame {
+.endgame-cell {
     background-color: var(--endgame);
 }
 .penalties {

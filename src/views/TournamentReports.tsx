@@ -265,7 +265,7 @@ function renderCell(cell: TournamentReportCell) {
       classes += 'defence';
       break;
     case 'ENDGAME':
-      classes += 'endgame';
+      classes += 'endgame-cell';
       break;
     case 'PENALTY':
       classes += 'penalties';

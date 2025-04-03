@@ -14,10 +14,14 @@ export function endgameStatus(
   scoutingSessionId: ScoutingSessionId,
   phase: Phase,
   status: EndgameStatus,
+  attemptedClimb: boolean,
 ): Mode {
   console.log('Robot finished game by ' + status);
 
   addEvent(scoutingSessionId, phase, 'climb-' + status);
+  if (attemptedClimb) {
+    addEvent(scoutingSessionId, phase, 'attempted-climb');
+  }
 
   return checklist;
 }
