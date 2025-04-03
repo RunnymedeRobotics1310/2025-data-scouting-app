@@ -16,12 +16,13 @@ function RBTournamentAdmin() {
     }
     return (
       <div>
-        <h3>Tournament List</h3>
+        <h3>Tournaments</h3>
         <ul>
           {list.map((t: any) => (
             <li key={t.id}>
               {t.name}{' '}
               <button
+                className={'adminListViewDetailsButton'}
                 onClick={() => setTournamentDetail(t)}
                 disabled={tournamentDetail && tournamentDetail.id === t.id}
               >
@@ -47,10 +48,10 @@ function RBTournamentAdmin() {
     );
   }
   return (
-    <div>
+    <section className={'tournamentAdmin'}>
       <h3>Tournament Admin</h3>
       <List />
-    </div>
+    </section>
   );
   type DetailType = {
     tournamentDetail: any;

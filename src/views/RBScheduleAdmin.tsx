@@ -21,17 +21,18 @@ function RBScheduleAdmin() {
     return (
       <>
         <div>
-          <h3>Schedule</h3>
+          <h3>Tournaments</h3>
           <ul>
             {list.map((t: any) => (
               <li key={t.id}>
                 {t.name}
                 {!tournamentDetail && (
                   <button
+                    className={'adminListViewDetailsButton'}
                     onClick={() => setTournamentDetail(t)}
                     disabled={tournamentDetail && tournamentDetail.id === t.id}
                   >
-                    View Schedule
+                    Show Schedule
                   </button>
                 )}
               </li>
@@ -48,10 +49,10 @@ function RBScheduleAdmin() {
     );
   }
   return (
-    <div>
+    <section className={'scheduleAdmin'}>
       <h3>Schedule Admin</h3>
       <List />
-    </div>
+    </section>
   );
   type DetailType = {
     tournamentDetail: RBTournament;
@@ -61,7 +62,7 @@ function RBScheduleAdmin() {
   function ShowMatchTable(props: { matches: ScheduleItem[] }) {
     return (
       <table>
-        <tbody>
+        <thead>
           <tr>
             <th>Match #</th>
             <th>Red 1</th>
@@ -73,6 +74,8 @@ function RBScheduleAdmin() {
             <th>Blue score</th>
             <th>Red score</th>
           </tr>
+        </thead>
+        <tbody>
           {props.matches.map(row => {
             return (
               <tr>
@@ -107,8 +110,8 @@ function RBScheduleAdmin() {
     return (
       <section>
         <h4>Schedule Details for {tournamentDetail.name}</h4>
-        <ShowMatchTable matches={matches} />
         <button onClick={() => setTournamentDetail()}>Close</button>
+        <ShowMatchTable matches={matches} />
         {!showForm && (
           <button onClick={() => setShowForm(true)}>Add Match</button>
         )}
