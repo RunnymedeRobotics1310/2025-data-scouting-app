@@ -12,7 +12,7 @@ import { QuickComment } from '../types/QuickComment.ts';
 import { ScheduleItem } from '../types/ScheduleItem.ts';
 import { TournamentReportTable } from '../views/TournamentReports.tsx';
 
-const HOST = 'http://ravenbrain.ca-central-1.elasticbeanstalk.com';
+const HOST = 'https://raven-brain.kingsway.io';
 // const HOST = 'http://localhost:8080';
 
 export async function authenticate() {
