@@ -16,7 +16,11 @@ function RBTournamentAdmin() {
     }
     return (
       <div>
-        <h3>Tournaments</h3>
+        <p>
+          The following tournaments are configured in the system. View details
+          or add new ones. Edit is not yet supported. Contact the developer if
+          you need to make modifications.
+        </p>
         <ul>
           {list.map((t: any) => (
             <li key={t.id}>
@@ -49,7 +53,7 @@ function RBTournamentAdmin() {
   }
   return (
     <section className={'tournamentAdmin'}>
-      <h3>Tournament Admin</h3>
+      <h3>Tournament Administration</h3>
       <List />
     </section>
   );
@@ -116,7 +120,7 @@ function RBTournamentAdmin() {
     }
     return (
       <section>
-        <h4>Add Tournament</h4>
+        <p>Complete the details below and save to add a new tournament.</p>
         {error && <ErrorMessage>{error}</ErrorMessage>}
         <table>
           <tbody>
