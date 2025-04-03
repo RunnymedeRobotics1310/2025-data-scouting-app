@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { saveChecklist } from '../functions/saveChecklist.ts';
-import { getScoutingSessionId } from '../storage/util.ts';
+import { getScoutingSessionId } from '../storage/local.ts';
 import NotFound from './NotFound.tsx';
 import GameContext from '../context/GameContext.tsx';
 

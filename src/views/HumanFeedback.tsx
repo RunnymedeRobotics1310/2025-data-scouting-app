@@ -11,10 +11,11 @@ import {
   setMatchNumber,
   setScoutingSessionId,
   setTeam,
-} from '../storage/util.ts';
+} from '../storage/local.ts';
 import NotFound from './NotFound.tsx';
 
 function HumanFeedback() {
+  const [mistake, setMistake] = useState(false);
   const [comment, setComment] = useState('');
   const [auto, setAuto] = useState(false);
   const [coral, setCoral] = useState(false);
@@ -26,6 +27,7 @@ function HumanFeedback() {
   const isRed = scoutingSessionId.alliance == 'red';
 
   function processHumanFeedback(
+    mistake: boolean,
     comment: string,
     auto: boolean,
     coral: boolean,
@@ -36,6 +38,7 @@ function HumanFeedback() {
     const target = saveFeedback(
       scoutingSessionId,
       gamestate.currentPhase,
+      mistake,
       comment,
       auto,
       coral,
@@ -58,11 +61,22 @@ function HumanFeedback() {
           </span>
         </label>
         <h1>Comments</h1>
+
+        <label className={'checkbox-and-label'}>
+          <input
+            type={'checkbox'}
+            checked={mistake}
+            id={'mistake'}
+            onChange={() => setMistake(!mistake)}
+          />
+          <span>Mistake!</span>
+        </label>
+
         <textarea
           rows={5}
           cols={40}
           id={'comment'}
-          placeholder={'type here'}
+          placeholder={mistake ? 'report happy accident here' : 'type here'}
           onChange={e => setComment(e.target.value)}
         />
         <div>
@@ -133,16 +147,15 @@ function HumanFeedback() {
             <Star filled={stars >= 5} />
           </button>
         </div>
-        {stars > 0 && (
-          <SetPhaseButton
-            currentMode={human_feedback}
-            desiredPhase={Phase.pre_match}
-            label={'Done --->'}
-            callback={() =>
-              processHumanFeedback(comment, auto, coral, barge, stars)
-            }
-          />
-        )}
+        <SetPhaseButton
+          currentMode={human_feedback}
+          desiredPhase={Phase.pre_match}
+          label={'Done --->'}
+          disabled={stars <= 0}
+          callback={() =>
+            processHumanFeedback(mistake, comment, auto, coral, barge, stars)
+          }
+        />
       </div>
     </div>
   );

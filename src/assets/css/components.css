@@ -197,6 +197,10 @@ button {
 table.tools {
     td {
         padding: 0.25rem;
+        vertical-align: top;
+        p:first-of-type {
+            margin-top: 0;
+        }
     }
 }
 /*
@@ -211,4 +215,25 @@ select {
     border-style: solid;
     border-radius: var(--border-radius);
     padding: 0.35rem .75rem;
+}
+#quick-comment-comment {
+    width: 90%;
+    height: 5rem;
+}
+section.tournamentAdmin,
+section.scheduleAdmin{
+    table td,
+    table th {
+        padding: 0.25rem .5rem;
+    }
+    table tbody tr:nth-child(odd) {
+        background-color: #777;
+        color: #fff;
+    }
+    button.adminListViewDetailsButton {
+        margin-left: .4rem;
+        font-size: .4rem;
+        padding: 0.25rem .5rem;
+        text-transform: uppercase;
+    }
 }

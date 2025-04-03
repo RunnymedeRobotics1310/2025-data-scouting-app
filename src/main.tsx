@@ -6,6 +6,7 @@ import './assets/css/typography.css';
 import './assets/css/colors.css';
 import './assets/css/layout.css';
 import './assets/css/components.css';
+import './assets/css/report.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

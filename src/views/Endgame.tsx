@@ -4,7 +4,7 @@ import { SetPhaseButton } from '../functions/setPhase.tsx';
 import { endgame } from '../modes/endgame.ts';
 import { Phase } from '../common/phase.ts';
 import logoUrl from '/src/assets/images/logo.png';
-import { getScoutingSessionId } from '../storage/util.ts';
+import { getScoutingSessionId } from '../storage/local.ts';
 import NotFound from './NotFound.tsx';
 import GameContext from '../context/GameContext.tsx';
 
@@ -61,6 +61,7 @@ function Endgame() {
         currentMode={endgame}
         desiredPhase={Phase.comments}
         label={'Next --->'}
+        disabled={false}
         callback={() =>
           endgameStatus(scoutingSessionId, gamestate.currentPhase, climbed)
         }

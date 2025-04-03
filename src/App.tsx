@@ -23,7 +23,6 @@ import { endgame } from './modes/endgame.ts';
 import GameContext from './context/GameContext.tsx';
 import { GS, DEFAULT_GAME_STATE } from './context/GS.ts';
 import { penalties } from './modes/penalties.ts';
-import { scout_select } from './modes/scout_select.ts';
 import { tournament_select } from './modes/tournament_select.ts';
 import logoUrl from '/src/assets/images/logo.png';
 import titleUrl from '/src/assets/images/title.png';
@@ -32,12 +31,15 @@ import automapRedUrl from '/src/assets/requirements/fields/automap-red.png';
 import reefscapeBlueUrl from '/src/assets/requirements/fields/reefscape-blue.png';
 import reefscapeRedUrl from '/src/assets/requirements/fields/reefscape-red.png';
 import Sync from './views/Sync.tsx';
+import RBTournamentAdmin from './views/RBTournamentAdmin.tsx';
+import RBScheduleAdmin from './views/RBScheduleAdmin.tsx';
+import TournamentReports from './views/TournamentReports.tsx';
+import TeamSummaryReports from './views/TeamSummaryReports.tsx';
+import RavenBrainSyncConnection from './views/sub/RavenBrainSyncConnection.tsx';
+import QuickComment from './views/QuickComment.tsx';
+import Unsync from './views/Unsync.tsx';
 
 export const myBasename = '/2025-data-scouting-app'; // todo: fixme: make this dynamic
-export const GOOGLE_CLIENT_ID =
-  '139207708944-87j550c491r7od4qj9fmvn85hvoc3n0u.apps.googleusercontent.com';
-export const TOURNAMENT_SPREADSHEET_ID =
-  '1XjOA98tsxwQru0tBYl8qbtxnxq9Dr8IvIyELxsKNnAU';
 
 function App() {
   const [gamestate, setGamestate] = useState<GS>(DEFAULT_GAME_STATE);
@@ -66,7 +68,24 @@ function App() {
     createRoutesFromElements(
       <Route path="/" element={<AppLayout />}>
         <Route index element={<Home />} />
-        <Route path="/sync" element={<Sync />} />
+        <Route
+          path="/sync"
+          element={<RavenBrainSyncConnection loginMode={false} />}
+        >
+          <Route path="" element={<Sync />} />
+        </Route>
+        <Route
+          path="admin/"
+          element={<RavenBrainSyncConnection loginMode={false} />}
+        >
+          <Route path="tournament" element={<RBTournamentAdmin />} />
+          <Route path="schedule" element={<RBScheduleAdmin />} />
+          <Route path="unsync" element={<Unsync />} />
+        </Route>
+        <Route path="reports/">
+          <Route path="tournament" element={<TournamentReports />} />
+          <Route path="team" element={<TeamSummaryReports />} />
+        </Route>
         <Route path="dev" element={<DevResources />} />
         <Route path="game/" element={<FieldLayout />}>
           <Route path="start-line" element={<start_line.view />} />
@@ -77,12 +96,12 @@ function App() {
           <Route path="endgame" element={<endgame.view />} />
           <Route path="penalties" element={<penalties.view />} />
         </Route>
-        <Route path="/scout-select" element={<scout_select.view />} />
         <Route path="/tournament-select" element={<tournament_select.view />} />
         <Route path="/match-select" element={<match_select.view />} />
         <Route path="/match-config" element={<match_config.view />} />
         <Route path="/checklist" element={<checklist.view />} />
         <Route path="/human-feedback" element={<human_feedback.view />} />
+        <Route path="/quick-comment" element={<QuickComment />} />
         <Route path="*" element={<NotFound />} />
       </Route>,
     ),

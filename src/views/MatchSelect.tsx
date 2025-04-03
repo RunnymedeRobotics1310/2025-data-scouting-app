@@ -2,12 +2,12 @@ import { useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { getTeamsForMatch } from '../functions/getTeamsForMatch.ts';
 import { selectMatch } from '../functions/selectMatch.ts';
-import { Tournament } from '../types/Tournament.ts';
 import {
+  getCurrentTournament,
   setMatchNumber,
   setScoutingSessionId,
   setTeam,
-} from '../storage/util.ts';
+} from '../storage/local.ts';
 import { DEFAULT_GAME_STATE } from '../context/GS.ts';
 import GameContext from '../context/GameContext.tsx';
 
@@ -21,15 +21,7 @@ function MatchSelect() {
   const [checked, setChecked] = useState(false);
   const { saveGamestate } = useContext(GameContext);
   const visibility = lineup[0] > 0 ? ' ' : 'isNotVisible';
-
-  const currentTournamentString = localStorage.getItem('rrTournament');
-  let currentTournament: Tournament | null = null;
-  if (currentTournamentString) {
-    currentTournament = JSON.parse(currentTournamentString);
-  } else {
-    console.error('tournament not found');
-  }
-  console.log('tournament' + currentTournamentString);
+  const currentTournament = getCurrentTournament();
 
   return (
     <div className={'general-layout'}>
@@ -43,8 +35,6 @@ function MatchSelect() {
               const n = e.target.valueAsNumber;
               if (n > 0 && n <= 1000 && currentTournament) {
                 setMatch(n);
-                console.log(n);
-                console.log(currentTournament);
                 const matches = getTeamsForMatch(currentTournament.id, n);
                 if (matches) setLineup(matches);
               } else {

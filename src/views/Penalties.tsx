@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import GameContext from '../context/GameContext.tsx';
 import { Phase } from '../common/phase.ts';
 import { logPenalty, Penalty } from '../functions/logPenalty.ts';
-import { getScoutingSessionId } from '../storage/util.ts';
+import { getScoutingSessionId } from '../storage/local.ts';
 import Loading from '../common/Loading.tsx';
 import { getModeForUrl } from '../functions/getModeForUrl.ts';
 

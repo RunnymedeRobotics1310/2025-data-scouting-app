@@ -12,7 +12,7 @@ html {
         height: var(--header-height);
         #logo {
             img {
-                max-width: 80px;
+                max-height: 3.5rem;
             }
             align-self: center;
         }

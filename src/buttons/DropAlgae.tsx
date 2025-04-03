@@ -4,7 +4,7 @@ import { dropAlgae } from '../functions/dropAlgae.ts';
 import Algae from '../common/Algae.tsx';
 import { useContext } from 'react';
 import GameContext from '../context/GameContext.tsx';
-import { getScoutingSessionId } from '../storage/util.ts';
+import { getScoutingSessionId } from '../storage/local.ts';
 import Loading from '../common/Loading.tsx';
 
 type PropTypes = {

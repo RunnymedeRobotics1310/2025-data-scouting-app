@@ -1,8 +1,8 @@
 import { Mode } from '../common/mode.ts';
 import { match_config } from '../modes/match_config.ts';
-import { addEvent, getScoutingSessionId } from '../storage/util.ts';
-import { scout_select } from '../modes/scout_select.ts';
+import { addEvent, getScoutingSessionId } from '../storage/local.ts';
 import { Phase } from '../common/phase.ts';
+import { home } from '../modes/home.ts';
 
 export function selectMatch(rematch: boolean): Mode {
   const scoutingSessionId = getScoutingSessionId();
@@ -14,5 +14,5 @@ export function selectMatch(rematch: boolean): Mode {
     }
 
     return match_config;
-  } else return scout_select;
+  } else return home;
 }

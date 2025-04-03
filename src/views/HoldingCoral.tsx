@@ -99,7 +99,7 @@ function HoldingCoral() {
       {currentPhase === Phase.auto && (
         <>
           {!pickedAutoAlgaeCenter && (
-            <Zone zone="driver-station" classes={'top'}>
+            <Zone zone="reef-front" classes={'top'}>
               <PickupAlgaeAuto
                 mode={holding_coral}
                 location={AlgaeLocation.autoCenter}
@@ -107,7 +107,7 @@ function HoldingCoral() {
             </Zone>
           )}
           {!pickedAutoAlgaeLeft && (
-            <Zone zone="left-station" classes={'top right'}>
+            <Zone zone="reef-front-left" classes={'top right'}>
               <PickupAlgaeAuto
                 mode={holding_coral}
                 location={AlgaeLocation.autoLeft}
@@ -115,7 +115,7 @@ function HoldingCoral() {
             </Zone>
           )}
           {!pickedAutoAlgaeRight && (
-            <Zone zone="right-station" classes={'top left'}>
+            <Zone zone="reef-front-right" classes={'top left'}>
               <PickupAlgaeAuto
                 mode={holding_coral}
                 location={AlgaeLocation.autoRight}

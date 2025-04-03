@@ -1,12 +1,13 @@
 import { Mode } from '../common/mode.ts';
 import { match_select } from '../modes/match_select.ts';
 import { ScoutingSessionId } from '../types/ScoutingSessionId.ts';
-import { addEvent } from '../storage/util.ts';
+import { addEvent } from '../storage/local.ts';
 import { Phase } from '../common/phase.ts';
 
 export function saveFeedback(
   scoutingSessionId: ScoutingSessionId,
   phase: Phase,
+  mistake: boolean,
   comment: string,
   autoRP: boolean,
   coralRP: boolean,
@@ -16,7 +17,9 @@ export function saveFeedback(
   console.log(
     'Comment: ' +
       comment +
-      '\nAuto RP: ' +
+      '\nMistake: ' +
+      mistake +
+      ' Auto RP: ' +
       autoRP +
       ' Coral RP: ' +
       coralRP +
@@ -25,6 +28,10 @@ export function saveFeedback(
       ' Stars: ' +
       stars,
   );
+
+  if (mistake) {
+    addEvent(scoutingSessionId, phase, 'mistake');
+  }
 
   addEvent(scoutingSessionId, phase, 'comment', comment);
 

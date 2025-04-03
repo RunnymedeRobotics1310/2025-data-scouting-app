@@ -1,5 +1,5 @@
 import { ScoutingSessionId } from '../types/ScoutingSessionId.ts';
-import { addDefenceEndedEvent, addEvent } from '../storage/util.ts';
+import { addDefenceEndedEvent, addEvent } from '../storage/local.ts';
 import { Phase } from '../common/phase.ts';
 
 export function startDefence(scoutingSessionId: ScoutingSessionId) {

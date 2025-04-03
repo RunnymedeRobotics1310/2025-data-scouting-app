@@ -4,7 +4,7 @@ import { SetPhaseButton } from '../functions/setPhase.tsx';
 import { match_config } from '../modes/match_config.ts';
 import { Phase } from '../common/phase.ts';
 import GameContext from '../context/GameContext.tsx';
-import { getScoutingSessionId } from '../storage/util.ts';
+import { getScoutingSessionId } from '../storage/local.ts';
 import NotFound from './NotFound.tsx';
 import { GS } from '../context/GS.ts';
 
@@ -84,6 +84,7 @@ function MatchConfig() {
           <SetPhaseButton
             currentMode={match_config}
             desiredPhase={Phase.auto}
+            disabled={false}
             label={'Start --->'}
             desiredGamestate={
               {

@@ -9,7 +9,7 @@ import Button from '../common/Button.tsx';
 import { Phase } from '../common/phase.ts';
 import Loading from '../common/Loading.tsx';
 import GameContext from '../context/GameContext.tsx';
-import { addEvent, getScoutingSessionId } from '../storage/util.ts';
+import { addEvent, getScoutingSessionId } from '../storage/local.ts';
 import { GS } from '../context/GS.ts';
 
 export type SetPhaseRetVal = {
@@ -46,6 +46,7 @@ export type SetPhaseButtonType = {
   label: string;
   desiredGamestate?: GS;
   callback?: any;
+  disabled: boolean;
 };
 
 export function SetPhaseButton(props: SetPhaseButtonType) {
@@ -62,6 +63,7 @@ export function SetPhaseButton(props: SetPhaseButtonType) {
   return (
     <Button
       label={props.label}
+      disabled={props.disabled}
       callback={() => {
         addEvent(
           scoutingSessionId,

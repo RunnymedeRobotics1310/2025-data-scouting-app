@@ -58,7 +58,7 @@ function HoldingBoth() {
       <Zone zone="driver-station">
         <DropCoral mode={holding_both} />
       </Zone>
-      <Zone zone="reef-front-right">
+      <Zone zone="reef-front-right" classes={'right top'}>
         <DropAlgae mode={holding_both} />
       </Zone>
       <Zone zone="reef-right">

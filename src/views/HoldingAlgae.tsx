@@ -60,7 +60,7 @@ function HoldingAlgae() {
         //
       }
       {scoreAlgaeOptions()}
-      <Zone zone="reef-front-right">
+      <Zone zone="reef-front-right" classes={'right top'}>
         <DropAlgae mode={holding_algae} />
       </Zone>
       {showPickupCoralControls()}
