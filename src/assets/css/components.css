@@ -216,7 +216,10 @@ select {
     border-radius: var(--border-radius);
     padding: 0.35rem .75rem;
 }
-
+#quick-comment-comment {
+    width: 90%;
+    height: 5rem;
+}
 section.tournamentAdmin,
 section.scheduleAdmin{
     table td,

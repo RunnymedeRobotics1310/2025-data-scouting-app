@@ -54,7 +54,6 @@ function QuickComment() {
         <p>
           <textarea
             rows={5}
-            cols={40}
             id={'quick-comment-comment'}
             placeholder={
               'I have a comment but I don`t feel like talking to a scout about it because i`m on the field. Also I don`t want to forget this comment because it`s important but im likely to forget about it because robotics tournaments are usually a bit chaotic.'
