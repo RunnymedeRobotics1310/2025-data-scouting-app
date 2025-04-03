@@ -86,7 +86,6 @@ function App() {
           <Route path="tournament" element={<TournamentReports />} />
           <Route path="team" element={<TeamSummaryReports />} />
         </Route>
-        <Route path="dev" element={<DevResources />} />
         <Route path="game/" element={<FieldLayout />}>
           <Route path="start-line" element={<start_line.view />} />
           <Route path="holding-nothing" element={<holding_nothing.view />} />
@@ -96,6 +95,7 @@ function App() {
           <Route path="endgame" element={<endgame.view />} />
           <Route path="penalties" element={<penalties.view />} />
         </Route>
+        <Route path="dev" element={<DevResources />} />
         <Route path="/tournament-select" element={<tournament_select.view />} />
         <Route path="/match-select" element={<match_select.view />} />
         <Route path="/match-config" element={<match_config.view />} />
