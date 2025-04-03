@@ -99,7 +99,7 @@ function HomeMenu() {
                 <td>
                   <button
                     onClick={() => {
-                      navigate('/reports/team');
+                      navigate('/reports/tournament');
                     }}
                   >
                     Tournament Reports
