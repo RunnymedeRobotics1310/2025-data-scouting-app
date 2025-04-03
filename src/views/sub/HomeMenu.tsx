@@ -87,23 +87,45 @@ function HomeMenu() {
             </tr>
           )}
           {isExpertScout && (
-            <tr>
-              <td>
-                <button
-                  onClick={() => {
-                    alert(
-                      'Not yet implemented. Quentin will create a new view for reports. That reports page will have links to our two reports.',
-                    );
-                  }}
-                >
-                  Reports
-                </button>
-              </td>
-              <td>
-                View scouting reports. Internet access required. Desktop or
-                tablet recommended.
-              </td>
-            </tr>
+            <>
+              <tr>
+                <td>
+                  <br />
+                  <br />
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                  <button
+                    onClick={() => {
+                      navigate('/reports/team');
+                    }}
+                  >
+                    Tournament Reports
+                  </button>
+                </td>
+                <td>
+                  Tournament reports showing scouting dagta. Internet access
+                  required. Desktop or tablet recommended.
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <button
+                    onClick={() => {
+                      navigate('/reports/team');
+                    }}
+                  >
+                    Team Reports
+                  </button>
+                </td>
+                <td>
+                  Summary of report data for a given team. Internet access
+                  required. Desktop or tablet recommended.
+                </td>
+              </tr>
+            </>
           )}
           {isAdmin && (
             <>

@@ -38,25 +38,13 @@ function AppLayout() {
         {isDevelopment() && (
           <menu id="menu">
             <li>
-              <Link to={'/'}>Home</Link>
-            </li>
-            <li>
               <Link to={'/game/endgame'}>Endgame</Link>
-            </li>
-            <li>
-              <Link to={'/match-select'}>Match Select</Link>
             </li>
             <li>
               <Link to={'/game/holding-nothing'}>Holding Nothing</Link>
             </li>
             <li>
               <Link to={'/dev'}>Developer Resources</Link>
-            </li>
-            <li>
-              <Link to={'/reports/tournament'}>Tourn Report</Link>
-            </li>
-            <li>
-              <Link to={'/reports/team'}>Team Report</Link>
             </li>
           </menu>
         )}
