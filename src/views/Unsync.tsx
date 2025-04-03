@@ -27,10 +27,10 @@ function Unsync() {
         <strong>Yes, unsynchronize</strong>
       </button>
       {proceed && (
-        <>
+        <div>
           <hr />
           <Proceed />
-        </>
+        </div>
       )}
     </div>
   );
