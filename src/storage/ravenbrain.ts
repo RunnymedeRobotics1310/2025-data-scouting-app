@@ -301,11 +301,12 @@ export function useTeamsForTournament(tournamentId: string) {
   }
 
   useEffect(() => {
-    rbfetch(`/api/schedule/get-teams-for-tournament/${tournamentId}`, {}).then(
+    rbfetch(`/api/schedule/teams-for-tournament/${tournamentId}`, {}).then(
       resp => {
         if (resp.ok) {
           resp.json().then(data => {
             if (data) {
+              console.log('Loaded teams for tournament ' + tournamentId, data);
               setData(data);
             } else {
               setError('Failed to fetch teams for tournament ' + tournamentId);
@@ -320,7 +321,7 @@ export function useTeamsForTournament(tournamentId: string) {
         }
       },
     );
-  }, [doRefresh]);
+  }, [doRefresh, tournamentId]);
 
   return { data, error, loading, refresh } as {
     data: number[] | null;
