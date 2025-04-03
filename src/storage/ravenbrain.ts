@@ -10,9 +10,10 @@ import { useEffect, useState } from 'react';
 import { GameEvent } from '../types/GameEvent.ts';
 import { QuickComment } from '../types/QuickComment.ts';
 import { ScheduleItem } from '../types/ScheduleItem.ts';
+import { TournamentReportTable } from '../views/TournamentReports.tsx';
 
-const HOST = 'http://ravenbrain.ca-central-1.elasticbeanstalk.com';
-// const HOST = 'http://localhost:8080';
+// const HOST = 'http://ravenbrain.ca-central-1.elasticbeanstalk.com';
+const HOST = 'http://localhost:8080';
 
 export async function authenticate() {
   const scoutName = getScoutName();
@@ -285,4 +286,85 @@ export async function saveQuickComments(
   }).then(resp => {
     return resp.json();
   });
+}
+
+export function useTeamsForTournament(tournamentId: string) {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState<null | string>(null);
+  const [loading, setLoading] = useState(true);
+  const [doRefresh, setDoRefresh] = useState(true);
+
+  function refresh() {
+    setDoRefresh(true);
+  }
+
+  useEffect(() => {
+    rbfetch(`/api/schedule/get-teams-for-tournament/${tournamentId}`, {}).then(
+      resp => {
+        if (resp.ok) {
+          resp.json().then(data => {
+            if (data) {
+              setData(data);
+            } else {
+              setError('Failed to fetch teams for tournament ' + tournamentId);
+            }
+            setLoading(false);
+            setDoRefresh(false);
+          });
+        } else {
+          setError('Failed to fetch teams for tournament ' + tournamentId);
+          setLoading(false);
+          setDoRefresh(false);
+        }
+      },
+    );
+  }, [doRefresh]);
+
+  return { data, error, loading, refresh } as {
+    data: number[] | null;
+    error: string | null;
+    loading: boolean;
+    refresh: () => void;
+  };
+}
+
+export function useTournamentReport(tournamentId: string, teamNumber: number) {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState<null | string>(null);
+  const [loading, setLoading] = useState(true);
+  const [doRefresh, setDoRefresh] = useState(true);
+
+  function refresh() {
+    setDoRefresh(true);
+  }
+
+  useEffect(() => {
+    rbfetch(`/api/report/tournament/${tournamentId}/${teamNumber}`, {}).then(
+      resp => {
+        if (resp.ok) {
+          resp.json().then(data => {
+            if (data.success) {
+              setData(data.report);
+            } else {
+              setError('Failed to fetch tournament report: ' + data.reason);
+            }
+            setData(data);
+            setLoading(false);
+            setDoRefresh(false);
+          });
+        } else {
+          setError('Failed to fetch tournament report: ' + resp.status);
+          setLoading(false);
+          setDoRefresh(false);
+        }
+      },
+    );
+  }, [doRefresh]);
+
+  return { data, error, loading, refresh } as {
+    data: TournamentReportTable | null;
+    error: string | null;
+    loading: boolean;
+    refresh: () => void;
+  };
 }

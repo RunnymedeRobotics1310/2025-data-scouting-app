@@ -1,21 +1,26 @@
 import { getAllTournaments } from '../storage/local.ts';
 import { useState } from 'react';
 import Loading from '../common/Loading.tsx';
+import {
+  useTeamsForTournament,
+  useTournamentReport,
+} from '../storage/ravenbrain.ts';
+import ErrorMessage from '../common/ErrorMessage.tsx';
 
-type Cell = {
+export type TournamentReportCell = {
   colId: string;
   value: string | number | undefined;
 };
-type Row = {
-  values: Cell[];
+export type TournamentReportRow = {
+  values: TournamentReportCell[];
 };
-type Table = {
-  headerRows: Row[];
-  dataRows: Row[];
-  footerRows: Row[];
+export type TournamentReportTable = {
+  headerRows: TournamentReportRow[];
+  dataRows: TournamentReportRow[];
+  footerRows: TournamentReportRow[];
 };
 
-const exampleHeaderRow: Cell[] = [
+const exampleHeaderRow: TournamentReportCell[] = [
   { colId: 'INFO', value: 1310 },
   { colId: 'COMMENT', value: 'Comments' },
   { colId: 'INFO', value: 'Mistake' },
@@ -78,11 +83,11 @@ const exampleHeaderRow: Cell[] = [
   { colId: 'INFO', value: 'Foul Often' },
 ];
 
-const exampleRow0: Row = {
+const exampleRow0: TournamentReportRow = {
   values: exampleHeaderRow,
 };
 
-const exampleDataRow: Cell[] = [
+const exampleDataRow: TournamentReportCell[] = [
   { colId: 'INFO', value: 4 },
   { colId: 'COMMENT', value: '1310 is great! blah blah blah' },
   { colId: 'INFO', value: 1 },
@@ -149,7 +154,7 @@ const exampleRow1 = {
   values: exampleDataRow,
 };
 
-const exampleFooterRow: Cell[] = [
+const exampleFooterRow: TournamentReportCell[] = [
   { colId: 'INFO', value: undefined },
   { colId: 'COMMENT', value: 'Success Rate' },
   { colId: 'INFO', value: undefined },
@@ -212,11 +217,11 @@ const exampleFooterRow: Cell[] = [
   { colId: 'INFO', value: undefined },
 ];
 
-const exampleRow2: Row = {
+const exampleRow2: TournamentReportRow = {
   values: exampleFooterRow,
 };
 
-const exampleTable: Table = {
+const exampleTable: TournamentReportTable = {
   headerRows: [exampleRow0],
   dataRows: [
     exampleRow1,
@@ -235,7 +240,7 @@ const exampleTable: Table = {
   footerRows: [exampleRow2],
 };
 
-function renderCell(cell: Cell) {
+function renderCell(cell: TournamentReportCell) {
   let classes = '';
   switch (cell.colId) {
     case 'AUTO-coral-pickup':
@@ -281,7 +286,7 @@ function renderCell(cell: Cell) {
   return <td className={classes}>{cell.value}</td>;
 }
 
-function renderHeaderCell(cell: Cell) {
+function renderHeaderCell(cell: TournamentReportCell) {
   return (
     <th>
       <div>{cell.value}</div>
@@ -290,12 +295,15 @@ function renderHeaderCell(cell: Cell) {
 }
 
 function TournamentReports() {
-  const [selectedTournament, setSelectedTournament] = useState('');
-  const [teamNumber, setTeamNumber] = useState(-1310);
+  const [selectedTournament, setSelectedTournament] = useState<string | null>(
+    null,
+  );
   const tournaments = getAllTournaments();
-  if (tournaments.length === 0) return <Loading />;
-  const fullDataTable = exampleTable;
-  // const fullDataTable = rbFetch();
+
+  console.log(exampleTable);
+  if (tournaments.length === 0) {
+    return <Loading />;
+  }
 
   return (
     <>
@@ -304,8 +312,9 @@ function TournamentReports() {
         <p>Show data for tournament:</p>
         <label>
           <select
-            value={selectedTournament}
-            onChange={e => setSelectedTournament(e.target.value)}
+            onChange={e => {
+              setSelectedTournament(e.target.value);
+            }}
           >
             <option value={''}> -- select --</option>
             {tournaments.map(t => {
@@ -319,62 +328,98 @@ function TournamentReports() {
         </label>
       </div>
       <div>
-        <input
-          className={'center'}
-          type={'number'}
-          id={'quick-comment-team-number'}
-          placeholder={'team #'}
-          onChange={e => {
-            if (e.target.valueAsNumber > 0) {
-              setTeamNumber(e.target.valueAsNumber);
-            } else {
-              setTeamNumber(-1310);
-            }
-          }}
-        />
+        {selectedTournament && <SelectTeam tournamentId={selectedTournament} />}
       </div>
-      <p>
-        showing data for {teamNumber} at {selectedTournament}
-      </p>
-
-      <section className={'report'}>
-        <table>
-          <thead>
-            {fullDataTable.headerRows.map(r => {
-              return (
-                <tr>
-                  {r.values.map(cell => {
-                    return renderHeaderCell(cell);
-                  })}
-                </tr>
-              );
-            })}
-          </thead>
-          <tbody>
-            {fullDataTable.dataRows.map(r => {
-              return (
-                <tr>
-                  {r.values.map(cell => {
-                    return renderCell(cell);
-                  })}
-                </tr>
-              );
-            })}
-          </tbody>
-          <tfoot>
-            {fullDataTable.footerRows.map(r => {
-              return (
-                <tr>
-                  {r.values.map(cell => {
-                    return renderCell(cell);
-                  })}
-                </tr>
-              );
-            })}
-          </tfoot>
-        </table>
-      </section>
     </>
+  );
+}
+function SelectTeam(props: { tournamentId: string }) {
+  const { tournamentId } = props;
+  const { data, loading, error, refresh } = useTeamsForTournament(tournamentId);
+  const [team, setTeam] = useState<number | null>(null);
+
+  if (loading || !data) return <Loading />;
+  if (error) return <ErrorMessage>{error}</ErrorMessage>;
+
+  return (
+    <div>
+      <label>
+        <select
+          onChange={e => {
+            // @ts-ignore
+            setTeam(e.target.value as number);
+            refresh();
+          }}
+        >
+          <option value={''}> -- select --</option>
+          {data.map(t => {
+            return (
+              <option key={t} value={t}>
+                {t}
+              </option>
+            );
+          })}
+        </select>
+      </label>
+      {tournamentId && team && (
+        <section>
+          <p>
+            showing data for {team} at {tournamentId}
+          </p>
+          <ShowTournamentReport tournamentId={tournamentId} teamNumber={team} />
+        </section>
+      )}
+    </div>
+  );
+}
+
+function ShowTournamentReport(props: {
+  tournamentId: string;
+  teamNumber: number;
+}) {
+  const { tournamentId: tourn, teamNumber: team } = props;
+  const { data, error, loading } = useTournamentReport(tourn, team);
+
+  if (loading || !data) return <Loading />;
+  if (error) return <ErrorMessage>{error}</ErrorMessage>;
+  return (
+    <section className={'report'}>
+      <table>
+        <thead>
+          {data.headerRows.map(r => {
+            return (
+              <tr>
+                {r.values.map(cell => {
+                  return renderHeaderCell(cell);
+                })}
+              </tr>
+            );
+          })}
+        </thead>
+        <tbody>
+          {data.dataRows.map(r => {
+            return (
+              <tr>
+                {r.values.map(cell => {
+                  return renderCell(cell);
+                })}
+              </tr>
+            );
+          })}
+        </tbody>
+        <tfoot>
+          {data.footerRows.map(r => {
+            return (
+              <tr>
+                {r.values.map(cell => {
+                  return renderCell(cell);
+                })}
+              </tr>
+            );
+          })}
+        </tfoot>
+      </table>
+    </section>
   );
 }
 
