@@ -39,7 +39,7 @@ import RavenBrainSyncConnection from './views/sub/RavenBrainSyncConnection.tsx';
 import QuickComment from './views/QuickComment.tsx';
 import Unsync from './views/Unsync.tsx';
 
-export const myBasename = '/2025-data-scouting-app'; // todo: fixme: make this dynamic
+export const myBasename = '/2025-data-scouting-app'; // todo: fixme: set up constants for this
 
 function App() {
   const [gamestate, setGamestate] = useState<GS>(DEFAULT_GAME_STATE);
