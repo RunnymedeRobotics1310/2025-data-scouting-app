@@ -11,9 +11,11 @@ import { GameEvent } from '../types/GameEvent.ts';
 import { QuickComment } from '../types/QuickComment.ts';
 import { ScheduleItem } from '../types/ScheduleItem.ts';
 import { TournamentReportTable } from '../views/TournamentReports.tsx';
+import { isDevelopment } from '../dev/util.ts';
 
-const HOST = 'https://ravenbrain.kingsway.io';
-// const HOST = 'http://localhost:8080';
+const HOST = isDevelopment()
+  ? 'http://localhost:8080'
+  : 'https://ravenbrain.kingsway.io';
 
 export async function authenticate() {
   const scoutName = getScoutName();
