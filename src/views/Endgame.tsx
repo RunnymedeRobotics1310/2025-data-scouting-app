@@ -12,6 +12,7 @@ function Endgame() {
   const [climbed, setClimbed] = useState(EndgameStatus.none);
   const scoutingSessionId = getScoutingSessionId();
   const { gamestate } = useContext(GameContext);
+  const [attemptedClimb, setAttemptedClimb] = useState(false);
 
   if (!scoutingSessionId) return <NotFound />;
   return (
@@ -57,13 +58,33 @@ function Endgame() {
           Deep Climb
         </button>
       </div>
+
+      {climbed == EndgameStatus.park && (
+        <section className={'checklist'}>
+          <label className={'checkbox-and-label '}>
+            <input
+              type={'checkbox'}
+              checked={attemptedClimb}
+              id={'attempted-climb'}
+              onChange={() => setAttemptedClimb(!attemptedClimb)}
+            />
+            <span>Attempted Climb</span>
+          </label>
+        </section>
+      )}
+
       <SetPhaseButton
         currentMode={endgame}
         desiredPhase={Phase.comments}
         label={'Next --->'}
         disabled={false}
         callback={() =>
-          endgameStatus(scoutingSessionId, gamestate.currentPhase, climbed)
+          endgameStatus(
+            scoutingSessionId,
+            gamestate.currentPhase,
+            climbed,
+            attemptedClimb,
+          )
         }
       />
     </div>
