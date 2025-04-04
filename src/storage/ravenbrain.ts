@@ -351,7 +351,6 @@ export function useTournamentReport(tournamentId: string, teamNumber: number) {
             } else {
               setError('Failed to fetch tournament report: ' + data.reason);
             }
-            setData(data);
             setLoading(false);
             setDoRefresh(false);
           });
@@ -362,7 +361,7 @@ export function useTournamentReport(tournamentId: string, teamNumber: number) {
         }
       },
     );
-  }, [doRefresh]);
+  }, [doRefresh, tournamentId, teamNumber]);
 
   return { data, error, loading, refresh } as {
     data: TournamentReportTable | null;

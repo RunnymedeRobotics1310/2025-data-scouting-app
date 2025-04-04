@@ -12,7 +12,6 @@ import { tournament_select } from '../../modes/tournament_select.ts';
 import { useContext } from 'react';
 import GameContext from '../../context/GameContext.tsx';
 import { quick_comment } from '../../modes/quick_comment.ts';
-import { isDevelopment } from '../../dev/util.ts';
 
 function HomeMenu() {
   const { isAdmin, isDataScout, isExpertScout, isMember } = useRole();
@@ -87,7 +86,7 @@ function HomeMenu() {
               </td>
             </tr>
           )}
-          {isExpertScout && isDevelopment() && (
+          {isExpertScout && (
             <>
               <tr>
                 <td>

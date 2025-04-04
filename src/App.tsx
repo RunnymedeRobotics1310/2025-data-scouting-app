@@ -82,7 +82,11 @@ function App() {
           <Route path="schedule" element={<RBScheduleAdmin />} />
           <Route path="unsync" element={<Unsync />} />
         </Route>
-        <Route path="reports/">
+
+        <Route
+          path="reports/"
+          element={<RavenBrainSyncConnection loginMode={false} />}
+        >
           <Route path="tournament" element={<TournamentReports />} />
           <Route path="team" element={<TeamSummaryReports />} />
         </Route>

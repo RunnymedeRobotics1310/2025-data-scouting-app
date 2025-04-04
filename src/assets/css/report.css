@@ -17,36 +17,39 @@
 /*Dark Mode Colors*/
 @media (prefers-color-scheme: dark) {
     :root {
-        --defence: rgb(123, 101, 182);
-        --auto-algae: rgb(136, 209, 187);
-        --auto-coral-pickup: rgb(212, 183, 199);
-        --auto-coral-score: rgb(226, 217, 160);
-        --teleop-algae: rgb(103, 216, 170);
-        --teleop-coral-pickup: rgb(173, 110, 158);
-        --teleop-coral-score: rgb(227, 197, 50);
-        --endgame: rgb(132, 165, 220);
-        --penalties: rgb(212, 183, 199);
-        --comments: rgb(225, 147, 0);
-        --yes: rgb(163, 197, 124);
-        --no: rgb(198, 106, 103);
+        --defence: rgb(46, 39, 73);
+        --auto-algae: rgb(49, 76, 69);
+        --auto-coral-pickup: rgb(74, 65, 73);
+        --auto-coral-score: rgb(74, 69, 52);
+        --teleop-algae: rgb(38, 78, 64);
+        --teleop-coral-pickup: rgb(62, 39, 56);
+        --teleop-coral-score: rgb(64, 55, 15);
+        --endgame: rgb(38, 49, 64);
+        --penalties: rgb(62, 54, 58);
+        --comments: rgb(51, 36, 0);
+        --yes: rgb(47, 81, 11);
+        --no: rgb(147, 31, 30);
     }
 }
 
 section.report{
+    overflow: scroll;
+    font-size: 12pt;
     table, th, td {
         border: 1px solid var(--primary-text);
         border-collapse: collapse;
         min-width: 2rem;
         max-width: 2rem;
+        text-align: center;
     }
 
     td {
         align-content: center;
         justify-content: center;
-        padding: 0;
+        padding: 5px 0;
     }
 
-     th {
+    thead td {
          text-wrap: nowrap;
 
          div {
@@ -55,6 +58,12 @@ section.report{
          }
          height: 11.3rem;
      }
+    thead td.short-text,
+    tbody td.short-text {
+        max-width: 175px;
+        min-width: 175px;
+        overflow: unset;
+    }
 }
 
 .teleop-coral-pickup {
@@ -86,6 +95,7 @@ section.report{
 }
 .comments {
     background-color: var(--comments);
+
 }
 
 
