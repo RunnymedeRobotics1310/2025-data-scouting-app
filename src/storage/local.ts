@@ -224,14 +224,18 @@ export function readLatestEvent(
 }
 
 export function cleanupEmptyScoutingSessions() {
+  const currentSessionId = getScoutingSessionId();
+  let currentSessionIdString = '';
+  if (currentSessionId) currentSessionIdString = stringifyKey(currentSessionId);
   const tournaments = getScoutedTournaments();
   tournaments.forEach(tournament => {
     const sessions = getScoutedSessionsForTournament(tournament);
     sessions.forEach(session => {
+      const sessionString = stringifyKey(session);
       const events: GameEvent[] = getUnsynchronizedEventsForSession(session);
-      if (events.length === 0) {
+      if (events.length === 0 && currentSessionIdString != sessionString) {
         // remove event logs that are empty
-        const key = 'rrEvents-' + stringifyKey(session);
+        const key = 'rrEvents-' + sessionString;
         console.log('Removing empty session', key);
         localStorage.removeItem(key);
         // move session to synchronized:
