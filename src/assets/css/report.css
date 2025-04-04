@@ -64,6 +64,33 @@ section.report{
         min-width: 175px;
         overflow: unset;
     }
+
+}
+section.team-report {
+    font-size: 12pt;
+    .go-button {
+        margin-left: .6rem;
+        padding: .2rem;
+        font-size: 10pt;
+    }
+    table {
+        margin-top: 1rem;
+    }
+    th, td {
+        border-style: solid;
+        border-width: thin;
+        margin: 0;
+        padding: .25rem;
+    }
+    .team-report-date {
+        min-width: 6rem;
+    }
+    .team-report-team {
+        min-width: 3rem;
+    }
+    .team-report-comment {
+        min-width: 12rem;
+    }
 }
 
 .teleop-coral-pickup {

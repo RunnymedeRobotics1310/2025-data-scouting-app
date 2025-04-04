@@ -12,6 +12,7 @@ import { QuickComment } from '../types/QuickComment.ts';
 import { ScheduleItem } from '../types/ScheduleItem.ts';
 import { TournamentReportTable } from '../views/TournamentReports.tsx';
 import { isDevelopment } from '../dev/util.ts';
+import { TeamReport } from '../types/TeamReport.ts';
 
 const HOST = isDevelopment()
   ? 'http://localhost:8080'
@@ -365,6 +366,44 @@ export function useTournamentReport(tournamentId: string, teamNumber: number) {
 
   return { data, error, loading, refresh } as {
     data: TournamentReportTable | null;
+    error: string | null;
+    loading: boolean;
+    refresh: () => void;
+  };
+}
+
+export function useTeamReport(teamNumber: number) {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState<null | string>(null);
+  const [loading, setLoading] = useState(true);
+  const [doRefresh, setDoRefresh] = useState(true);
+
+  function refresh() {
+    setDoRefresh(true);
+  }
+
+  useEffect(() => {
+    rbfetch(`/api/report/team/${teamNumber}`, {}).then(resp => {
+      if (resp.ok) {
+        resp.json().then(data => {
+          if (data.success) {
+            setData(data.report);
+          } else {
+            setError('Failed to fetch team report: ' + data.reason);
+          }
+          setLoading(false);
+          setDoRefresh(false);
+        });
+      } else {
+        setError('Failed to fetch team report: ' + resp.status);
+        setLoading(false);
+        setDoRefresh(false);
+      }
+    });
+  }, [doRefresh, teamNumber]);
+
+  return { data, error, loading, refresh } as {
+    data: TeamReport | null;
     error: string | null;
     loading: boolean;
     refresh: () => void;
