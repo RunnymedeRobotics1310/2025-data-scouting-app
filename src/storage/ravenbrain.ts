@@ -342,7 +342,7 @@ export function useTournamentReport(tournamentId: string, teamNumber: number) {
   }
 
   useEffect(() => {
-    rbfetch(`/api/report/tournament/${tournamentId}/${teamNumber}`, {}).then(
+    rbfetch(`/api/schedule/tournament/${tournamentId}/${teamNumber}`, {}).then(
       resp => {
         if (resp.ok) {
           resp.json().then(data => {
