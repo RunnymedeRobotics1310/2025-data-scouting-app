@@ -3,7 +3,9 @@ import {
   getCurrentGamestate,
   getScoutingSessionId,
   getScoutName,
+  handleSyncFix,
   logout,
+  syncFix1Executed,
   usePrimaryRole,
   useRole,
 } from '../../storage/local.ts';
@@ -28,6 +30,8 @@ function HomeMenu() {
   function handleSelectMatch() {
     navigate(tournament_select.url);
   }
+
+  const showFixButton = syncFix1Executed() == false && isDataScout;
   return (
     <>
       <h1>Welcome{name ? ' back ' + name + '!' : '!'}</h1>
@@ -52,6 +56,25 @@ function HomeMenu() {
               </td>
             </tr>
           )}
+          {showFixButton && (
+            <tr>
+              <td>
+                <button onClick={() => handleSyncFix()} className={'syncRed'}>
+                  Fix a Little Oopsie
+                </button>
+              </td>
+              <td>
+                <p>
+                  If you see this button, DON'T PANIC, but all of your hard work
+                  has not been synchronized yet to Raven Brain. By clicking this
+                  button, your data will go back to "unsychronized", and the
+                  sync icon will turn red. You can then sync your data and all
+                  will be well.
+                </p>
+              </td>
+            </tr>
+          )}
+
           {isDataScout && (
             <tr>
               <td>

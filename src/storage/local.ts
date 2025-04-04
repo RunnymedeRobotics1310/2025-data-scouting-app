@@ -264,7 +264,15 @@ export function cleanupEmptyScoutingSessions() {
     });
   });
 }
-
+export function handleSyncFix() {
+  unsyncEverything();
+  localStorage.setItem('rrSyncFix1Executed', 'true');
+}
+export function syncFix1Executed() {
+  const str = localStorage.getItem('rrSyncFix1Executed');
+  if (str && str === 'true') return true;
+  return false;
+}
 export function useUnsynchronizeEverything() {
   const [error, setError] = useState<null | string>(null);
   const [loading, setLoading] = useState(true);
