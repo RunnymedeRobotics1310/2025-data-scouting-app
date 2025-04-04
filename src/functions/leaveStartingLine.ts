@@ -10,7 +10,7 @@ export function leaveStartingLine(
   phase: Phase,
   preloaded: boolean,
 ): Mode {
-  addEvent(scoutingSessionId, phase, 'auto-start-left');
+  addEvent(scoutingSessionId, phase, 'leave-starting-line');
 
   if (preloaded) {
     return holding_coral;
