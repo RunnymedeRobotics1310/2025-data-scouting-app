@@ -3,6 +3,7 @@ import { useState } from 'react';
 import ErrorMessage from '../common/ErrorMessage.tsx';
 import { useTeamReport } from '../storage/ravenbrain.ts';
 import Loading from '../common/Loading.tsx';
+import { RenderTournamentReportTable } from './TournamentReports.tsx';
 
 function TeamSummaryReports() {
   const [team, setTeam] = useState<number | null>(null);
@@ -44,28 +45,38 @@ function ShowTeamReport(props: { teamId: number }) {
     return <p>No comments about this team.</p>;
   }
   return (
-    <table>
-      <thead>
-        <tr>
-          <th className={'team-report-date'}>Date & Time</th>
-          <th className={'team-report-team'}>Team Member</th>
-          <th className={'team-report-comment'}>Quick Comment</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.comments?.map((qc: QuickComment) => {
-          return (
-            <tr key={qc.timestamp.toString() + qc.name}>
-              <td>{qc.timestamp.toString()}</td>
-              <td>
-                {qc.name} ({qc.role})
-              </td>
-              <td>{qc.quickComment}</td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th className={'team-report-date'}>Date & Time</th>
+            <th className={'team-report-team'}>Team Member</th>
+            <th className={'team-report-comment'}>Quick Comment</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.comments?.map((qc: QuickComment) => {
+            return (
+              <tr key={qc.timestamp.toString() + qc.name}>
+                <td>{qc.timestamp.toString()}</td>
+                <td>
+                  {qc.name} ({qc.role})
+                </td>
+                <td>{qc.quickComment}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+
+      {data?.tournamentReports?.map((tournamentReport, index) => {
+        return (
+          <>
+            <RenderTournamentReportTable data={tournamentReport} key={index} />
+          </>
+        );
+      })}
+    </div>
   );
 }
 export default TeamSummaryReports;

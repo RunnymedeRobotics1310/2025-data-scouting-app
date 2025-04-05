@@ -6,6 +6,7 @@ import {
   useTournamentReport,
 } from '../storage/ravenbrain.ts';
 import ErrorMessage from '../common/ErrorMessage.tsx';
+import { Tournament } from '../types/Tournament.ts';
 
 export type TournamentReportCell = {
   colId: string;
@@ -15,6 +16,7 @@ export type TournamentReportRow = {
   values: TournamentReportCell[];
 };
 export type TournamentReportTable = {
+  tournament: Tournament;
   headerRows: TournamentReportRow[];
   dataRows: TournamentReportRow[];
   footerRows: TournamentReportRow[];
@@ -208,8 +210,18 @@ function ShowTournamentReport(props: {
   if (loading || !data) return <Loading />;
   if (error) return <ErrorMessage>{error}</ErrorMessage>;
 
+  return <RenderTournamentReportTable data={data} />;
+}
+export function RenderTournamentReportTable(props: {
+  data: TournamentReportTable;
+}) {
+  const { data } = props;
+  if (!data || !data.dataRows || data.dataRows.length === 0) {
+    return null;
+  }
   return (
     <section className={'report'}>
+      <h4>{data.tournament.name}</h4>
       <table>
         <thead>
           <RenderHeader rows={data.headerRows} />
