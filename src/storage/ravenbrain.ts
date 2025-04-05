@@ -409,3 +409,37 @@ export function useTeamReport(teamNumber: number) {
     refresh: () => void;
   };
 }
+
+export function useAllComments() {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState<null | string>(null);
+  const [loading, setLoading] = useState(true);
+  const [doRefresh, setDoRefresh] = useState(true);
+
+  function refresh() {
+    setDoRefresh(true);
+  }
+
+  useEffect(() => {
+    rbfetch(`/api/quickcomment`, {}).then(resp => {
+      if (resp.ok) {
+        resp.json().then(data => {
+          setData(data);
+          setLoading(false);
+          setDoRefresh(false);
+        });
+      } else {
+        setError('Failed to fetch all comments: ' + resp.status);
+        setLoading(false);
+        setDoRefresh(false);
+      }
+    });
+  }, [doRefresh]);
+
+  return { data, error, loading, refresh } as {
+    data: QuickComment[] | null;
+    error: string | null;
+    loading: boolean;
+    refresh: () => void;
+  };
+}

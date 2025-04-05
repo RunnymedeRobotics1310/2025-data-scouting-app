@@ -148,6 +148,21 @@ function HomeMenu() {
                   required. Desktop or tablet recommended.
                 </td>
               </tr>
+              <tr>
+                <td>
+                  <button
+                    onClick={() => {
+                      navigate('/reports/comments');
+                    }}
+                  >
+                    All Comments
+                  </button>
+                </td>
+                <td>
+                  Show a listing of all comments submitted by team members.
+                  Internet access required. Desktop or tablet recommended.
+                </td>
+              </tr>
             </>
           )}
           {isAdmin && (

@@ -41,34 +41,9 @@ function ShowTeamReport(props: { teamId: number }) {
   if (loading || !data) return <Loading />;
   if (error) return <ErrorMessage>{error}</ErrorMessage>;
 
-  if (data.comments === undefined) {
-    return <p>No comments about this team.</p>;
-  }
   return (
     <div>
-      <table>
-        <thead>
-          <tr>
-            <th className={'team-report-date'}>Date & Time</th>
-            <th className={'team-report-team'}>Team Member</th>
-            <th className={'team-report-comment'}>Quick Comment</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.comments?.map((qc: QuickComment) => {
-            return (
-              <tr key={qc.timestamp.toString() + qc.name}>
-                <td>{qc.timestamp.toString()}</td>
-                <td>
-                  {qc.name} ({qc.role})
-                </td>
-                <td>{qc.quickComment}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-
+      <RenderCommentTable comments={data.comments} showTeam={false} />
       {data?.tournamentReports?.map((tournamentReport, index) => {
         return (
           <>
@@ -77,6 +52,42 @@ function ShowTeamReport(props: { teamId: number }) {
         );
       })}
     </div>
+  );
+}
+
+export function RenderCommentTable(props: {
+  comments: QuickComment[];
+  showTeam: boolean;
+}) {
+  const { comments } = props;
+  if (!comments || comments.length === 0) {
+    return <p>No comments about this team.</p>;
+  }
+  return (
+    <table>
+      <thead>
+        <tr>
+          <th className={'team-report-date'}>Date & Time</th>
+          {props.showTeam && <th className={'team-report-team'}>Team</th>}
+          <th className={'team-report-team'}>Reporter</th>
+          <th className={'team-report-comment'}>Quick Comment</th>
+        </tr>
+      </thead>
+      <tbody>
+        {comments?.map((qc: QuickComment) => {
+          return (
+            <tr key={qc.timestamp.toString() + qc.name}>
+              <td>{qc.timestamp.toString()}</td>
+              {props.showTeam && <td>{qc.team}</td>}
+              <td>
+                {qc.name} ({qc.role})
+              </td>
+              <td>{qc.quickComment}</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
   );
 }
 export default TeamSummaryReports;

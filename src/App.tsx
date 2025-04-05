@@ -38,6 +38,7 @@ import TeamSummaryReports from './views/TeamSummaryReports.tsx';
 import RavenBrainSyncConnection from './views/sub/RavenBrainSyncConnection.tsx';
 import QuickComment from './views/QuickComment.tsx';
 import Unsync from './views/Unsync.tsx';
+import AllComments from './views/AllComments.tsx';
 
 export const myBasename = '/2025-data-scouting-app'; // todo: fixme: set up constants for this
 
@@ -89,6 +90,7 @@ function App() {
         >
           <Route path="tournament" element={<TournamentReports />} />
           <Route path="team" element={<TeamSummaryReports />} />
+          <Route path="comments" element={<AllComments />} />
         </Route>
         <Route path="game/" element={<FieldLayout />}>
           <Route path="start-line" element={<start_line.view />} />
